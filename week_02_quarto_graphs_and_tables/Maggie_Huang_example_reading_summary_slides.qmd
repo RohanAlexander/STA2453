@@ -1,6 +1,6 @@
 ---
 title: "Healy: Data Visualization"
-author: "STA4101 students, 2025"
+author: "Maggie Huang"
 date: "2026-09-16"
 date-format: "D MMMM, YYYY"
 bibliography: references.bib
