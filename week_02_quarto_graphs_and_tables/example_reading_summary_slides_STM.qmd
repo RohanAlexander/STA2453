@@ -15,7 +15,7 @@ format:
 - We perceive colour by contrast instead of the colour itself
 - When choosing colour scheme, we want to choose colours on a scale that is perceptually uniform
 - Use shape and colours 
-- Avoid using red and green colors because some people are color blind and can't distinguish these colors well (that's the nice thing to do!)
+- Avoid using red and green colors because some people are color blind and can't distinguish these colors well
 
 ## Section 1.4
 - Three axes plots are harder to interpret compared to two axes
