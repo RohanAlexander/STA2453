@@ -1,5 +1,5 @@
 ---
-title: "Healy: Data Visualization"
+title: "Worksheet September 16"
 author: "STA4101 students, 2025"
 date: "2026-09-16"
 date-format: "D MMMM, YYYY"
