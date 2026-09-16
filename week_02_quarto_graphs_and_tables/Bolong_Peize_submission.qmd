@@ -1,0 +1,28 @@
+---
+title: "Hello Prof.!!!"
+author: "Peize Zhang, Bolong Tang"
+date: "2026-09-16"
+date-format: "D MMMM, YYYY"
+bibliography: references.bib
+format:
+  revealjs:
+    slide-number: "c/t"
+    show-slide-number: all
+---
+
+# Making Good Visualization
+## Section 1.3
+- We perceive colour by contrast instead of the colour itself
+- When choosing colour scheme, we want to choose colours on a scale that is perceptually uniform
+- Use shape and colours 
+
+## Section 1.4
+- Three axes plots are harder to interpret compared to two axes
+- Alignment of elements makes comparison easier
+
+## Section 1.5
+- For ordered variables, choice of sequence of colours is important
+
+## Section 1.6
+- We love STA2453!!
+
