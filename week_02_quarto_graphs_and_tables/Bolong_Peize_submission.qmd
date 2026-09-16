@@ -26,3 +26,5 @@ format:
 ## Section 1.6
 - We love STA2453!!
 
+## I love box plots! <3
+
