@@ -23,3 +23,6 @@ format:
 ## Section 1.5
 - For ordered variables, choice of sequence of colours is important
 
+### Add new contents and get repo
+- This is a class activity
+
