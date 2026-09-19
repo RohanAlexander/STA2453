@@ -1,7 +1,7 @@
 ---
 title: "Alexander: Telling Stories with Data"
 subtitle: "Chapter 5: Graphs, tables, and maps"
-author: "Sean Murphy, Siddharth [Lastname]"
+author: "Sean Murphy, Siddharth Taragi"
 date: "2026-09-16"
 date-format: "D MMMM, YYYY"
 bibliography: references.bib
