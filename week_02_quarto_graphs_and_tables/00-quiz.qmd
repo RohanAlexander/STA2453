@@ -4,14 +4,15 @@ subtitle: "Week 1 readings and work: De Angelis, Bryan, Wilson et al., and the s
 author: "Rohan Alexander"
 date: "2026-09-16"
 date-format: "D MMMM, YYYY"
+bibliography: references.bib
 format: pdf
 ---
 
-1. Bryan (2018) says Git works best with one kind of file and badly with another. Name both kinds, and give one example of a file from your assignment repo that you would think twice about committing.
+1. @Bryan2018 says Git works best with one kind of file and badly with another. Name both kinds, and give one example of a file from your assignment repo that you would think twice about committing.
 
 \vspace{7cm}
 
-2. Wilson et al. (2017) organise their recommendations under six headings. Name three of them.
+2. @Wilson2017 organise their recommendations under six headings. Name three of them.
 
 \vspace{7cm}
 
@@ -19,7 +20,7 @@ format: pdf
 
 \vspace{7cm}
 
-4. De Angelis (2026) says a GitHub Actions workflow file has five core components. Name three of them, and say in one line what one of the three does.
+4. @DeAngelis2026 says a GitHub Actions workflow file has five core components. Name three of them, and say in one line what one of the three does.
 
 \vspace{7cm}
 
@@ -49,3 +50,7 @@ format: pdf
 9. Suggest one question that would assess student learning of any of the readings.
 
 \vspace{7cm}
+
+\newpage
+
+# References

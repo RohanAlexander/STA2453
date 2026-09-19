@@ -23,7 +23,7 @@ So the normal cadence of class is three weeks of learning and then in the fourth
 
 ### Notes
 
-- Your mark for each Part is the minimum of your assignment mark and your exam mark. For instance, if for Part 1 you got 95% on the assignment and 50% on the exam then you would get 15/30.
+- Your mark for each Part is the average of your assignment mark and your exam mark. For instance, if for Part 1 you got 95% on the assignment and 50% on the exam then you would get 72.5%, which is 21.75/30.
 - One section of the in-class exam is about your assignment. You should expect a mix of MCQ, short answer, and essay questions.
 - The final exam is optional but can be used to replace one Part. If your final exam mark is higher than your lowest Part mark, it takes that Part's 30 per cent. Otherwise it does not count. Think of it as a back-up in case something happens during the semester.
 - Due dates:
@@ -87,15 +87,14 @@ So the normal cadence of class is three weeks of learning and then in the fourth
 
 - Readings
     - Alexander, Rohan, 2023, *Telling Stories with Data*, [Chapter 4](https://tellingstorieswithdata.com/04-writing_research.html).
-    - Caro, Robert, 2019, *Working*, pp. 141-158.
     - King, Stephen, 2000, *On Writing*, pp. 111-137.
     - Zinsser, William, 1976, *On Writing Well*, pp. 6-32 and 169-177.
     - King, Gary, 2006, "Publication, Publication", *PS: Political Science & Politics*, [10.1017/S1049096506060252](https://doi.org/10.1017/S1049096506060252).
     - Mensh, Brett, and Konrad Kording, 2017, "Ten simple rules for structuring papers", *PLOS Computational Biology*, [10.1371/journal.pcbi.1005619](https://doi.org/10.1371/journal.pcbi.1005619).
-    - *ISLR/P*, Chapter 2.1.
+    - *ISLR/P*, Chapter 2.1 "What is Statistical Learning?"
 - Class (Wednesday 23 September)
-    - (Quiz) Week 2 readings and class.
-    - (ISLR/P) Group 1.
+    - (Quiz) Weeks 1 and 2 readings and class, what the Donaldson paper expects, and *ISLR/P* Chapter 2.1.
+    - (ISLR/P) Bolong Tang, Peize Zhang, Yi zhi Zhang.
     - (Lecture) Features of good writing by section: title, abstract, introduction, data, model, results, discussion.
     - (Worksheet) Draft a paper from three sets of results and then edit three drafts.
     - (Worksheet, 30 min) Referee a Donaldson-style paper written entirely by a model: is it any good, and how do you know?
@@ -113,14 +112,13 @@ So the normal cadence of class is three weeks of learning and then in the fourth
 *Silicon sampling; getting set up: an OpenRouter key, open-weight models (DeepSeek V4, GLM-5.3, Muse Glimmer 30B), and OpenCode; calling an LLM API from Python: structured outputs, temperature, batching, caching, cost tracking; persona prompts from census marginals; comparing a silicon sample against a real poll; detecting mode collapse.*
 
 - Readings
-    - Argyle, Lisa P., Ethan C. Busby, Nancy Fulda, Joshua R. Gubler, Christopher Rytting, and David Wingate, 2023, "Out of One, Many: Using Language Models to Simulate Human Samples", *Political Analysis*, 31 (3): 337-351, 10.1017/pan.2023.2.
-    - Bisbee, James, Joshua D. Clinton, Cassy Dorff, Brenton Kenkel, and Jennifer Larson, 2024, "Synthetic Replacements for Human Survey Data? The Perils of Large Language Models", *Political Analysis*, 32 (4): 401-416, 10.1017/pan.2024.5.
-    - Alexander, Rohan, and Annie Collins, 2026, "Simulating Gun Control Attitudes After the 2025 Bondi Beach Shooting Using Persona-Conditioned LLMs".
+    - Argyle, Lisa P., et al, 2023, "Out of One, Many: Using Language Models to Simulate Human Samples", *Political Analysis*, [10.1017/pan.2023.2](https://doi.org/10.1017/pan.2023.2).
+    - Bisbee, James, et al, 2024, "Synthetic Replacements for Human Survey Data? The Perils of Large Language Models", *Political Analysis* [10.1017/pan.2024.5](https://doi.org/10.1017/pan.2024.5).
     - Heath, Oscar, and Rohan Alexander, 2026, "Correcting Mode Collapse in Silicon Sampling with Semantic Similarity Rating", https://arxiv.org/abs/2607.28550
     - Murray, Ellie and Rohan Alexander, 2026, "How analyst choices affect silicon samples from the 2025 CES", https://osf.io/preprints/socarxiv/cxrk6_v1
-    - *ISLR/P*, Chapter 3.1 and 3.2
+    - *ISLR/P*, Chapter 3.1 and 3.2 "Simple Linear Regression" "Multiple Linear Regression"
 - Class (Wednesday 7 October)
-    - (ISLR/P) Group 2.
+    - (ISLR/P) Siyi Zhu, Coco Liu, Jingxuan Feng, Jingwen Zhong.
     - (Demonstration) OpenRouter, open weights, structured outputs, caching and cost, OpenCode.
     - (Lecture) What a silicon sample is, and the two ways it fails: wrong marginal, collapsed spread
     - (Demonstration) 300 personas from census marginals; a mayoral or generic-ballot question with structured output; compare marginal and variance to a published poll
@@ -132,14 +130,14 @@ So the normal cadence of class is three weeks of learning and then in the fourth
 *Polls, poststratification, and scoring; getting polls and results from an API or a scraped table; building a poststratification frame from the census; a small regularized or multilevel model on real plus silicon respondents, poststratified; Brier and log scores; communicating uncertainty with quantile dotplots, fan charts.*
 
 - Readings
-    - Gelman, Andrew, Jessica Hullman, Christopher Wlezien, and George Elliott Morris, 2020, "Information, Incentives, and Goals in Election Forecasts", Judgment and Decision Making, 15 (5): 863-880.
-    - Wang, Wei, David Rothschild, Sharad Goel, and Andrew Gelman, 2015, "Forecasting Elections with Non-Representative Polls", International Journal of Forecasting, 31 (3): 980-991, 10.1016/j.ijforecast.2014.06.001.
-    - Shirani-Mehr, Houshmand, David Rothschild, Sharad Goel, and Andrew Gelman, 2018, "Disentangling Bias and Variance in Election Polls", Journal of the American Statistical Association, 113 (522): 607-614, 10.1080/01621459.2018.1448823.
-    - Kay, Matthew, Tara Kola, Jessica Hullman, and Sean Munson, 2016, "When (ish) is My Bus? User-centered Visualizations of Uncertainty in Everyday, Mobile Predictive Systems", CHI 2016, 10.1145/2858036.2858558.
-    - *ISLR/P*, Chapter 4.3.
+    - Gelman, Andrew, et al, 2020, "Information, Incentives, and Goals in Election Forecasts", *Judgment and Decision Making*, [10.1017/S1930297500007981](https://doi.org/10.1017/S1930297500007981).
+    - Wang, Wei, et al, 2015, "Forecasting Elections with Non-Representative Polls", *International Journal of Forecasting*, [10.1016/j.ijforecast.2014.06.001](https://www.sciencedirect.com/science/article/abs/pii/S0169207014000879).
+    - Shirani-Mehr, Houshmand, et al, 2018, "Disentangling Bias and Variance in Election Polls", *Journal of the American Statistical Association*, [10.1080/01621459.2018.1448823](https://doi.org/10.1080/01621459.2018.1448823).
+    - Kay, Matthew, et al, 2016, "When (ish) is My Bus? User-centered Visualizations of Uncertainty in Everyday, Mobile Predictive Systems", *CHI 2016*, [10.1145/2858036.2858558](https://doi.org/10.1145/2858036.2858558).
+    - *ISLR/P*, Chapter 4.3 "Logistic Regression"
 - Class (Wednesday 14 October)
-    - (Quiz) Week 5 readings and class.
-    - (ISLR/P) Group 3.
+    - (Quiz) Week 5 readings and class, and *ISLR/P* Chapters 3.1 and 3.2.
+    - (ISLR/P) Josh Campbell, Graham Sayle, Kyle Dong, and Gerry Peng.
     - (Lecture) What a forecast is a forecast of; bias and variance in polls; why 70 per cent is not "will win"
     - (Demonstration) Pull the polls; build the frame; fit; poststratify; win probability with an interval; score a set of 2022 forecasts against the 2022 results with Brier and log score
     - (Worksheet) Teams commit a first-cut forecast to the class repo by PR, and review each other's assumptions in the PR
@@ -149,15 +147,13 @@ So the normal cadence of class is three weeks of learning and then in the fourth
 *Docker; data management: file and variable names, codebooks, folder layout, documentation; model interpretation: marginal effects for linear, logistic, and multinomial models.*
 
 - Readings
-    - Gold, Alex, 2024, DevOps for Data Science, Chapter 6 (Docker), https://do4ds.com.
-    - Nüst, Daniel, et al., 2020, "Ten Simple Rules for Writing Dockerfiles for Reproducible Data Science", PLOS Computational Biology, 16 (11): e1008316, 10.1371/journal.pcbi.1008316.
+    - Gold, Alex, 2024, *DevOps for Data Science*, Chapter 6 "Demystifying Docker", https://do4ds.com.
+    - Nüst, Daniel, et al., 2020, "Ten Simple Rules for Writing Dockerfiles for Reproducible Data Science", *PLOS Computational Biology*, [10.1371/journal.pcbi.1008316](https://doi.org/10.1371/journal.pcbi.1008316).
     - Lewis, Crystal, 2024, Data Management in Large-Scale Education Research, Chapters 3, 4, 5, and 9, https://datamgmtinedresearch.com.
-    - Arel-Bundock, Vincent, 2025, *Model to Meaning*, Chapter 3, https://marginaleffects.com.
-    - Lipton, Zachary C., 2018, "The Mythos of Model Interpretability", Communications of the ACM, 61 (10): 36-43, 10.1145/3233231.
-    - *ISLR/P*, Chapter 5.1.
+    - *ISLR/P*, Chapter 5.1 "Cross-Validation"
 - Class (Wednesday 21 October)
-    - (Quiz) Week 6 readings and class.
-    - (ISLR/P) Group 4.
+    - (Quiz) Week 6 readings and class, and *ISLR/P* Chapters 4.3 and 5.1.
+    - (ISLR/P) Danika Anoutchina, Maggie Huang, Shrey Sati, Daniel Gutkin.
     - (Demonstration) Put the Week 6 pipeline in a container and run it; marginal effects from the vote model; a data dictionary and folder layout for the project repo
     - (Worksheet) Team time
 
@@ -177,16 +173,14 @@ So the normal cadence of class is three weeks of learning and then in the fourth
 *What is a benchmark? Building evals: items, ground truth, rubrics, runners; benchmark cards and model cards.*
 
 - Readings
-    - Reuel, Anka, Amelia Hardy, Chandler Smith, Max Lamparth, Malcolm Hardy, and Mykel J. Kochenderfer, 2024, "BetterBench: Assessing AI Benchmarks, Uncovering Issues, and Establishing Best Practices", arXiv, 10.48550/arXiv.2411.12990.
-    - Raji, Inioluwa Deborah, Emily M. Bender, Amandalynn Paullada, Emily Denton, and Alex Hanna, 2021, "AI and the Everything in the Whole Wide World Benchmark", arXiv, 10.48550/arXiv.2111.15366.
+    - Reuel, Anka, Amelia Hardy, Chandler Smith, Max Lamparth, Malcolm Hardy, and Mykel J. Kochenderfer, 2024, "BetterBench: Assessing AI Benchmarks, Uncovering Issues, and Establishing Best Practices", *arXiv*, [10.48550/arXiv.2411.12990](https://arxiv.org/abs/2411.12990).
     - Alexander, Rohan, 2026, "Iterated creation, grading, and revision of data science projects by language models".
     - Garcia Mejia, Mariana and Rohan Alexander, 2026, "If it bleeds, it leads? Evaluating whether LLMs can identify what is newsworthy", https://doi.org/10.31235/osf.io/y6nqj_v1.
     - Cummins-Mburu, Benedict, Mariana Garcia Mejia, Oscar Heath, Sabrina Kreyzerman, Ellie Murray, Arusan Surendiran and Rohan Alexander, 2026, "`GardenBench`: A lightweight, daily evaluation of LLM capabilities"
-    - Mitchell, Margaret, et al., 2019, "Model Cards for Model Reporting", 10.1145/3287560.3287596.
     - Anthropic, (2026) "System Card: Claude Mythos Preview".
-    - *ISLR/P*, Chapter 6.2.
+    - *ISLR/P*, Chapter 6.2 "Shrinkage Methods".
 - Class (Wednesday 11 November)
-    - (ISLR/P) Group 5.
+    - (ISLR/P) Sean Murphy, Siddharth Singh Taragi, Allwin, Vijval.
     - (Lecture) What a benchmark is and what it can claim
     - (Demonstration) Build a small benchmark as a class: pick a task, write 20 items, agree a rubric, run three models through OpenRouter, grade by hand
     - (Worksheet) Score the class benchmark against the BetterBench checklist. Which criteria did we fail in the first hour?
@@ -197,14 +191,13 @@ So the normal cadence of class is three weeks of learning and then in the fourth
 *Evaluating benchmarks; the statistics of evals: standard errors, clustering by item, paired comparisons between models; validating a model as a grader against human labels; contamination and leakage.*
 
 - Readings
-    - Miller, Evan, 2024, "Adding Error Bars to Evals: A Statistical Approach to Language Model Evaluations", arXiv, 10.48550/arXiv.2411.00640.
-    - Biderman, Stella, et al., 2024, "Lessons from the Trenches on Reproducible Evaluation of Language Models", arXiv, 10.48550/arXiv.2405.14782.
-    - Zheng, Lianmin, et al., 2023, "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena", arXiv, 10.48550/arXiv.2306.05685. 
-    - Singh, Shivalika, et al., 2025, "The Leaderboard Illusion", arXiv, 10.48550/arXiv.2504.20879.
-    - Kapoor, Sayash, and Arvind Narayanan, 2023, "Leakage and the Reproducibility Crisis in Machine-Learning-Based Science", Patterns, 4 (9): 100804, 10.1016/j.patter.2023.100804.
+    - Miller, Evan, 2024, "Adding Error Bars to Evals: A Statistical Approach to Language Model Evaluations", *arXiv*, [10.48550/arXiv.2411.00640](https://arxiv.org/abs/2411.00640).
+    - Biderman, Stella, et al., 2024, "Lessons from the Trenches on Reproducible Evaluation of Language Models", *arXiv*, [10.48550/arXiv.2405.14782](https://arxiv.org/abs/2405.14782).
+    - Singh, Shivalika, et al., 2025, "The Leaderboard Illusion", *arXiv*, [10.48550/arXiv.2504.20879](https://arxiv.org/abs/2504.20879).
+    - Kapoor, Sayash, and Arvind Narayanan, 2023, "Leakage and the Reproducibility Crisis in Machine-Learning-Based Science", *Patterns*, [10.1016/j.patter.2023.100804](https://www.sciencedirect.com/science/article/pii/S2666389923001599).
     - *ISLR/P*, Chapter 8.1.
 - Class (Wednesday 18 November)
-    - (Quiz) Week 9 readings and class.
+    - (Quiz) Week 9 readings and class, and *ISLR/P* Chapters 6.2 and 8.1.
     - (ISLR/P) Group 6.
     - (Lecture) Variance in evals: items, sampling, prompts, judges; contamination; what a two-point difference on a leaderboard means with 200 items
     - (Demonstration) Calibrate a model-as-judge using the Week 3 referee reports as the human labels; watch the ranking move when the judge changes

@@ -242,7 +242,7 @@ Rohan Alexander
 </ul>
 <aside class="notes">
 <ul>
-<li>Two hours of doing, one hour of Annie.</li>
+<li>Two hours of doing, 30 min of Annie; 30 min Q&amp;A.</li>
 <li>The demonstration file is <code>02-demo.qmd</code>; the website is <code>website_example/</code>.</li>
 </ul>
 <style type="text/css">
@@ -328,12 +328,11 @@ Rohan Alexander
 <span id="cb4-3"><a href=""></a>  <span class="fu">format_tt</span>(<span class="at">j =</span> <span class="st">"Occupancy"</span>, <span class="at">fn =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="fl">0.1</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb4-4"><a href=""></a>  <span class="fu">format_tt</span>(<span class="at">escape =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>A data frame in, a table out, in PDF, HTML, and Word alike</li>
-<li>Caption and cross-reference come from the chunk options <code>label: tbl-...</code> and <code>tbl-cap</code></li>
+<li>Caption and cross-reference come from the chunk options <code>label: tbl-...</code> and <code>tbl-cap</code>.</li>
 </ul>
 </section>
-<section id="a-website-is-a-folder" class="slide level2">
-<h2>A website is a folder</h2>
+<section id="a-website-is-just-a-type-of-doc" class="slide level2">
+<h2>A website is just a type of doc</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb5-1"><a href=""></a><span class="fu">project</span><span class="kw">:</span></span>
 <span id="cb5-2"><a href=""></a><span class="at">  </span><span class="fu">type</span><span class="kw">:</span><span class="at"> website</span></span>
 <span id="cb5-3"><a href=""></a><span class="at">  </span><span class="fu">output-dir</span><span class="kw">:</span><span class="at"> docs</span></span>
@@ -344,9 +343,9 @@ Rohan Alexander
 <span id="cb5-8"><a href=""></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">href</span><span class="kw">:</span><span class="at"> index.qmd</span></span>
 <span id="cb5-9"><a href=""></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">href</span><span class="kw">:</span><span class="at"> shelter.qmd</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li><code>quarto render</code> builds every page into <code>docs/</code></li>
-<li>GitHub, Settings, Pages, deploy from <code>main</code>, folder <code>/docs</code></li>
-<li><code>output-dir: docs</code> is the line everyone forgets</li>
+<li><code>quarto render</code> builds every page into <code>docs/</code>.</li>
+<li>GitHub, Settings, Pages, deploy from <code>main</code>, folder <code>/docs</code>.</li>
+<li><code>output-dir: docs</code> makes it easier to deploy from GitHub Pages.</li>
 </ul>
 </section>
 <section id="pull-requests" class="slide level2">
@@ -698,7 +697,7 @@ Rohan Alexander
 <li>When there are only two bins then there is considerable smoothing, but we lose a lot of accuracy. Too few bins results in more bias, while too many bins results in more variance (Wasserman 2005, 303).</li>
 <li>Our decision as to the number of bins, or their width, is concerned with trying to balance bias and variance.</li>
 <li>This will depend on a variety of concerns including the subject matter and the goal <span class="citation" data-cites="cleveland1994">Cleveland (<a href="#/references" role="doc-biblioref" onclick="">1994</a>)</span>, [p.&nbsp;135].</li>
-<li>This is one of the reasons that Denby and Mallows (2009) consider histograms to be especially valuable as exploratory tools.</li>
+<li>This is one of the reasons that <span class="citation" data-cites="DenbyMallows2009">Denby and Mallows (<a href="#/references" role="doc-biblioref" onclick="">2009</a>)</span> consider histograms to be especially valuable as exploratory tools.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -722,7 +721,7 @@ Rohan Alexander
 <aside class="notes">
 <ul>
 <li>A boxplot typically shows five aspects: 1) the median, 2) the 25th, and 3) 75th percentiles. The fourth and fifth elements differ depending on specifics.</li>
-<li>One reason for using graphs is that they help us understand and embrace how complex our data are, rather than trying to hide and smooth it away (Armstrong 2022). One appropriate use case for boxplots is to compare the summary statistics of many variables at once, such as in Bethlehem et al.&nbsp;(2022). But boxplots alone are rarely the best choice because they hide the distribution of data, rather than show it. The same boxplot can apply to very different distributions.</li>
+<li>One reason for using graphs is that they help us understand and embrace how complex our data are, rather than trying to hide and smooth it away <span class="citation" data-cites="Armstrong2022">(<a href="#/references" role="doc-biblioref" onclick="">Armstrong 2022</a>)</span>. One appropriate use case for boxplots is to compare the summary statistics of many variables at once, such as in <span class="citation" data-cites="Bethlehem2022"><span class="nocase">Bethlehem et al.</span> (<a href="#/references" role="doc-biblioref" onclick="">2022</a>)</span>. But boxplots alone are rarely the best choice because they hide the distribution of data, rather than show it. The same boxplot can apply to very different distributions.</li>
 <li>To see this, consider some simulated data from the beta distribution of two types. The first contains draws from two beta distributions: one that is right skewed and another that is left skewed. The second contains draws from a beta distribution with no skew.</li>
 </ul>
 <style type="text/css">
@@ -945,8 +944,17 @@ Rohan Alexander
 <h2>References</h2>
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-Armstrong2022" class="csl-entry" role="listitem">
+Armstrong, Zan. 2022. <em>Stop Aggregating Away the Signal in Your Data</em>. <a href="https://stackoverflow.blog/2022/03/03/stop-aggregating-away-the-signal-in-your-data/">https://stackoverflow.blog/2022/03/03/stop-aggregating-away-the-signal-in-your-data/</a>.
+</div>
+<div id="ref-Bethlehem2022" class="csl-entry" role="listitem">
+<span class="nocase">Bethlehem, R. A. I., J. Seidlitz, S. R. White, et al.</span> 2022. <span>“Brain Charts for the Human Lifespan.”</span> <em>Nature</em> 604: 525–33. <a href="https://doi.org/10.1038/s41586-022-04554-y">https://doi.org/10.1038/s41586-022-04554-y</a>.
+</div>
 <div id="ref-cleveland1994" class="csl-entry" role="listitem">
 Cleveland, William. 1994. <em>The Elements of Graphing Data</em>. Hobart Press.
+</div>
+<div id="ref-DenbyMallows2009" class="csl-entry" role="listitem">
+Denby, Lorraine, and Colin Mallows. 2009. <span>“Variations on the Histogram.”</span> <em>Journal of Computational and Graphical Statistics</em> 18 (1): 21–31. <a href="https://doi.org/10.1198/jcgs.2009.0002">https://doi.org/10.1198/jcgs.2009.0002</a>.
 </div>
 <div id="ref-healy2019" class="csl-entry" role="listitem">
 Healy, Kieran. 2026. <em>Data Visualization: A Practical Introduction</em>. 2nd ed. Princeton University Press.

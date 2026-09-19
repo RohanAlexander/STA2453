@@ -9,6 +9,10 @@ bibliography: references.bib
 
 # What Quarto is
 
+## What even is Quarto?
+
+### What, seriously, is Quarto?
+
 Quarto turns a plain-text file with a `.qmd` extension into a PDF, a Word document, a slide deck, or a website. The file has three kinds of content: a YAML header between `---` lines that says what to produce; Markdown prose; and code chunks that run when the file renders, so the numbers, graphs, and tables in the output come from the data every time. This document is a `.qmd`; open `02-demo.qmd` next to the PDF and compare.
 
 A paper where the figures were pasted in by hand cannot be checked and cannot be updated when the data change. A Quarto paper can be rendered by anyone with the repo.
@@ -32,6 +36,7 @@ This chunk runs when this document renders. The first one reads the Parquet file
 ```{r}
 #| message: false
 #| warning: false
+
 library(arrow)
 library(dplyr)
 library(ggplot2)
@@ -44,16 +49,18 @@ glimpse(daily)
 
 ## Step 3: a graph
 
+
 ```{r}
 #| label: fig-users
 #| fig-cap: "People in Toronto's shelter system each night in 2026, by sector. Data from Open Data Toronto."
 #| fig-width: 8
 #| fig-height: 4
+
 daily |>
   ggplot(aes(x = date, y = service_users, colour = sector)) +
   geom_line() +
   labs(x = "Date", y = "People", colour = "Sector") +
-  theme_minimal()
+  theme_classic()
 ```
 
 @fig-users is a cross-reference: the `label` on the chunk starts with `fig-`, so Quarto numbers the figure and the reference updates itself if figures move. Three things: the graph has labelled axes with units, the legend is named, and the ordering of the lines carries information.
