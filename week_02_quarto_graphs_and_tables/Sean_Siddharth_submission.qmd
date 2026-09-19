@@ -1,0 +1,85 @@
+---
+title: "Alexander: Telling Stories with Data"
+subtitle: "Chapter 5: Graphs, tables, and maps"
+author: "Sean Murphy, Siddharth [Lastname]"
+date: "2026-09-16"
+date-format: "D MMMM, YYYY"
+bibliography: references.bib
+format:
+  revealjs:
+    smaller: true
+    slide-number: "c/t"
+    show-slide-number: all
+---
+
+## Graphs show the reader the data {.smaller}
+
+- The data should do the work of convincing the reader, so show the observations the analysis rests on
+- **Every variable of interest should be graphed** --- with 2,500 survey responses, some plot should contain all 2,500
+- Graphing is encoding: we build a representation, the audience decodes it, and the graph succeeds only if little is lost in between
+- The `datasauRus` datasets make the case --- identical means and standard deviations, completely different shapes
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-height: 2.5
+#| fig-width: 6.4
+#| fig-align: center
+#| 
+library(datasauRus)
+library(ggplot2)
+library(dplyr)
+
+datasaurus_dozen |>
+  filter(dataset %in% c("dino", "away")) |>
+  ggplot(aes(x = x, y = y, color = dataset)) +
+  geom_point(size = 0.8) +
+  facet_wrap(vars(dataset)) +
+  theme_minimal() +
+  theme(panel.spacing.x = unit(2, "lines"))
+```
+
+## Making the graph your own {.smaller}
+
+- Built-in themes (`theme_bw()`, `theme_classic()`, `theme_minimal()`) are layers; `ggthemes` and `hrbrthemes` add more, and **we can build our own**
+- **Facets** show variation from a further variable, and are especially useful once color is already carrying something else
+- `scales = "free"` lets facets vary; `labeller()` renames them
+- **Color should not be added without purpose** --- usually to distinguish groups, or where color maps onto the variable
+- `RColorBrewer` via `scale_fill_brewer()`; **`viridis` is built for color-blind palettes** via `scale_fill_viridis_d()`
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-width: 6.4
+#| fig-height: 2.5
+#| fig-align: center
+
+set.seed(8)
+
+tibble(x = rnorm(2000)) |>
+  ggplot(aes(x = x, fill = after_stat(x))) +
+  geom_histogram(bins = 20, colour = "grey50", linewidth = 0.3, width = 0.25) +
+  scale_fill_gradientn(colours = sample(rainbow(20))) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  labs(x = "Value", y = "Count", title = "Not a good use of color")
+```
+
+## Choosing a plot (geom) {.smaller}
+
+- A **scatterplot may not always be the best choice, but it is rarely a bad one** --- some consider it the most versatile graph there is
+- **Overlapping points** have two fixes: set `alpha` between 0 (transparent) and 1 (opaque), or use `geom_jitter()` to move points slightly. Jitter when relative density matters more than exact values --- and set a seed, since the noise is random
+- `geom_smooth()` adds a summary line, with `method = lm` for a linear fit and `se` to turn the standard errors on or off. It inherits the aesthetics from `ggplot()`, so a color mapping gives you one line per group
+- `geom_line()` joins a time series; **`geom_step()` is a variant that focuses attention on the change from year to year**
+- Histogram shape is driven by the number of bins, set either with `bins` or `binwidth`. **The choice is a bias--variance tradeoff** --- too few bins over-smooths and biases, too many adds variance
+
+## Distributions, tables, and maps {.smaller}
+
+- Showing several groups on one histogram with `fill` gets messy. Better: trace the outline with `geom_freqpoly()`, add transparency, or use **`geom_dotplot()`, which builds the distribution from stacked dots colored by group**
+- The **ECDF** (`stat_ecdf()`) smooths less than a histogram, so it's a good choice **for a quantitatively comfortable audience** --- less so otherwise
+- A boxplot shows the median, the 25th and 75th percentiles, and whiskers reaching the extreme observations within 1.5×IQR. But **boxplots hide the distribution rather than show it** --- the same boxplot fits very different distributions
+- Tables carry less information than graphs but at higher fidelity. Three uses: **an extract of the data**, **summary statistics** (`datasummary_skim()`), and **regression results** (`modelsummary()`)
+- **A map is another kind of graph**: longitude on x, latitude on y, over an outline or background tile. **Geocoding** turns place names into those coordinates, via `tidygeocoder` --- though place boundaries are slipperier than they look, and Atlanta has at least three official definitions
+
