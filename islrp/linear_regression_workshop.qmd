@@ -1,0 +1,161 @@
+---
+title: "ISLR 3.1–3.2: 10-minute Linear Regression Lab"
+format: html
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Goal
+
+Use the `Advertising` data to reproduce the central ideas from Sections 3.1–3.2:
+
+- simple vs multiple linear regression;
+- coefficient interpretation;
+- $R^2$ and residual error;
+- how adjustment changes the newspaper coefficient;
+- confidence vs prediction intervals.
+
+## Setup
+
+```{r}
+library(tidyverse)
+
+Advertising <- read_csv(
+  "https://www.statlearning.com/s/Advertising.csv"
+)
+
+Advertising
+```
+
+## 1. Simple linear regression
+
+Fit sales on TV advertising.
+
+```{r}
+fit_tv <- lm(sales ~ TV, data = Advertising)
+summary(fit_tv)
+```
+
+**Write down:**
+
+1. The fitted equation $\widehat{sales}=\hat\beta_0+\hat\beta_1TV$.
+2. Interpret $\hat\beta_1$ in the units of this data.
+3. What proportion of variation in sales is explained by TV alone?
+4. What is the estimated standard deviation for the error term?
+
+```{r}
+coef(fit_tv)
+summary(fit_tv)$r.squared
+sigma(fit_tv) # RSE
+```
+
+## 2. Visualize residuals
+
+```{r}
+plot(Advertising$TV, Advertising$sales,
+     xlab = "TV advertising ($1000s)",
+     ylab = "Sales (1000s of units)")
+abline(fit_tv, lwd = 2)
+```
+
+Pick one observation mentally. Its vertical distance from the fitted line is its **residual**.
+
+**Question:** Does a straight line appear to capture the main trend?
+
+## 3. Newspaper by itself
+
+```{r}
+fit_news <- lm(sales ~ newspaper, data = Advertising)
+summary(fit_news)
+```
+
+Record the newspaper coefficient and p-value.
+
+## 4. Multiple regression
+
+```{r}
+fit_all <- lm(sales ~ TV + radio + newspaper, data = Advertising)
+summary(fit_all)
+```
+
+**Questions:**
+
+1. Interpret the radio coefficient using the phrase **“holding TV and newspaper fixed.”**
+2. What happened to the newspaper coefficient and p-value?
+3. Compare $R^2$ and RSE with the TV-only model.
+
+```{r}
+c(
+  TV_only_R2 = summary(fit_tv)$r.squared,
+  all_R2 = summary(fit_all)$r.squared,
+  TV_only_RSE = sigma(fit_tv),
+  all_RSE = sigma(fit_all)
+)
+```
+
+## 5. Why did newspaper change?
+
+```{r}
+cor(Advertising[, c("TV", "radio", "newspaper", "sales")])
+```
+
+Look specifically at the correlation between `radio` and `newspaper`.
+
+**Explain in 1–2 sentences:** Why can newspaper be significant in `sales ~ newspaper`, but not in `sales ~ TV + radio + newspaper`?
+
+## 6. Overall F-test
+
+Look again at:
+
+```{r}
+summary(fit_all)
+```
+
+The F-test asks
+
+$$H_0:\beta_{TV}=\beta_{radio}=\beta_{newspaper}=0$$
+
+against the alternative that **at least one** is non-zero.
+
+**Question:** What does the very small F-test p-value tell us? What does it *not* tell us about each individual predictor?
+
+## 7. Confidence vs prediction interval
+
+Suppose a market has TV = 100, radio = 20, and newspaper = 0.
+
+```{r}
+new_market <- data.frame(TV = 100, radio = 20, newspaper = 0)
+
+predict(fit_all, newdata = new_market,
+        interval = "confidence", level = 0.95)
+
+predict(fit_all, newdata = new_market,
+        interval = "prediction", level = 0.95)
+```
+
+**Question:** Which interval is wider, and why?
+
+## If you finish early
+
+Fit the reduced model without newspaper:
+
+```{r}
+fit_reduced <- lm(sales ~ TV + radio, data = Advertising)
+summary(fit_reduced)
+```
+
+Compare it with the full model:
+
+```{r}
+anova(fit_reduced, fit_all)
+```
+
+Does newspaper add meaningful explanatory power after TV and radio are already in the model?
+
+## Takeaway
+
+The most important conceptual distinction is:
+
+> A simple-regression coefficient describes a marginal association; a multiple-regression coefficient describes an association after holding the other included predictors fixed.
