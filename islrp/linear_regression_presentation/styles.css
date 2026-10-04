@@ -1,5 +1,5 @@
 :root { --ink:#132b3a; --accent:#18677a; --muted:#586a74; }
-.reveal { font-family:'Helvetica Neue',Arial,sans-serif; font-size:30px; color:var(--ink); }
+.reveal { font-family:'Helvetica Neue',Arial,sans-serif; font-size:26px; color:var(--ink); }
 .reveal .slides { text-align:left; }
 .reveal h1,.reveal h2,.reveal h3 { font-family:inherit; text-transform:none; letter-spacing:-.02em; color:var(--ink); }
 .reveal h2 { font-size:1.55em; font-weight:650; line-height:1.14; margin-bottom:.7em; }
@@ -31,3 +31,15 @@
 .reveal .controls,.reveal .progress { color:var(--accent); }
 .reveal .progress { height:3px; }
 .reveal a { color:var(--accent); }
+.author {
+  position: absolute;
+  right: 55px;
+  bottom: 70px;
+  font-size: 0.8em;
+  color: #b9cbd6;
+  line-height: 1.25;
+  text-align: left;
+}
+.small-bullets {
+  font-size: 0.9em;
+}

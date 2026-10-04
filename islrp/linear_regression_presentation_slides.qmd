@@ -31,23 +31,27 @@ format:
 Simple and multiple linear regression
 :::
 
-<!-- add names -->
+::: {.author}
+Presented by:  
+Jingwen Zhong, Siyi Zhu, Jingxuan Feng, Coco Liu
+:::
 
 
 ## The advertising example 
 
 How are **sales** related to spending on **TV, radio, and newspaper advertising**?
 
+::: {.small-bullets}
 - Data: advertising budgets and sales in **200 markets**.
 - Response: sales, measured in **thousands of units**.
-- Predictors: advertising budgets, measured in **thousands of dollars**. # more specific
+- Predictors: advertising budgets, measured in **thousands of dollars**.
+:::
+
+![](images/linear_regression_images/sales_exmaple){fig-alt="The advertising dataset, sales in thousands of units, as a function of TV, radio, and newspaper budgets, in thousands of dollars, for 200 different markets. In each plot we show the simple least squares fit of sales to that variable" .plot}
 
 ::: {.takeaway}
 We want to understand the relationship and predict sales for a given advertising budget.
 :::
-
-<!-- add 2.1 figure -->
-
 
 ## Simple linear regression 
 
@@ -55,12 +59,23 @@ $$Y=\beta_0+\beta_1X+\epsilon$$
 
 | Term | Meaning |
 |:---|:---|
-| $\beta_0$ | Intercept: average response when $X=0$ |
+| $\beta_0$ | Intercept: expected response when $X=0$ |
 | $\beta_1$ | Slope: average change in $Y$ for a one-unit increase in $X$ |
-| $\epsilon$ | Error: what the straight-line relationship does not explain |
-<!-- explain hat -->
-With estimates from the data, predict using:
-$$\hat y=\hat\beta_0+\hat\beta_1x$$
+| $\epsilon$ | Error: variation not captured by the linear relationship |
+
+The true coefficients $\beta_0$ and $\beta_1$ are **unknown**, so we estimate them from the observed data.
+
+$$\beta_0,\beta_1
+\quad \longrightarrow \quad
+\hat{\beta}_0,\hat{\beta}_1$$
+
+::: {.takeaway}
+A **hat** means “estimated from the sample”:  $\hat{\beta}_0$ and $\hat{\beta}_1$ are estimates of the unknown population coefficients.
+:::
+
+Using these estimates, we predict the response at $X=x$ with
+
+$$\hat{y}=\hat{\beta}_0+\hat{\beta}_1x$$
 
 
 ## Fitting the line: least squares 
@@ -72,25 +87,49 @@ $$\hat y=\hat\beta_0+\hat\beta_1x$$
 ::: {.column width="48%"}
 A **residual** is the difference between the observed and predicted response:
 $$e_i=y_i-\hat y_i$$
-Choose the coefficients that minimize the **residual sum of squares**:
-$$\mathrm{RSS}=\sum_{i=1}^{n}(y_i-\hat y_i)^2$$
+
+Choose $\hat\beta_0$ and $\hat\beta_1$ to minimize the **residual sum of squares**:
+
+$$
+\mathrm{RSS}
+=
+\sum_{i=1}^{n}(y_i-\hat y_i)^2
+=
+\sum_{i=1}^{n}(y_i-\hat\beta_0-\hat\beta_1x_i)^2
+$$
 :::
 ::::
 
+::: {.takeaway}
+**Least squares fit:** choose $\hat\beta_0$ and $\hat\beta_1$ so the fitted line is as close as possible to the observed points, measured by squared vertical residuals.
+:::
 
 ## Interpreting the TV model 
 
-<!-- add figure 2.1 tv -->
+:::: {.columns}
+::: {.column width="42%"}
+![](images/linear_regression_images/tv_fitted_line.png){
+  fig-alt="Fitted line with TV budget as predictor and sales unit as response."
+  .plot
+}
+:::
 
-$$\widehat{\mathrm{sales}}=7.0325+0.0475\times\mathrm{TV}$$
+::: {.column width="54%"}
+
+$$
+\widehat{\mathrm{sales}}
+=
+7.0325+0.0475\times\mathrm{TV}
+$$
 
 - An additional **$1,000 in TV spending** is associated with an average increase of about **47.5 sales units**.
 - At **$100,000 in TV spending**, predicted sales are about **11,783 units**.
+:::
+::::
 
 ::: {.takeaway}
 Interpret the coefficient using the units of both the predictor and the response.
 :::
-
 
 ## How accurate are the coefficient estimates? 
 
