@@ -87,7 +87,7 @@ Simple linear regression uses one predictor to describe the response with a stra
 
 :::: {.columns}
 ::: {.column width="48%"}
-![](images/figure4.png){fig-alt="TV advertising and sales with the least squares line and vertical residuals." .plot}
+![](images/linear_regression_images/tv_least_squares.png){fig-alt="TV advertising and sales with the least squares line and vertical residuals." .plot}
 :::
 ::: {.column width="48%"}
 A **residual** is the difference between the observed and predicted response:
@@ -128,7 +128,7 @@ The intercept is 7.0325 and the TV coefficient is 0.0475. Because sales are meas
 
 :::: {.columns}
 ::: {.column width="52%"}
-![](images/figure6.png){fig-alt="The population regression line and least squares lines fitted to different samples." .plot}
+![](images/linear_regression_images/sampling_variability.png){fig-alt="The population regression line and least squares lines fitted to different samples." .plot}
 :::
 ::: {.column width="44%"}
 Different samples give different fitted lines.
@@ -364,7 +364,7 @@ Start with the three sources of prediction uncertainty listed in the textbook. F
 
 :::: {.columns}
 ::: {.column width="54%"}
-![](images/figure21.png){fig-alt="Sales and the fitted TV-radio regression plane, with a pattern in the residuals." .plot}
+![](images/linear_regression_images/tv_radio_regression.png){fig-alt="Sales and the fitted TV-radio regression plane, with a pattern in the residuals." .plot}
 :::
 ::: {.column width="42%"}
 Even with R² near 0.90, the residuals show a pattern.
