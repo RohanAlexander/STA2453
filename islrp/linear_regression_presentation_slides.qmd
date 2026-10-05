@@ -137,16 +137,23 @@ Interpret the coefficient using the units of both the predictor and the response
 ::: {.column width="52%"}
 ![](images/linear_regression_images/sampling_variability.png){fig-alt="The population regression line and least squares lines fitted to different samples." .plot}
 :::
-::: {.column width="44%"}
-Different samples give different fitted lines.
 
-A **standard error** measures how much an estimate varies across samples.
+::: {.column width="44%"}
+
+The **true regression line is fixed**, but different samples give different fitted lines.
+
+So the estimated slope $\hat\beta_1$ varies from sample to sample.
+
+A **standard error** measures this sampling variability.
+
+**Smaller SE = more precise estimate.**
 
 The slope is generally estimated more precisely with:
 
 - **Less noise** around the line.
 - **More observations** with a similar spread of $X$.
 - **More spread in $X$**, with other factors unchanged.
+
 :::
 ::::
 
@@ -154,10 +161,16 @@ The slope is generally estimated more precisely with:
 ## Confidence intervals for coefficients 
 
 An approximate **95% confidence interval** for the slope is:
-$$\hat\beta_1\pm2\,\operatorname{SE}(\hat\beta_1)$$
 
-For TV, the textbook gives:
-$$0.042\leq\beta_1\leq0.053$$
+$$
+\hat\beta_1\pm2\,\operatorname{SE}(\hat\beta_1)
+$$
+
+For the TV regression:
+
+$$
+0.042\leq\beta_1\leq0.053
+$$
 
 This corresponds to about **42–53 additional sales units per $1,000** of TV spending.
 
@@ -166,36 +179,59 @@ The interval describes uncertainty about the slope, not the sales of one market.
 :::
 
 
-## Is there a relationship? 
+## Is there a relationship?
 
-$$H_0:\beta_1=0\qquad\text{versus}\qquad H_a:\beta_1\ne0$$
+Test whether the true slope is zero:
 
-Compare the estimate with its standard error:
-$$t=\frac{\hat\beta_1}{\operatorname{SE}(\hat\beta_1)}$$
+$$
+H_0:\beta_1=0
+\qquad \text{versus} \qquad
+H_a:\beta_1\ne0
+$$
 
-For TV: **t = 17.67**, **p < 0.0001**.
+Compare the estimated slope with its standard error:
 
-<!-- add t figure -->
+$$
+t=\frac{\hat\beta_1}{\operatorname{SE}(\hat\beta_1)}
+$$
+
+For TV: **$t=17.67$**, **$p<0.0001$**.
+
+A very small p-value means that an estimated slope this far from zero would be
+very unlikely if $H_0$ were true.
 
 ::: {.takeaway}
-The data provide strong evidence of a relationship between TV advertising and sales.
+We reject $H_0$. The data provide strong evidence of a relationship
+between TV advertising and sales.
 :::
 
 
 ## How well does the model fit? 
 
-$$\mathrm{RSE}=\sqrt{\frac{\mathrm{RSS}}{n-2}},\qquad R^2=1-\frac{\mathrm{RSS}}{\mathrm{TSS}}$$
+$$
+\mathrm{RSE}=\sqrt{\frac{\mathrm{RSS}}{n-2}},
+\qquad
+R^2=1-\frac{\mathrm{RSS}}{\mathrm{TSS}}
+$$
 
-$\mathrm{TSS}=\sum_i(y_i-\bar y)^2$ measures total variation in sales.
-recall $$\mathrm{RSS}=\sum_{i=1}^{n}(y_i-\hat y_i)^2$$ 
-| TV-only model | Meaning |
-|:---|:---|
-| RSE = 3.26 | Estimated standard deviation of the error: 3,260 sales units |
-| R² = 0.612 | The model explains 61.2% of the variation in sales |
+where
+
+$$
+\mathrm{TSS}=\sum_{i=1}^{n}(y_i-\bar y)^2,
+\qquad
+\mathrm{RSS}=\sum_{i=1}^{n}(y_i-\hat y_i)^2.
+$$
+
+**TSS:** total variation in sales.  
+**RSS:** variation left unexplained by the model.
+
+- **RSE = 3.26:** about **3,260 sales units**.
+- $\mathbf{R}^{\mathbf{2}}$ **= 0.612:** the model explains **61.2%** of the variation in sales.
 
 ::: {.takeaway}
-RSE is in response units. R² is a proportion.
+**Takeaway:** RSE is in response units; $R^2$ is a proportion.
 :::
+
 
 
 ## Multiple linear regression 
