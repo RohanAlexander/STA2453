@@ -236,22 +236,37 @@ $$
 
 ## Multiple linear regression 
 
-$$Y=\beta_0+\beta_1X_1+\cdots+\beta_pX_p+\epsilon$$
+$$
+Y=\beta_0+\beta_1X_1+\cdots+\beta_pX_p+\epsilon.
+$$
 
-Estimate the coefficients together using **least squares**.
+Each coefficient measures the association between one predictor and the response,
+**holding all other predictors constant**.
+
+For the advertising data,
+
+$$
+\text{sales}
+=
+\beta_0
++\beta_1 \times \text{TV}
++\beta_2 \times \text{radio}
++\beta_3 \times \text{newspaper}
++\epsilon.
+\tag{3.20}
+$$
 
 | Intercept | TV | Radio | Newspaper |
 |---:|---:|---:|---:|
 | 2.939 | 0.046 | **0.189** | −0.001 |
 
-### What does “holding others fixed” mean?
+### What does “holding the other predictors constant” mean?
 
-Compare two markets with the **same TV and newspaper budgets**, but one spends **$1,000 more on radio**.
-
-<!-- change the wording -->
+To interpret the radio coefficient, compare two markets with the
+**same TV and newspaper budgets**, but with radio spending differing by $1,000.
 
 ::: {.takeaway}
-The model predicts **189 more sales units on average** for that market.
+So, **holding TV and newspaper spending constant**, an additional $1,000 spent on radio is associated with about **189 more units of sales on average**.
 :::
 
 ::: {.source}
@@ -260,49 +275,85 @@ This is an association; it does not by itself establish cause and effect.
 
 
 
-## Why does the newspaper coefficient change? 
+## Why does the newspaper coefficient change?
 
 | Newspaper | Newspaper alone | With TV and radio |
 |:---|---:|---:|
 | Coefficient | 0.055 | −0.001 |
 | p-value | 0.00115 | 0.8599 |
 
-<!-- add question interaction -->
+### What is happening?
 
-Newspaper and radio budgets are correlated: **0.3541**.
+Newspaper and radio budgets are positively correlated:
+
+$$
+\mathrm{Cor}(\text{newspaper}, \text{radio}) = 0.3541
+$$
+
+So markets that spend more on newspaper also tend to spend more on radio.
+
 
 ::: {.takeaway}
-Once TV and radio are included, there is little evidence that newspaper spending is associated with sales.
+Once TV and radio are held fixed, the estimated newspaper effect is close to zero and is not statistically significant.
 :::
 
 
-## Testing the multiple regression model 
+## Testing the multiple regression model
 
-Is **at least one predictor** related to the response?
-$$H_0:\beta_1=\cdots=\beta_p=0$$
-$$F=\frac{(\mathrm{TSS}-\mathrm{RSS})/p}{\mathrm{RSS}/(n-p-1)}$$
+$$
+H_0:\beta_1=\beta_2=\cdots=\beta_p=0
+\qquad
+H_a:\text{at least one }\beta_j\neq 0
+$$
 
-For the three advertising predictors: **F ≈ 570**, with a very small p-value.
+The overall F-statistic is
 
-- The **F-test** checks whether at least one slope differs from zero.
-- Individual **t-tests** assess each predictor while the others are included.
+$$
+F=
+\frac{(\mathrm{TSS}-\mathrm{RSS})/p}
+{\mathrm{RSS}/(n-p-1)}
+$$
 
-<!-- add table 3.4 -->
+For the advertising data:
+
+$$
+F \approx 570,\qquad p\text{-value}<0.0001
+$$
+
+::: {.takeaway}
+We reject $H_0$: there is very strong evidence that
+**at least one advertising medium is associated with sales**.
+:::
 
 
-## Choosing useful predictors 
+| Predictor | Coefficient | Std. Error | t-statistic | p-value |
+|:---|---:|---:|---:|---:|
+| TV | 0.046 | 0.0014 | 32.81 | < 0.0001 |
+| Radio | 0.189 | 0.0086 | 21.89 | < 0.0001 |
+| Newspaper | −0.001 | 0.0059 | −0.18 | 0.8599 |
+
+- **F-test:** tests the predictors **jointly**.
+- **individual t-test:** tests one predictor **while holding the others fixed**.
+
+
+
+
+## Choosing useful predictors
+
+**Variable selection** identifies a subset of predictors to include in the model.
 
 With $p$ predictors, there are **$2^p$ possible subsets**.
+For $p = 30$, this means over **one billion models**.
 
-| Method | Basic idea |
+| Method | Procedure |
 |:---|:---|
-| Forward selection | Start with no predictors; add useful predictors |
-| Backward selection | Start with all predictors; remove the least useful |
-| Mixed selection | Allow both additions and removals |
+| Forward selection | Start with an intercept only; add the predictor that gives the lowest RSS at each step. |
+| Backward selection | Start with all predictors; remove the predictor with the largest $p$-value, then refit. |
+| Mixed selection | Add predictors as in forward selection; remove included predictors if their $p$-values exceed a threshold. |
 
-::: {.takeaway}
-A larger model can fit the available data better without predicting new observations better.
-:::
+Each method continues until a **stopping rule** is met.
+
+
 
 
 ## Comparing the advertising models 
