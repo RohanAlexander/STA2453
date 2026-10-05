@@ -318,7 +318,7 @@ Adding radio gives a substantial improvement.
 Adding newspaper changes R² very little and slightly increases RSE.
 
 ::: {.source}
-For multiple regression, RSE = $\sqrt{\mathrm{RSS}/(n-p-1)}$. RSE is in thousands of sales units.
+For multiple regression, RSE = $\sqrt{\frac{\mathrm{RSS}}{(n-p-1)}}$. RSE is in thousands of sales units.
 :::
 
 
@@ -337,26 +337,24 @@ At TV = **$100,000** and radio = **$20,000**, predicted sales ≈ **11,256 units
 | Average sales: confidence interval | 10,985–11,528 |
 | One city’s sales: prediction interval | 7,930–14,580 |
 
-<!-- clarify CI and PI -->
 
 ::: {.source}
 The prediction interval also includes individual error, so it is wider. Neither interval automatically accounts for model bias.
 :::
 
 
-
-## Look beyond R² 
+## Interaction: TV and radio working together
 
 :::: {.columns}
 ::: {.column width="54%"}
-![](images/linear_regression_images/tv_radio_regression.png){fig-alt="Sales and the fitted TV-radio regression plane, with a pattern in the residuals." .plot}
+![](images/linear_regression_images/tv_radio_regression.png){fig-alt="Actual sales above and below the fitted TV-radio regression plane." .plot}
 :::
 ::: {.column width="42%"}
-Even with R² near 0.90, the residuals show a pattern.
+An **interaction** means the relationship between one predictor and sales depends on the other predictor.
 
-The model tends to underpredict sales when spending is split between TV and radio.
+When TV and radio budgets are similar, actual sales tend to be **higher than the model predicts**.
 
-The textbook suggests a **synergy or interaction** between the two media.
+This suggests that TV and radio may work especially well **together**, beyond their separate contributions.
 :::
 ::::
 
@@ -377,17 +375,35 @@ $$Y=\beta_0+\beta_1X+\beta_2X^2+\epsilon$$
 
 ## Main points {.closing data-background-color="#132b3a"}
 
-**Fit:** Least squares minimizes the sum of squared residuals.
+**Simple regression:** Uses one predictor to describe the response.
 
-**Interpret:** Multiple regression considers predictors together.
+**Multiple regression:** Uses several predictors; interpret each slope while holding the others fixed.
+
+**Fit:** Least squares minimizes the sum of squared residuals.
 
 **Assess:** Standard errors, confidence intervals, and tests describe uncertainty; RSE and R² describe fit.
 
-**Predict:** Distinguish average responses from individual responses, and check the model’s limitations.
+**Predict:** A confidence interval concerns the average response; a prediction interval concerns an individual response.
+
+**Interaction:** The relationship between one predictor and the response can depend on another predictor.
 
 ::: {.source}
 Reference: *An Introduction to Statistical Learning* — Gareth James et al.
 :::
 
 
-<!-- add lab -->
+## 10-minute lab: your turn
+
+Open `exercise.qmd`.
+
+Your tasks:
+
+1. Fit `sales ~ TV`.
+2. Interpret the TV slope and $R^2$.
+3. Fit `sales ~ TV + radio + newspaper`.
+4. Compare the newspaper coefficient and p-value across simple and multiple regression.
+5. Produce a confidence interval and a prediction interval for a new market.
+
+::: {.takeaway}
+**Main question:** Why does newspaper look useful alone but not after accounting for TV and radio?
+:::
