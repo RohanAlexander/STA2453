@@ -1211,8 +1211,21 @@ R^2=1-\frac{\mathrm{RSS}}{\mathrm{TSS}}
 </section>
 <section id="multiple-linear-regression" class="slide level2">
 <h2>Multiple linear regression</h2>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi><mo>=</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><msub><mi>X</mi><mn>1</mn></msub><mo>+</mo><mi>⋯</mi><mo>+</mo><msub><mi>β</mi><mi>p</mi></msub><msub><mi>X</mi><mi>p</mi></msub><mo>+</mo><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">Y=\beta_0+\beta_1X_1+\cdots+\beta_pX_p+\epsilon</annotation></semantics></math></p>
-<p>Estimate the coefficients together using <strong>least squares</strong>.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi><mo>=</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><msub><mi>X</mi><mn>1</mn></msub><mo>+</mo><mi>⋯</mi><mo>+</mo><msub><mi>β</mi><mi>p</mi></msub><msub><mi>X</mi><mi>p</mi></msub><mo>+</mo><mi>ϵ</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">
+Y=\beta_0+\beta_1X_1+\cdots+\beta_pX_p+\epsilon.
+</annotation></semantics></math></p>
+<p>Each coefficient measures the association between one predictor and the response, <strong>holding all other predictors constant</strong>.</p>
+<p>For the advertising data,</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">sales</mtext><mo>=</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><mo>×</mo><mtext mathvariant="normal">TV</mtext><mo>+</mo><msub><mi>β</mi><mn>2</mn></msub><mo>×</mo><mtext mathvariant="normal">radio</mtext><mo>+</mo><msub><mi>β</mi><mn>3</mn></msub><mo>×</mo><mtext mathvariant="normal">newspaper</mtext><mo>+</mo><mi>ϵ</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\text{sales}
+=
+\beta_0
++\beta_1 \times \text{TV}
++\beta_2 \times \text{radio}
++\beta_3 \times \text{newspaper}
++\epsilon.
+\tag{3.20}
+</annotation></semantics></math></p>
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -1231,11 +1244,10 @@ R^2=1-\frac{\mathrm{RSS}}{\mathrm{TSS}}
 </tr>
 </tbody>
 </table>
-<h3 id="what-does-holding-others-fixed-mean">What does “holding others fixed” mean?</h3>
-<p>Compare two markets with the <strong>same TV and newspaper budgets</strong>, but one spends <strong>$1,000 more on radio</strong>.</p>
-<!-- change the wording -->
+<h3 id="what-does-holding-the-other-predictors-constant-mean">What does “holding the other predictors constant” mean?</h3>
+<p>To interpret the radio coefficient, compare two markets with the <strong>same TV and newspaper budgets</strong>, but with radio spending differing by $1,000.</p>
 <div class="takeaway">
-<p>The model predicts <strong>189 more sales units on average</strong> for that market.</p>
+<p>So, <strong>holding TV and newspaper spending constant</strong>, an additional $1,000 spent on radio is associated with about <strong>189 more units of sales on average</strong>.</p>
 </div>
 <div class="source">
 <p>This is an association; it does not by itself establish cause and effect.</p>
@@ -1264,25 +1276,79 @@ R^2=1-\frac{\mathrm{RSS}}{\mathrm{TSS}}
 </tr>
 </tbody>
 </table>
-<!-- add question interaction -->
-<p>Newspaper and radio budgets are correlated: <strong>0.3541</strong>.</p>
+<h3 id="what-is-happening">What is happening?</h3>
+<p>Newspaper and radio budgets are positively correlated:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">C</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">r</mi></mrow><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">newspaper</mtext><mo>,</mo><mtext mathvariant="normal">radio</mtext><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.3541</mn></mrow><annotation encoding="application/x-tex">
+\mathrm{Cor}(\text{newspaper}, \text{radio}) = 0.3541
+</annotation></semantics></math></p>
+<p>So markets that spend more on newspaper also tend to spend more on radio.</p>
 <div class="takeaway">
-<p>Once TV and radio are included, there is little evidence that newspaper spending is associated with sales.</p>
+<p>Once TV and radio are held fixed, the estimated newspaper effect is close to zero and is not statistically significant.</p>
 </div>
 </section>
 <section id="testing-the-multiple-regression-model" class="slide level2">
 <h2>Testing the multiple regression model</h2>
-<p>Is <strong>at least one predictor</strong> related to the response? <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mn>0</mn></msub><mo>:</mo><msub><mi>β</mi><mn>1</mn></msub><mo>=</mo><mi>⋯</mi><mo>=</mo><msub><mi>β</mi><mi>p</mi></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">H_0:\beta_1=\cdots=\beta_p=0</annotation></semantics></math> <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo>=</mo><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><mrow><mi mathvariant="normal">T</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">S</mi></mrow><mo>−</mo><mrow><mi mathvariant="normal">R</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">S</mi></mrow><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mi>p</mi></mrow><mrow><mrow><mi mathvariant="normal">R</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">S</mi></mrow><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>−</mo><mi>p</mi><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">F=\frac{(\mathrm{TSS}-\mathrm{RSS})/p}{\mathrm{RSS}/(n-p-1)}</annotation></semantics></math></p>
-<p>For the three advertising predictors: <strong>F ≈ 570</strong>, with a very small p-value.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mn>0</mn></msub><mo>:</mo><msub><mi>β</mi><mn>1</mn></msub><mo>=</mo><msub><mi>β</mi><mn>2</mn></msub><mo>=</mo><mi>⋯</mi><mo>=</mo><msub><mi>β</mi><mi>p</mi></msub><mo>=</mo><mn>0</mn><mspace width="2.0em"></mspace><msub><mi>H</mi><mi>a</mi></msub><mo>:</mo><mrow><mtext mathvariant="normal">at least one </mtext><mspace width="0.333em"></mspace></mrow><msub><mi>β</mi><mi>j</mi></msub><mo>≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">
+H_0:\beta_1=\beta_2=\cdots=\beta_p=0
+\qquad
+H_a:\text{at least one }\beta_j\neq 0
+</annotation></semantics></math></p>
+<p>The overall F-statistic is</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo>=</mo><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><mrow><mi mathvariant="normal">T</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">S</mi></mrow><mo>−</mo><mrow><mi mathvariant="normal">R</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">S</mi></mrow><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mi>p</mi></mrow><mrow><mrow><mi mathvariant="normal">R</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">S</mi></mrow><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>−</mo><mi>p</mi><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+F=
+\frac{(\mathrm{TSS}-\mathrm{RSS})/p}
+{\mathrm{RSS}/(n-p-1)}
+</annotation></semantics></math></p>
+<p>For the advertising data:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo>≈</mo><mn>570</mn><mo>,</mo><mspace width="2.0em"></mspace><mi>p</mi><mtext mathvariant="normal">-value</mtext><mo>&lt;</mo><mn>0.0001</mn></mrow><annotation encoding="application/x-tex">
+F \approx 570,\qquad p\text{-value}&lt;0.0001
+</annotation></semantics></math></p>
+<div class="takeaway">
+<p>We reject <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>0</mn></msub><annotation encoding="application/x-tex">H_0</annotation></semantics></math>: there is very strong evidence that <strong>at least one advertising medium is associated with sales</strong>.</p>
+</div>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Predictor</th>
+<th style="text-align: right;">Coefficient</th>
+<th style="text-align: right;">Std. Error</th>
+<th style="text-align: right;">t-statistic</th>
+<th style="text-align: right;">p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">TV</td>
+<td style="text-align: right;">0.046</td>
+<td style="text-align: right;">0.0014</td>
+<td style="text-align: right;">32.81</td>
+<td style="text-align: right;">&lt; 0.0001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Radio</td>
+<td style="text-align: right;">0.189</td>
+<td style="text-align: right;">0.0086</td>
+<td style="text-align: right;">21.89</td>
+<td style="text-align: right;">&lt; 0.0001</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Newspaper</td>
+<td style="text-align: right;">−0.001</td>
+<td style="text-align: right;">0.0059</td>
+<td style="text-align: right;">−0.18</td>
+<td style="text-align: right;">0.8599</td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li>The <strong>F-test</strong> checks whether at least one slope differs from zero.</li>
-<li>Individual <strong>t-tests</strong> assess each predictor while the others are included.</li>
+<li><strong>F-test:</strong> tests the predictors <strong>jointly</strong>.</li>
+<li><strong>individual t-test:</strong> tests one predictor <strong>while holding the others fixed</strong>.</li>
 </ul>
-<!-- add table 3.4 -->
 </section>
 <section id="choosing-useful-predictors" class="slide level2">
 <h2>Choosing useful predictors</h2>
-<p>With <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math> predictors, there are <strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mi>p</mi></msup><annotation encoding="application/x-tex">2^p</annotation></semantics></math> possible subsets</strong>.</p>
+<p><strong>Variable selection</strong> identifies a subset of predictors to include in the model.</p>
+<p>With <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math> predictors, there are <strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mi>p</mi></msup><annotation encoding="application/x-tex">2^p</annotation></semantics></math> possible subsets</strong>. For <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>30</mn></mrow><annotation encoding="application/x-tex">p = 30</annotation></semantics></math>, this means over <strong>one billion models</strong>.</p>
 <table class="caption-top">
 <colgroup>
 <col style="width: 50%">
@@ -1291,27 +1357,25 @@ R^2=1-\frac{\mathrm{RSS}}{\mathrm{TSS}}
 <thead>
 <tr class="header">
 <th style="text-align: left;">Method</th>
-<th style="text-align: left;">Basic idea</th>
+<th style="text-align: left;">Procedure</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Forward selection</td>
-<td style="text-align: left;">Start with no predictors; add useful predictors</td>
+<td style="text-align: left;">Start with an intercept only; add the predictor that gives the lowest RSS at each step.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Backward selection</td>
-<td style="text-align: left;">Start with all predictors; remove the least useful</td>
+<td style="text-align: left;">Start with all predictors; remove the predictor with the largest <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>-value, then refit.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Mixed selection</td>
-<td style="text-align: left;">Allow both additions and removals</td>
+<td style="text-align: left;">Add predictors as in forward selection; remove included predictors if their <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>-values exceed a threshold.</td>
 </tr>
 </tbody>
 </table>
-<div class="takeaway">
-<p>A larger model can fit the available data better without predicting new observations better.</p>
-</div>
+<p>Each method continues until a <strong>stopping rule</strong> is met.</p>
 </section>
 <section id="comparing-the-advertising-models" class="slide level2">
 <h2>Comparing the advertising models</h2>
