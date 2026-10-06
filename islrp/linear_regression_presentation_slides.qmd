@@ -394,7 +394,7 @@ Reference: *An Introduction to Statistical Learning* — Gareth James et al.
 
 ## 10-minute lab: your turn
 
-Open `exercise.qmd`.
+Open `linear_regression_workshop.qmd`.
 
 Your tasks:
 
