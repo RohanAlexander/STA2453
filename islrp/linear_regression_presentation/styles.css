@@ -1,0 +1,45 @@
+:root { --ink:#132b3a; --accent:#18677a; --muted:#586a74; }
+.reveal { font-family:'Helvetica Neue',Arial,sans-serif; font-size:26px; color:var(--ink); }
+.reveal .slides { text-align:left; }
+.reveal h1,.reveal h2,.reveal h3 { font-family:inherit; text-transform:none; letter-spacing:-.02em; color:var(--ink); }
+.reveal h2 { font-size:1.55em; font-weight:650; line-height:1.14; margin-bottom:.7em; }
+.reveal h3 { font-size:1em; color:var(--accent); font-weight:650; margin:.55em 0; line-height:1.2; }
+.reveal p { line-height:1.36; margin:.65em 0; }
+.reveal .columns { display:flex!important; gap:0!important; width:100%; justify-content:space-between; align-items:flex-start; }
+.reveal .columns>.column { min-width:0; margin:0!important; padding:0!important; flex-shrink:1; }
+.reveal .takeaway { color:var(--accent); border-left:3px solid var(--accent); padding-left:.6em; margin-top:.8em; font-size:.96em; }
+.reveal .source { color:var(--muted); font-size:.64em; margin-top:.9em; line-height:1.3; }
+.reveal .citation { color:var(--muted); font-size:.47em; margin-top:.8em; line-height:1.3; }
+.reveal .source p,.reveal .citation p { margin:0; line-height:1.35; }
+.reveal table { font-size:.84em; width:100%; border-collapse:collapse; margin:.65em 0 .9em; }
+.reveal table th { font-weight:650; color:var(--ink); border-top:2px solid var(--ink); border-bottom:1px solid var(--ink); }
+.reveal table th,.reveal table td { padding:.52em .48em; line-height:1.3; }
+.reveal table td { border-bottom:1px solid #d5dfe4; }
+.reveal table tbody tr:last-child td { border-bottom:2px solid var(--ink); }
+.reveal math { font-family:'STIX Two Math','Cambria Math',math; }
+.reveal math[display="block"] { font-size:1.06em; margin:.7em 0; }
+.reveal .plot { width:100%; height:330px; object-fit:contain; margin:.3em 0; display:block; }
+.reveal .cover h2 { color:white; font-size:2.7em; margin:1.0em 0 .5em; font-weight:600; }
+.reveal .cover { color:white; }
+.reveal .cover .subtitle { color:#c2d9e2; font-size:1.3em; }
+.reveal .cover-meta { color:#c2d9e2; font-size:.8em; margin-top:3.4em; line-height:1.5; }
+.reveal .closing { color:white; }
+.reveal .closing h2 { color:white; }
+.reveal .closing>p { margin:.95em 0; }
+.reveal .closing .source,.reveal .closing a { color:#c2d9e2; }
+.reveal .slide-number { font-size:16px; font-family:inherit; color:#637782; background:transparent; right:20px; bottom:13px; }
+.reveal .controls,.reveal .progress { color:var(--accent); }
+.reveal .progress { height:3px; }
+.reveal a { color:var(--accent); }
+.author {
+  position: absolute;
+  right: 55px;
+  bottom: 70px;
+  font-size: 0.8em;
+  color: #b9cbd6;
+  line-height: 1.25;
+  text-align: left;
+}
+.small-bullets {
+  font-size: 0.9em;
+}
