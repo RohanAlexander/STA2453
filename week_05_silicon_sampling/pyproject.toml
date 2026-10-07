@@ -1,0 +1,11 @@
+[project]
+name = "week-5"
+version = "0.1.0"
+description = "Week 5 scripts: silicon sampling through OpenRouter"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy",
+    "openai",
+    "polars",
+    "python-dotenv",
+]

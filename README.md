@@ -109,20 +109,21 @@ So the normal cadence of class is three weeks of learning and then in the fourth
 
 #### Week 5 (starts Monday 5 October)
 
-*Silicon sampling; getting set up: an OpenRouter key, open-weight models (DeepSeek V4, GLM-5.3, Muse Glimmer 30B), and OpenCode; calling an LLM API from Python: structured outputs, temperature, batching, caching, cost tracking; persona prompts from census marginals; comparing a silicon sample against a real poll; detecting mode collapse.*
+*Silicon sampling; getting set up: an OpenRouter key, open-weight models (DeepSeek V4, GLM-5.3, Muse Glimmer 30B), and a coding agent; calling an LLM API from Python: structured outputs, temperature, batching, caching, cost tracking; persona prompts from census marginals; comparing a silicon sample against a real poll; detecting mode collapse.*
 
 - Readings
     - Argyle, Lisa P., et al, 2023, "Out of One, Many: Using Language Models to Simulate Human Samples", *Political Analysis*, [10.1017/pan.2023.2](https://doi.org/10.1017/pan.2023.2).
     - Bisbee, James, et al, 2024, "Synthetic Replacements for Human Survey Data? The Perils of Large Language Models", *Political Analysis* [10.1017/pan.2024.5](https://doi.org/10.1017/pan.2024.5).
     - Heath, Oscar, and Rohan Alexander, 2026, "Correcting Mode Collapse in Silicon Sampling with Semantic Similarity Rating", https://arxiv.org/abs/2607.28550
     - Murray, Ellie and Rohan Alexander, 2026, "How analyst choices affect silicon samples from the 2025 CES", https://osf.io/preprints/socarxiv/cxrk6_v1
+    - Chapekis, Athena, et al, 2026, "Can AI Stand In for Human Survey-Takers? Not Really", https://www.pewresearch.org/data-labs/2026/09/30/can-ai-stand-in-for-human-survey-takers-not-really/
     - *ISLR/P*, Chapter 3.1 and 3.2 "Simple Linear Regression" "Multiple Linear Regression"
 - Class (Wednesday 7 October)
     - (ISLR/P) Siyi Zhu, Coco Liu, Jingxuan Feng, Jingwen Zhong.
-    - (Demonstration) OpenRouter, open weights, structured outputs, caching and cost, OpenCode.
+    - (Demonstration) OpenRouter, open weights, structured outputs, caching and cost, a coding agent (OpenCode, pi, or omp).
     - (Lecture) What a silicon sample is, and the two ways it fails: wrong marginal, collapsed spread
-    - (Demonstration) 300 personas from census marginals; a mayoral or generic-ballot question with structured output; compare marginal and variance to a published poll
-    - (Worksheet) Same question, different model and different prompt: which moved the answer more?
+    - (Demonstration) Twelve personas, one mayoral question, three models, with caching and a budget.
+    - (Worksheet) Silicon samples across three models and two prompts.
     - (Guest) Oscar Heath.
 
 #### Week 6 (starts Monday 12 October)

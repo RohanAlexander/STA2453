@@ -1,15 +1,26 @@
-# Weeks not yet released
+# Exam weeks
 week_04_exam_1/
-week_05_silicon_sampling/
+week_08_exam_2/
+week_12_exam_3/
+
+# Future weeks
 week_06_polls_apis_and_forecasting/
 week_07_docker_data_management_and_interpretation/
-week_08_exam_2/
 week_09_building_evals/
 week_10_statistics_of_evals/
 week_11_testing_data_and_analyses/
-week_12_exam_3/
+
+# Other stuff
 lit/
 README.html
+
+# API keys
+.env
+
+# Script outputs
+cache/
+*.quarto_ipynb
+*.quarto_ipynb_*
 
 # System and editor files
 .DS_Store
