@@ -432,7 +432,7 @@ $$Y=\beta_0+\beta_1X+\beta_2X^2+\epsilon$$
 
 **Fit:** Least squares minimizes the sum of squared residuals.
 
-**Assess:** Standard errors, confidence intervals, and tests describe uncertainty; RSE and R² describe fit.
+**Assess:** Standard errors, intervals, and tests describe uncertainty; RSE and R² describe fit.
 
 **Predict:** A confidence interval concerns the average response; a prediction interval concerns an individual response.
 
