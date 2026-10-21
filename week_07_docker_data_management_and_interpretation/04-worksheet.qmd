@@ -1,0 +1,17 @@
+---
+title: "Worksheet"
+author: "Rohan Alexander"
+date: "2026-10-21"
+date-format: "D MMMM, YYYY"
+format: pdf
+---
+
+Working in Assignment II groups:
+
+1. Sketch out your website.
+
+2. Sketch out the dataset you need.
+
+3. Write 20 tests that data must meet. Write them in plain language, then have two different models convert them to Python. How different are the results?
+
+4. Document your data by adding a data dictionary for your frame and your respondents file, one row per variable with the name, type, allowed values, and source, and reorganize the repo into the folder layout from the data management slides.

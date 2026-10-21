@@ -116,7 +116,6 @@ So the normal cadence of class is three weeks of learning and then in the fourth
     - Bisbee, James, et al, 2024, "Synthetic Replacements for Human Survey Data? The Perils of Large Language Models", *Political Analysis* [10.1017/pan.2024.5](https://doi.org/10.1017/pan.2024.5).
     - Heath, Oscar, and Rohan Alexander, 2026, "Correcting Mode Collapse in Silicon Sampling with Semantic Similarity Rating", https://arxiv.org/abs/2607.28550
     - Murray, Ellie and Rohan Alexander, 2026, "How analyst choices affect silicon samples from the 2025 CES", https://osf.io/preprints/socarxiv/cxrk6_v1
-    - Chapekis, Athena, et al, 2026, "Can AI Stand In for Human Survey-Takers? Not Really", https://www.pewresearch.org/data-labs/2026/09/30/can-ai-stand-in-for-human-survey-takers-not-really/
     - *ISLR/P*, Chapter 3.1 and 3.2 "Simple Linear Regression" "Multiple Linear Regression"
 - Class (Wednesday 7 October)
     - (ISLR/P) Siyi Zhu, Coco Liu, Jingxuan Feng, Jingwen Zhong.
@@ -133,15 +132,13 @@ So the normal cadence of class is three weeks of learning and then in the fourth
 - Readings
     - Gelman, Andrew, et al, 2020, "Information, Incentives, and Goals in Election Forecasts", *Judgment and Decision Making*, [10.1017/S1930297500007981](https://doi.org/10.1017/S1930297500007981).
     - Wang, Wei, et al, 2015, "Forecasting Elections with Non-Representative Polls", *International Journal of Forecasting*, [10.1016/j.ijforecast.2014.06.001](https://www.sciencedirect.com/science/article/abs/pii/S0169207014000879).
-    - Shirani-Mehr, Houshmand, et al, 2018, "Disentangling Bias and Variance in Election Polls", *Journal of the American Statistical Association*, [10.1080/01621459.2018.1448823](https://doi.org/10.1080/01621459.2018.1448823).
     - Kay, Matthew, et al, 2016, "When (ish) is My Bus? User-centered Visualizations of Uncertainty in Everyday, Mobile Predictive Systems", *CHI 2016*, [10.1145/2858036.2858558](https://doi.org/10.1145/2858036.2858558).
     - *ISLR/P*, Chapter 4.3 "Logistic Regression"
 - Class (Wednesday 14 October)
     - (Quiz) Week 5 readings and class, and *ISLR/P* Chapters 3.1 and 3.2.
     - (ISLR/P) Josh Campbell, Graham Sayle, Kyle Dong, and Gerry Peng.
-    - (Lecture) What a forecast is a forecast of; bias and variance in polls; why 70 per cent is not "will win"
-    - (Demonstration) Pull the polls; build the frame; fit; poststratify; win probability with an interval; score a set of 2022 forecasts against the 2022 results with Brier and log score
-    - (Worksheet) Teams commit a first-cut forecast to the class repo by PR, and review each other's assumptions in the PR
+    - (Lecture) Data gathering and validation: measurement, missing data, censuses, probability and non-probability sampling.
+    - (Worksheet) Team time: polls into a Parquet file, a poststratification frame from the census, a first-cut forecast with a win probability, three design grammars, and a sketch of the website.
 
 #### Week 7 (starts Monday 19 October)
 
@@ -154,9 +151,9 @@ So the normal cadence of class is three weeks of learning and then in the fourth
     - *ISLR/P*, Chapter 5.1 "Cross-Validation"
 - Class (Wednesday 21 October)
     - (Quiz) Week 6 readings and class, and *ISLR/P* Chapters 4.3 and 5.1.
-    - (ISLR/P) Danika Anoutchina, Maggie Huang, Shrey Sati, Daniel Gutkin.
-    - (Demonstration) Put the Week 6 pipeline in a container and run it; marginal effects from the vote model; a data dictionary and folder layout for the project repo
-    - (Worksheet) Team time
+    - (ISLR/P) Maggie Huang, Shrey Sati, Daniel Gutkin.
+    - (Demonstration) A small forecast pipeline in a Docker container, run with and without Docker; average marginal effects from the vote-choice model with `marginaleffects`; a data dictionary and folder layout.
+    - (Worksheet) Team time: containerize, document, and interpret your pipeline.
 
 #### Reading Week (26-30 October): Assignment II
 
@@ -207,7 +204,7 @@ So the normal cadence of class is three weeks of learning and then in the fourth
 #### Week 11 (starts Monday 23 November)
 
 - Class (Wednesday 25 November)
-    - Please feel free to use this time to implement your group AI benchmark.
+    - Please feel free to use this time to implement your AI benchmark.
 
 #### Week 12 (starts Monday 30 November): Assignment III and in-class exam III
 

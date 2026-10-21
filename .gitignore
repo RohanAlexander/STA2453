@@ -4,8 +4,6 @@ week_08_exam_2/
 week_12_exam_3/
 
 # Future weeks
-week_06_polls_apis_and_forecasting/
-week_07_docker_data_management_and_interpretation/
 week_09_building_evals/
 week_10_statistics_of_evals/
 week_11_testing_data_and_analyses/
@@ -19,6 +17,7 @@ README.html
 
 # Script outputs
 cache/
+outputs/
 *.quarto_ipynb
 *.quarto_ipynb_*
 

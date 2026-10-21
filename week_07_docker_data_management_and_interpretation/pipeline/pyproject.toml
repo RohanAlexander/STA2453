@@ -1,0 +1,12 @@
+[project]
+name = "ward-forecast"
+version = "0.1.0"
+description = "A small vote-choice pipeline: simulate respondents, fit, poststratify, forecast, interpret"
+requires-python = ">=3.12"
+dependencies = [
+    "marginaleffects>=0.0.14",
+    "numpy>=2.0",
+    "patsy>=1.0.3",
+    "polars>=1.30,<2",
+    "statsmodels>=0.14",
+]

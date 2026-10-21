@@ -1,0 +1,22 @@
+---
+title: "Worksheet"
+author: "Rohan Alexander"
+date: "2026-10-14"
+date-format: "D MMMM, YYYY"
+format: pdf
+bibliography: references.bib
+---
+
+0. First, on Quercus, and physically, move into your Assignment II teams.
+
+1. First for your target election, find every published poll you can, and get them into a Parquet file with one row per poll. You will likely want variables such as pollster, field date/s, sample size, mode, and the share for each candidate or party, and a link to where each came from.
+
+2. Then build the frame based on the census (Open Data Toronto ward profiles, or the CCES and ACS for the US), build a poststratification frame. Exactly what it looks like will depend but likely, one row per cell of the demographic variables you will adjust for, with the population count in that cell. Write down which variables you chose and why, and what you left out.
+
+3. Simulate some respondents and then fit a simple model, poststratify to the frame, and turn the estimate into a win probability with an interval for your headline race. It does not have to be good, it just has to work!
+
+4. Then start iterating and improving every aspect!
+
+5. Write down three design grammars that you like (for me that's Bloomberg, and Bell Labs reports from the 70s)
+
+6. On a piece of paper sketch out what your website might look like. Think about what the key graphs and tables and sections will be. Come and discuss these with me.

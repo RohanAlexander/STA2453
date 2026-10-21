@@ -1,0 +1,427 @@
+---
+title: "Quiz 3"
+subtitle: "Week 5: silicon sampling, the OpenRouter demonstration and worksheet, and ISLR/P Chapters 3.1 and 3.2"
+author: "Rohan Alexander"
+date: "2026-10-14"
+date-format: "D MMMM, YYYY"
+bibliography: references.bib
+format:
+  pdf:
+    fontsize: 10pt
+    geometry:
+      - margin=2.2cm
+    include-in-header:
+      text: |
+        \usepackage{needspace}
+---
+
+```{=latex}
+\noindent Name: \rule{6.5cm}{0.4pt}\hfill Student number: \rule{4.5cm}{0.4pt}
+```
+
+\vspace{0.3cm}
+
+# Instructions
+
+**Part A: Multiple choice (questions 1 to 41).** Please answer on the answer sheet below, by filling in one box completely for each question. Each question has one best answer. If a question has a blank, choose the option that best completes the sentence. Only the answer sheet is marked for Part A.
+
+**Part B: Short answer (questions B1 to B4).** Please write neatly in the space provided, a few sentences each.
+
+**Answer sheet**
+
+```{=latex}
+{\setlength{\fboxsep}{0pt}\setlength{\tabcolsep}{1.6em}
+\begin{center}
+\begin{tabular}{lll}
+\makebox[1.7em][r]{\small\textbf{1}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{16}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{31}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} \\[0.55em]
+\makebox[1.7em][r]{\small\textbf{2}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{17}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{32}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} \\[0.55em]
+\makebox[1.7em][r]{\small\textbf{3}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{18}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{33}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} \\[0.55em]
+\makebox[1.7em][r]{\small\textbf{4}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{19}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{34}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} \\[0.55em]
+\makebox[1.7em][r]{\small\textbf{5}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{20}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{35}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} \\[0.55em]
+\makebox[1.7em][r]{\small\textbf{6}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{21}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{36}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} \\[0.55em]
+\makebox[1.7em][r]{\small\textbf{7}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{22}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{37}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} \\[0.55em]
+\makebox[1.7em][r]{\small\textbf{8}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{23}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{38}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} \\[0.55em]
+\makebox[1.7em][r]{\small\textbf{9}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{24}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{39}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} \\[0.55em]
+\makebox[1.7em][r]{\small\textbf{10}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{25}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{40}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} \\[0.55em]
+\makebox[1.7em][r]{\small\textbf{11}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{26}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{41}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} \\[0.55em]
+\makebox[1.7em][r]{\small\textbf{12}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{27}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} &  \\[0.55em]
+\makebox[1.7em][r]{\small\textbf{13}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{28}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} &  \\[0.55em]
+\makebox[1.7em][r]{\small\textbf{14}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{29}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} &  \\[0.55em]
+\makebox[1.7em][r]{\small\textbf{15}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{30}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} &  \\[0.55em]
+\end{tabular}
+\end{center}}
+```
+
+\newpage
+
+# Part A: Multiple choice
+
+## The readings
+
+\needspace{7\baselineskip}
+**1.** From @Argyle2023, a silicon sample is \underline{\hspace{2cm}}
+
+a. a random subsample of a real survey, used to test code before the full data arrive
+b. a set of responses from a language model that is told nothing about who is answering
+c. a set of survey responses collected online from people who work in the technology industry
+d. a set of responses from a language model conditioned on the backstories of real survey respondents
+
+\needspace{7\baselineskip}
+**2.** From @Argyle2023, what does "algorithmic fidelity" mean?
+
+a. The model's answers are free of the social biases that are present in the text it was trained on.
+b. The model returns the same answer every time it is given the same prompt and the same settings.
+c. The model's associations track real groups closely enough that conditioning reproduces each group's responses.
+d. The model's average answer matches the population average, whichever subgroup is being simulated.
+
+\needspace{7\baselineskip}
+**3.** From @Argyle2023, what was the model conditioned on?
+
+a. First-person backstories built from the demographics of real ANES respondents.
+b. A separate fine-tuned copy of the model for each demographic group in the ANES.
+c. Census marginals for the United States, with no individual-level information.
+d. The full text of each ANES respondent's answers to the open-ended questions.
+
+\needspace{7\baselineskip}
+**4.** From @Argyle2023, the criterion of "pattern correspondence" requires that \underline{\hspace{2cm}}
+
+a. human judges cannot tell the generated text apart from text written by people
+b. relationships between variables in the silicon sample match those in the human data
+c. each generated response is consistent with the backstory that was given to the model
+d. the marginal distribution of each variable in the silicon sample matches the human data
+
+\needspace{7\baselineskip}
+**5.** From @Bisbee2024, what did the comparison of ChatGPT's feeling-thermometer scores with the ANES show?
+
+a. The averages were close to the ANES, but the variation in responses was far too small.
+b. Both the averages and the variation across responses matched the ANES closely.
+c. Neither the averages nor the variation across responses resembled the ANES at all.
+d. The averages were far from the ANES, but the variation across responses matched it well.
+
+\needspace{7\baselineskip}
+**6.** From @Bisbee2024, what happened when the same prompt was run again three months later?
+
+a. The results were identical, because the temperature had been set to zero.
+b. The results changed, because the hosted model had been updated.
+c. The results changed a little, but stayed within ordinary sampling error.
+d. The model declined to answer, because its policy on personas had changed.
+
+\needspace{7\baselineskip}
+**7.** From @Bisbee2024, what happened when regressions were fitted to the synthetic data?
+
+a. Coefficients differed from the ANES only for the smallest demographic groups.
+b. Coefficients matched the ANES, so synthetic data can stand in for surveys.
+c. Coefficients often differed from those estimated from the ANES.
+d. Coefficients could not be estimated, because the synthetic data had no variation.
+
+\needspace{7\baselineskip}
+**8.** From @Bisbee2024, what did small changes to the wording of the prompt do?
+
+a. They mattered for open-ended answers but not for numeric ones.
+b. They changed only the responses of the personas with no stated party.
+c. They had no detectable effect on the responses.
+d. They shifted the distribution of responses.
+
+\needspace{7\baselineskip}
+**9.** From @HeathAlexander2026, mode collapse is when \underline{\hspace{2cm}}
+
+a. the model gives one response for every persona, so the mean is wrong as well as the variance
+b. responses pile up around the mode, so the mean looks right but the variance is far too low
+c. responses are spread too widely, so the variance is higher than it is in the human data
+d. the model stops responding partway through a batch, so the silicon sample is incomplete
+
+\needspace{7\baselineskip}
+**10.** From @HeathAlexander2026, what causes mode collapse?
+
+a. The model has memorized the published results of the survey.
+b. The temperature is set too high for questions with numeric answers.
+c. The personas contain too little demographic detail to tell people apart.
+d. Language models are poor at generating numeric responses directly.
+
+\needspace{7\baselineskip}
+**11.** From @HeathAlexander2026, how does Semantic Similarity Rating work?
+
+a. Ask for a number at several temperatures, then keep the most common answer.
+b. Ask for a number, then rescale it using the variance of the human responses.
+c. Ask for a text-only answer, then map it to the scale using text embeddings.
+d. Ask several models for a number, then average their answers for each persona.
+
+\needspace{7\baselineskip}
+**12.** From @HeathAlexander2026, which check detects mode collapse that a comparison of means would miss?
+
+a. Confirming that every response from the model parsed as valid JSON.
+b. Comparing the mean of the silicon responses with the mean in a real poll.
+c. Comparing the spread of the silicon responses with the spread in a real poll.
+d. Confirming that the silicon sample has as many rows as there are personas.
+
+\needspace{7\baselineskip}
+**13.** From @MurrayAlexander2026, what do the authors recommend?
+
+a. That silicon samples be generated only with a single model agreed on by the field.
+b. That silicon samples be abandoned for any question that concerns vote choice.
+c. That each persona be run once, so that results cannot be cherry-picked.
+d. A disclosure statement giving every setting used to generate the silicon sample.
+
+\needspace{7\baselineskip}
+**14.** From @Pew2026, by how much did the digital twins differ from the humans on average, across nearly 300 questions?
+
+a. 12 percentage points.
+b. 3 percentage points.
+c. 28 percentage points.
+d. 46 percentage points.
+
+\needspace{7\baselineskip}
+**15.** From @Pew2026, 97 per cent of Hispanic twins said they would follow the World Cup, compared with a real share of 43 per cent, which is an example of \underline{\hspace{2cm}}
+
+a. something common in a group becoming nearly universal in the twins
+b. the twins being more uncertain than the people they stand in for
+c. the model's knowledge cutoff being earlier than the survey
+d. the twins refusing to answer a question about a sensitive topic
+
+\needspace{7\baselineskip}
+**16.** From @Pew2026, how often did humans choose "not sure", compared with the twins?
+
+a. Almost never, because the humans were given no such option.
+b. About four times as often.
+c. About as often.
+d. About half as often.
+
+\needspace{7\baselineskip}
+**17.** From @Pew2026, the twins put presidential approval at 46 per cent in both January and April 2026, while the humans moved from 37 to 34 per cent, because \underline{\hspace{2cm}}
+
+a. the model's knowledge ends at its May 2025 cutoff
+b. the two waves used different question wording and sample sizes
+c. approval questions are not well suited to structured output
+d. the twins were built from the same panelists in both waves
+
+
+\needspace{12\baselineskip}
+
+## The lecture, demonstration, and worksheet
+
+\needspace{7\baselineskip}
+**18.** From the Week 5 lecture, a poll gives you a marginal and a variation, where the variation is \underline{\hspace{2cm}}
+
+a. the margin of error reported by the pollster
+b. the change in the marginal from one poll to the next
+c. how the answer differs across groups in the sample
+d. the share of respondents who did not answer at all
+
+\needspace{7\baselineskip}
+**19.** From the Week 5 lecture, the two ways a silicon sample fails are \underline{\hspace{2cm}}
+
+a. a prompt that is too long and a temperature that is too low
+b. a wrong marginal and a sample that is too small
+c. a collapsed spread and a model that refuses
+d. a wrong marginal and a collapsed spread
+
+\needspace{7\baselineskip}
+**20.** From the Week 5 demonstration, "open weight" means that \underline{\hspace{2cm}}
+
+a. the training data and code are published, so anyone can retrain the model from scratch
+b. the model is free to call through an API, with no charge for the tokens used
+c. the trained parameters are published, so anyone can download and run that exact model
+d. the model's outputs carry no licence, so they can be reproduced in any publication
+
+\needspace{7\baselineskip}
+**21.** From the Week 5 demonstration, why use a dated model slug on OpenRouter [@OpenRouter] rather than an alias ending in `-latest`?
+
+a. An alias moves to newer checkpoints, so the same code becomes a different experiment.
+b. An alias costs more per token than the dated checkpoint it points to, since it is routed to the newest provider.
+c. An alias is rate-limited more heavily than a dated checkpoint.
+d. An alias cannot return structured output, whereas a dated checkpoint can.
+
+\needspace{7\baselineskip}
+**22.** From the Week 5 demonstration, where should the OpenRouter key live?
+
+a. At the top of the script, in a variable with a name such as `API_KEY`.
+b. In a `.env` file in the project that is listed in `.gitignore`.
+c. In `pyproject.toml`, with the project's other settings.
+d. In the README, so that collaborators can run the code.
+
+\needspace{7\baselineskip}
+**23.** From the Week 5 demonstration, you committed your key and pushed, so what do you do first?
+
+a. Rename the variable, so that the key is harder for a scraper to find.
+b. Delete the line and push a new commit, which removes the key from GitHub.
+c. Make the repository private, which hides the key in the earlier commits.
+d. Revoke the key on OpenRouter, then remove it from the repo's history.
+
+\needspace{7\baselineskip}
+**24.** From the Week 5 demonstration, some models think before they answer, so a call with `max_tokens=100` can return \underline{\hspace{2cm}}
+
+a. the same answer as a call with no limit, because reasoning tokens are not counted
+b. content of `None`, because the budget went on reasoning tokens, and you still pay
+c. an error, because the limit is below the minimum the provider allows
+d. a truncated answer, with a warning in the usage object that the limit was reached
+
+\needspace{7\baselineskip}
+**25.** From the Week 5 demonstration, where do you find what a call cost?
+
+a. In the `usage` object of the response, as tokens and a cost in dollars.
+b. Nowhere, because the cost is fixed per call whatever the length.
+c. By multiplying the number of characters in the prompt by the posted price.
+d. In a statement that OpenRouter sends by email at the end of each month.
+
+\needspace{7\baselineskip}
+**26.** From the Week 5 demonstration, why check `response.model` after a call?
+
+a. It confirms that the API key was valid and the request was charged to your account.
+b. It identifies which persona the response belongs to when calls run in parallel.
+c. It reports whether the response came from your cache rather than from the provider.
+d. The checkpoint that answered can differ from the one requested.
+
+\needspace{7\baselineskip}
+**27.** From the Week 5 demonstration, why ask the model for output that matches a JSON schema?
+
+a. So the call costs less, because JSON uses fewer tokens than prose.
+b. So each answer arrives as typed fields that go straight into a data frame.
+c. So the response can be cached, which a free-text response cannot be.
+d. So the model is constrained to give the answer that is factually correct.
+
+\needspace{7\baselineskip}
+**28.** From the Week 5 worksheet, a response that returns no answer or an answer of the wrong shape should be \underline{\hspace{2cm}}
+
+a. recorded as a null and reported as a rate by model
+b. replaced with the modal answer given by that model
+c. dropped from the sample, with the persona removed
+d. retried until it parses, keeping only the response that succeeded
+
+\needspace{7\baselineskip}
+**29.** From the Week 5 worksheet, one persona was asked the same question twenty times at temperature 1.0 so that you could see \underline{\hspace{2cm}}
+
+a. whether the cache was working, since every call should have cost nothing
+b. which of the three models was the cheapest per call on average
+c. whether the model's answer depends on the time of day
+d. whether the model behaves like one person or like twenty people
+
+\needspace{7\baselineskip}
+**30.** From the Week 5 worksheet, the thirty personas were drawn from four marginals independently, which means that \underline{\hspace{2cm}}
+
+a. every persona is unique, because independent draws from four marginals cannot repeat
+b. the model will refuse the personas whose combination of characteristics is implausible
+c. the sample has combinations of age and education in proportions the population does not
+d. the sample matches the joint distribution of the four variables in the population
+
+\needspace{7\baselineskip}
+**31.** From the Week 5 worksheet, which rule applies when you use a coding agent such as OpenCode, pi, or omp?
+
+a. Code the agent wrote need not be disclosed once you have edited it.
+b. Read every diff before accepting it, because you are the author of the commit.
+c. Give the agent your `.env` file, so that it can test the code it writes.
+d. Let the agent commit and push, so that the history shows what it changed.
+
+
+\needspace{12\baselineskip}
+
+## Linear regression
+
+These questions are about the ideas in Chapters 3.1 and 3.2 of @James2023, not about code.
+
+\needspace{7\baselineskip}
+**32.** From @James2023, least squares chooses the coefficients of a linear regression so as to \underline{\hspace{2cm}}
+
+a. minimize the sum of the absolute residuals
+b. maximize the correlation of $X$ with $Y$
+c. minimize the sum of the squared residuals
+d. make the residuals sum to exactly zero
+
+\needspace{7\baselineskip}
+**33.** From @James2023, what does the standard error of a coefficient estimate tell you?
+
+a. How much the estimate would vary from one sample to another.
+b. How much of the variance in $Y$ that predictor accounts for.
+c. How far the estimate is from the true value in this sample.
+d. How large a typical residual is, in the units of the response.
+
+\needspace{7\baselineskip}
+**34.** From @James2023, what is the correct reading of a 95 per cent confidence interval for a coefficient?
+
+a. About 95 per cent of the observations in the sample fall inside the interval.
+b. The true value varies, and lies inside the interval about 95 per cent of the time.
+c. There is a 95 per cent probability that the estimate from this sample equals the true value.
+d. Across repeated samples, about 95 per cent of such intervals would contain the true value.
+
+\needspace{7\baselineskip}
+**35.** From @James2023, a very small p-value for a slope coefficient tells you that \underline{\hspace{2cm}}
+
+a. $X$ causes $Y$, since chance has been ruled out as an explanation
+b. there is only a very small probability that the null hypothesis is true
+c. data like these would be unlikely if $X$ and $Y$ were unrelated
+d. the association between $X$ and $Y$ is large enough to matter in practice
+
+\needspace{7\baselineskip}
+**36.** From @James2023, what does the residual standard error measure?
+
+a. The correlation between the fitted values and the response.
+b. The typical size of a residual, in the units of the response.
+c. The proportion of the variance in the response that is explained.
+d. The standard error of the slope, in the units of the predictor.
+
+\needspace{7\baselineskip}
+**37.** From @James2023, what does $R^2$ measure?
+
+a. The typical size of a residual, in the units of the response.
+b. The proportion of the variance in the response that the model explains.
+c. The correlation between the response and the first predictor.
+d. The probability that the fitted model is the correct one for the data.
+
+\needspace{7\baselineskip}
+**38.** From @James2023, why is a rise in $R^2$ weak evidence that a newly added predictor belongs in the model?
+
+a. $R^2$ cannot be computed once a model has more than one predictor.
+b. $R^2$ falls whenever the new predictor is correlated with those already in the model.
+c. On the training data, $R^2$ never falls when a predictor is added, even a useless one.
+d. $R^2$ reflects only the first predictor that was entered, whatever is added later.
+
+\needspace{7\baselineskip}
+**39.** From @James2023, a coefficient in a multiple linear regression measures \underline{\hspace{2cm}}
+
+a. the expected change in the response per unit of that predictor, holding the others fixed
+b. the correlation between that predictor and the response, on a scale from minus one to one
+c. the share of the variance in the response that is explained by that predictor alone
+d. the expected change in the response per unit of that predictor, ignoring the others
+
+\needspace{7\baselineskip}
+**40.** From @James2023, why can a predictor's coefficient change sign when a second predictor is added?
+
+a. Adding a predictor changes the units in which the response and the residuals are measured.
+b. The effective sample size falls each time another predictor is added.
+c. Multiple regression shrinks every coefficient towards zero, and some cross over.
+d. The predictors are correlated, so the simple regression was picking up the omitted one.
+
+\needspace{7\baselineskip}
+**41.** From @James2023, with many predictors, why look at the F-statistic rather than only the individual p-values?
+
+a. With many predictors, some individual p-values will be small by chance alone.
+b. The F-statistic is always larger than any of the individual t-statistics.
+c. Individual p-values cannot be computed when the predictors are correlated.
+d. The F-statistic, unlike a p-value, does not depend on the sample size.
+
+\newpage
+
+# Part B: Short answer
+
+\needspace{6cm}
+**B1.** The lecture gave two ways a silicon sample fails. Name both, and say how you would detect each one using a published poll.
+
+\vspace{5cm}
+
+\needspace{6cm}
+**B2.** Bisbee et al. found that ChatGPT's averages were close to the ANES. Explain why that is not enough to justify using the synthetic data in a regression.
+
+\vspace{5cm}
+
+\needspace{6cm}
+**B3.** Pew found that 47 per cent of questions had an answer option that no twin chose, compared with 1 per cent for humans. Explain what this is an instance of, and why it matters for a forecast built from a silicon sample.
+
+\vspace{5cm}
+
+\needspace{6cm}
+**B4.** A simple regression of sales on newspaper advertising gives a positive slope with a small p-value. In a multiple regression that also includes TV and radio advertising, the newspaper coefficient is close to zero. Explain how both can be true, and say which result answers the question "would spending more on newspaper advertising raise sales?"
+
+\vspace{5cm}
+
+\newpage
+
+# References

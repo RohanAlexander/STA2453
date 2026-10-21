@@ -1,0 +1,414 @@
+---
+title: "Quiz 4"
+subtitle: "Week 6: forecasts, non-representative polls, uncertainty, measurement and sampling, and ISLR/P Chapters 4.3 and 5.1"
+author: "Rohan Alexander"
+date: "2026-10-21"
+date-format: "D MMMM, YYYY"
+bibliography: references.bib
+format:
+  pdf:
+    fontsize: 10pt
+    geometry:
+      - margin=2.2cm
+    include-in-header:
+      text: |
+        \usepackage{needspace}
+---
+
+```{=latex}
+\noindent Name: \rule{6.5cm}{0.4pt}\hfill Student number: \rule{4.5cm}{0.4pt}
+```
+
+\vspace{0.3cm}
+
+# Instructions
+
+**Part A: Multiple choice (questions 1 to 38).** Please answer on the answer sheet below, by filling in one box completely for each question. Each question has one best answer. If a question has a blank, choose the option that best completes the sentence. Only the answer sheet is marked for Part A.
+
+**Part B: Short answer (questions B1 to B5).** Please write neatly in the space provided, a few sentences each.
+
+**Answer sheet**
+
+```{=latex}
+{\setlength{\fboxsep}{0pt}\setlength{\tabcolsep}{1.6em}
+\begin{center}
+\begin{tabular}{lll}
+\makebox[1.7em][r]{\small\textbf{1}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{16}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{31}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} \\[0.55em]
+\makebox[1.7em][r]{\small\textbf{2}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{17}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{32}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} \\[0.55em]
+\makebox[1.7em][r]{\small\textbf{3}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{18}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{33}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} \\[0.55em]
+\makebox[1.7em][r]{\small\textbf{4}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{19}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{34}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} \\[0.55em]
+\makebox[1.7em][r]{\small\textbf{5}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{20}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{35}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} \\[0.55em]
+\makebox[1.7em][r]{\small\textbf{6}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{21}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{36}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} \\[0.55em]
+\makebox[1.7em][r]{\small\textbf{7}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{22}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{37}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} \\[0.55em]
+\makebox[1.7em][r]{\small\textbf{8}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{23}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{38}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} \\[0.55em]
+\makebox[1.7em][r]{\small\textbf{9}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{24}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} &  \\[0.55em]
+\makebox[1.7em][r]{\small\textbf{10}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{25}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} &  \\[0.55em]
+\makebox[1.7em][r]{\small\textbf{11}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{26}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} &  \\[0.55em]
+\makebox[1.7em][r]{\small\textbf{12}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{27}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} &  \\[0.55em]
+\makebox[1.7em][r]{\small\textbf{13}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{28}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} &  \\[0.55em]
+\makebox[1.7em][r]{\small\textbf{14}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{29}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} &  \\[0.55em]
+\makebox[1.7em][r]{\small\textbf{15}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} & \makebox[1.7em][r]{\small\textbf{30}}\hspace{0.5em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{a}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{b}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{c}}\hspace{0.25em}\framebox[1.55em][c]{\rule[-0.35em]{0pt}{1.35em}\scriptsize\textcolor{black!45}{d}} &  \\[0.55em]
+\end{tabular}
+\end{center}}
+```
+
+\newpage
+
+# Part A: Multiple choice
+
+## The readings
+
+\needspace{7\baselineskip}
+**1.** From @Gelman2020, a good presidential election forecast combines \underline{\hspace{2cm}}
+
+a. fundamentals, polls, and a model of how opinion changes over time
+b. polls alone, each weighted by its sample size and how recent it is
+c. betting markets, adjusted for the bias towards the favourite
+d. fundamentals alone, since polls are too noisy until the final week
+
+\needspace{7\baselineskip}
+**2.** From @Gelman2020, why is it hard to check whether election forecasts are calibrated?
+
+a. Official results are revised for months, so forecasts cannot be scored promptly.
+b. Elections are few, and state outcomes are correlated rather than independent tests.
+c. Forecasters publish expected vote shares and do not publish win probabilities.
+d. A probability cannot be compared with a yes or no outcome, even in principle.
+
+\needspace{7\baselineskip}
+**3.** From @Gelman2020, which incentive might push a forecaster to report more uncertainty than the evidence supports?
+
+a. A confident forecast attracts more readers, which raises the forecaster's profile.
+b. A wide interval scores better than a narrow one under every scoring rule.
+c. A forecast that moves from day to day gives journalists more to write about.
+d. A hedged forecast is rarely called wrong, which protects a reputation.
+
+\needspace{7\baselineskip}
+**4.** From @Gelman2020, a forecast that gives a candidate a 70 per cent chance of winning means that \underline{\hspace{2cm}}
+
+a. about 70 per cent of recent polls show the candidate ahead
+b. in situations like this one, the candidate would lose about three times in ten
+c. the forecaster is 70 per cent sure that this year's polls are accurate
+d. the candidate is expected to receive about 70 per cent of the votes cast
+
+\needspace{7\baselineskip}
+**5.** From @Wang2015, the sample was \underline{\hspace{2cm}}
+
+a. Xbox users who answered daily polls before the 2012 US election
+b. subscribers who returned a mail-in ballot to the Literary Digest in 1936
+c. Amazon Mechanical Turk workers recruited in the final month of 2012
+d. a random-digit-dial telephone sample fielded before the 2012 election
+
+\needspace{7\baselineskip}
+**6.** From @Wang2015, in what way was that sample unrepresentative?
+
+a. Most respondents lived in a small number of swing states.
+b. Most respondents were not registered to vote in 2012
+c. 93 per cent were men, and 65 per cent were aged 18 to 29
+d. 93 per cent were over 65, and most lived in rural areas.
+
+\needspace{7\baselineskip}
+**7.** From @Wang2015, what is the lesson of the 1936 Literary Digest poll?
+
+a. Readers of magazines change their minds more often than other voters do.
+b. A mail survey is less accurate than a survey conducted by telephone.
+c. Two million responses is still too few to forecast a national election.
+d. A very large sample does not help if it is biased towards one kind of person.
+
+\needspace{7\baselineskip}
+**8.** From @Wang2015, the two steps of multilevel regression and poststratification are \underline{\hspace{2cm}}
+
+a. average the available polls, then correct by the polling error at the previous election
+b. drop over-represented respondents until the sample matches the census, then take the mean
+c. model the outcome within demographic cells, then weight the cell estimates by population share
+d. weight each respondent by the inverse of their response probability, then take the mean
+
+\needspace{7\baselineskip}
+**9.** From @Wang2015, why use a multilevel model for the first step rather than the raw mean in each cell?
+
+a. A multilevel model removes the need for population counts in each cell.
+b. A multilevel model can be fitted without any demographic information.
+c. Partial pooling gives stable estimates for cells with few respondents.
+d. A multilevel model guarantees that the estimate for each cell is unbiased.
+
+\needspace{7\baselineskip}
+**10.** From @Wang2015, what does the poststratification step need that the survey itself cannot supply?
+
+a. The voter file for each state, matched to the individual respondents.
+b. The national total for each demographic variable taken one at a time.
+c. A second, independent survey of the same respondents, for validation.
+d. Population counts for every cell, which the paper took from exit polls.
+
+\needspace{7\baselineskip}
+**11.** From @Wang2015, how does the Xbox paper relate to your silicon sample?
+
+a. A silicon sample is also non-representative, so it needs adjusting too.
+b. A silicon sample has no sampling error, so no adjustment is needed.
+c. A silicon sample is representative by construction, since its personas follow the census.
+d. A silicon sample can be adjusted only by changing the prompt and running it again.
+
+\needspace{7\baselineskip}
+**12.** From @Wang2015, why were party identification and 2008 vote included in the cells when the census does not record them?
+
+a. They were used only to remove the respondents who said they had not voted in 2008
+b. The Xbox platform required them from every respondent before a poll could be answered.
+c. They explain much of the gap between the sample and the electorate, so exit polls supplied the targets.
+d. The census does record them, in the long-form questionnaire.
+
+\needspace{7\baselineskip}
+**13.** From @Wang2015, how were the adjusted estimates checked?
+
+a. By calling a sample of the same respondents on the telephone and asking the question again.
+b. By comparing them day by day with averages of conventional polls, and then with the result.
+c. By running the same daily poll on a second gaming platform with a different audience.
+d. They were not checked, because poststratification removes bias by construction.
+
+\needspace{7\baselineskip}
+**14.** From @Kay2016, a quantile dotplot is \underline{\hspace{2cm}}
+
+a. a scatterplot of past forecasts and the outcomes that followed them
+b. a density plot with its quartiles marked as vertical lines
+c. a histogram of the raw data, drawn with one dot for each observation
+d. a predictive distribution drawn as a few dots, each one a quantile
+
+\needspace{7\baselineskip}
+**15.** From @Kay2016, how does a reader get a probability from a quantile dotplot?
+
+a. Read off the height of the curve at the threshold, as a percentage.
+b. Count the dots on one side of the threshold and divide by the total.
+c. Compare the position of the mean with the position of the threshold.
+d. Judge by eye the share of the area that lies beyond the threshold.
+
+\needspace{7\baselineskip}
+**16.** From @Kay2016, how were the displays of uncertainty compared?
+
+a. People answered the same bus-arrival questions from each display, and the spread of their answers was compared.
+b. A panel of designers rated each display for how attractive it looked on a phone screen.
+c. The displays were compared on how much screen space each one took up on a phone.
+d. Bus riders were asked which display they would prefer, with no questions about probability.
+
+
+\needspace{12\baselineskip}
+
+## The lecture
+
+\needspace{7\baselineskip}
+**17.** From the Week 6 lecture, a valid measurement is one that \underline{\hspace{2cm}}
+
+a. has been collected by a government statistical agency rather than a private one
+b. has no missing values and no values outside the expected range
+c. gives the same result when the measurement is repeated
+d. relates directly to the estimand and the research question
+
+\needspace{7\baselineskip}
+**18.** From the Week 6 lecture, a reliable measurement is one that \underline{\hspace{2cm}}
+
+a. was taken with an instrument that has been calibrated recently
+b. is recorded in the units that the reader of the paper expects
+c. gives similar results when the same thing is measured again
+d. relates directly to the research question and the estimand
+
+\needspace{7\baselineskip}
+**19.** From the Week 6 lecture, censored data are those where \underline{\hspace{2cm}}
+
+a. the value is missing for reasons unrelated to anything in the data, observed or not
+b. we have partial knowledge of the actual value, such as knowing only that it is above a limit
+c. values outside a range are not recorded at all, so those units are absent from the data
+d. the same unit was measured more than once and the measurements disagree
+
+\needspace{7\baselineskip}
+**20.** From the Week 6 lecture, why is dropping incomplete cases a risk?
+
+a. The cases that remain may differ from those dropped, which biases the sample.
+b. Imputation is always more accurate than dropping cases, whatever the reason for the gap.
+c. It is not allowed under the licence that governments attach to their data.
+d. It always reduces the sample below the size needed for a confidence interval.
+
+\needspace{7\baselineskip}
+**21.** From the Week 6 lecture, the American Community Survey differs from the decennial census in that it \underline{\hspace{2cm}}
+
+a. is run by a private polling company under contract to the Census Bureau
+b. samples a share of households every year rather than counting everyone every ten years
+c. counts every household every year rather than once every ten years
+d. asks no questions about income, education, housing, or how people get to work
+
+\needspace{7\baselineskip}
+**22.** From the Week 6 lecture, in stratified sampling we \underline{\hspace{2cm}}
+
+a. select every kth unit from a list of the population
+b. give every unit an equal chance of selection and do nothing more than that
+c. divide the population into groups and sample within every group
+d. divide the population into groups and sample only some of the groups
+
+\needspace{7\baselineskip}
+**23.** From the Week 6 lecture, the difference between strata and clusters is \underline{\hspace{2cm}}
+
+a. whether we intend to collect data from every group or only from some of them
+b. whether the groups are geographic, such as states, or demographic, such as age groups
+c. whether the groups overlap or are mutually exclusive
+d. whether the groups were defined before or after the data were collected
+
+\needspace{7\baselineskip}
+**24.** From the Week 6 lecture, quota sampling is \underline{\hspace{2cm}}
+
+a. sampling only the clusters that are cheapest to reach, then weighting them
+b. sampling every kth unit from a list of the population
+c. asking initial respondents to recruit further respondents from their networks
+d. having strata but not sampling at random within them
+
+\needspace{7\baselineskip}
+**25.** From the Week 6 lecture, which of these is a probability sampling method?
+
+a. Convenience sampling.
+b. Quota sampling.
+c. Snowball sampling.
+d. Cluster sampling.
+
+
+\needspace{12\baselineskip}
+
+## Logistic regression and cross-validation
+
+\needspace{7\baselineskip}
+**26.** From @James2023, why not fit ordinary linear regression to a yes or no outcome?
+
+a. Linear regression requires the predictors to be normally distributed.
+b. Fitted values can fall below 0 or above 1, so they are not probabilities.
+c. The coefficients of such a model cannot be tested.
+d. Linear regression cannot be computed when the outcome is coded 0 and 1
+
+\needspace{7\baselineskip}
+**27.** From @James2023, if the probability that a customer defaults is 0.2, the odds of default are \underline{\hspace{2cm}}
+
+a. 0.8
+b. 0.25
+c. 0.2
+d. 4
+
+\needspace{7\baselineskip}
+**28.** From @James2023, a coefficient in a logistic regression measures \underline{\hspace{2cm}}
+
+a. the change in the probability of the outcome for a one-unit change in the predictor
+b. the odds of the outcome when the predictor is zero and the other predictors are at their means
+c. the change in the log-odds of the outcome for a one-unit change in the predictor
+d. the probability of the outcome when the predictor is at its mean
+
+\needspace{7\baselineskip}
+**29.** From @James2023, a logistic regression of default on whether the customer is a student gives a coefficient of 0.40 on student, with predicted probabilities of default of 4.3 per cent for students and 2.9 per cent for non-students. The coefficient of 0.40 means that \underline{\hspace{2cm}}
+
+a. the odds of default are 0.40 higher for students than they are for non-students
+b. the predicted probability of default for a student is 0.40, and for a non-student it is the intercept
+c. the log-odds of default are 0.40 higher for students, so their odds are about 1.5 times those of non-students
+d. the probability of default is 0.40 higher for students than it is for non-students
+
+\needspace{7\baselineskip}
+**30.** From @James2023, in logistic regression a one-unit change in $X$ changes the probability of the outcome \underline{\hspace{2cm}}
+
+a. by an amount that depends on the current value of $X$, because the curve is S-shaped
+b. not at all, because only the log-odds change while the probability stays where it was
+c. by the same percentage at every value of $X$, which is equal to the odds ratio
+d. by the same amount at every value of $X$, equal to the coefficient
+
+\needspace{7\baselineskip}
+**31.** From @James2023, how are the coefficients of a logistic regression estimated?
+
+a. Maximum likelihood.
+b. Cross-validation.
+c. Ordinary least squares.
+d. The method of moments.
+
+\needspace{7\baselineskip}
+**32.** From @James2023, the outcome is a vote for Chow, Bradford, or someone else, so the appropriate model is \underline{\hspace{2cm}}
+
+a. logistic regression, with the candidates coded as 1, 2, and 3
+b. ordinal logistic regression, which handles three or more categories
+c. linear regression, with the candidates coded as 1, 2, and 3
+d. multinomial logistic regression, which handles unordered categories
+
+\needspace{7\baselineskip}
+**33.** From @James2023, in the softmax coding of multinomial logistic regression, \underline{\hspace{2cm}}
+
+a. each class gets a linear score, and a class's probability is its exponentiated score divided by the sum over all classes
+b. one class is the baseline with a score of zero, and so its predicted probability is one
+c. the class with the largest score is given probability one and the other classes are given probability zero
+d. the probabilities differ from those under baseline coding, so the choice of coding changes the predictions
+
+\needspace{7\baselineskip}
+**34.** From @James2023, why is the training error a poor guide to how well a model will predict?
+
+a. It includes the irreducible error, which the test error leaves out, so it is always too high.
+b. It keeps decreasing as the model becomes more flexible, even when the test error is increasing.
+c. It is always larger than the test error, so it makes every model look worse than it is.
+d. It cannot be computed for flexible methods, which have no residuals to sum.
+
+\needspace{7\baselineskip}
+**35.** From @James2023, the main drawback of the validation set approach is that \underline{\hspace{2cm}}
+
+a. the model has to be fitted once for every observation, which is slow
+b. it always underestimates the test error, whichever observations are held out
+c. the estimate depends on the split, and the model is fitted to only part of the data
+d. it works for classification problems but not for regression problems
+
+\needspace{7\baselineskip}
+**36.** From @James2023, in leave-one-out cross-validation \underline{\hspace{2cm}}
+
+a. each predictor is left out once, and the model is fitted $p$ times
+b. a random tenth of the data is held out, and the model is fitted once
+c. the data are split in half, and the model is fitted to each half
+d. each observation is held out once, and the model is fitted $n$ times
+
+\needspace{7\baselineskip}
+**37.** From @James2023, compared with leave-one-out, 5-fold or 10-fold cross-validation has \underline{\hspace{2cm}}
+
+a. the same estimate of the test error
+b. slightly more bias but lower variance, and it is far cheaper to compute
+c. less bias and less variance, which is why it is always preferred
+d. more bias and more variance, so it is used only when time is short
+
+\needspace{7\baselineskip}
+**38.** From @James2023, to choose between models of differing flexibility with cross-validation you \underline{\hspace{2cm}}
+
+a. choose the model with the highest $R^2$ on the full dataset
+b. choose the model with the most significant coefficients
+c. choose the model with the lowest cross-validated error
+d. choose the model with the lowest error on the training data
+
+\newpage
+
+# Part B: Short answer
+
+\needspace{6cm}
+**B1.** Describe multilevel regression and poststratification in your own words for the US election. Say what the cells are and where the population counts come from.
+
+\vspace{5cm}
+
+\needspace{6cm}
+**B2.** Your team wants a sample of Toronto voters and can afford to survey 1,000 people. Compare stratified sampling by ward with cluster sampling by ward, and say which you would use and why.
+
+\vspace{5cm}
+
+\needspace{6cm}
+**B3.** Explain why a quantile dotplot may serve a general reader better than the sentence "Chow has a 72 per cent chance", and sketch one with 20 dots for that forecast.
+
+\vspace{5cm}
+
+\needspace{6cm}
+**B4.** Two logistic regressions of whether a respondent would vote for Chow were fitted to the same respondents. Entries are coefficients on the log-odds scale.
+
+| Predictor | Model 1 | Model 2 |
+|:---|---:|---:|
+| Intercept | -0.2 | 0.6 |
+| Renter | 0.9 | 0.3 |
+| Age in years | | -0.03 |
+
+Interpret the renter coefficient in each model, and explain why it changed when age was added.
+
+\vspace{5cm}
+
+\needspace{6cm}
+**B5.** Your team has two candidate models of vote choice, a logistic regression with four predictors and a much more flexible model. Describe how you would use 5-fold cross-validation to choose between them, and explain why comparing their errors on the training data would mislead you.
+
+\vspace{5cm}
+
+\newpage
+
+# References

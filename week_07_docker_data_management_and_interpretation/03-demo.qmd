@@ -1,0 +1,93 @@
+---
+title: "Demo"
+author: "Rohan Alexander"
+date: "2026-10-21"
+date-format: "D MMMM, YYYY"
+format: pdf
+bibliography: references.bib
+execute:
+  enabled: false
+---
+
+The code for this demonstration is in `pipeline/` in the Week 7 folder of the class repo.
+
+# First run it without Docker
+
+From the `pipeline/` folder:
+
+```bash
+uv sync
+uv run scripts/00-simulate_data.py
+uv run scripts/01-forecast.py
+uv run scripts/02-marginal_effects.py
+```
+
+The first script writes a frame with twelve cells, age by education by housing (renter or owner), with the number of adults in each, and 600 respondents. It is a biased sample. There are too many renters and too many degree holders. The second fits a logistic regression of vote choice on the three variables, predicts the share for Chow in each cell of the frame, and weights the cells by their population. The raw sample has Chow at 61 per cent. Poststratified by ward, it is 55 per cent, with a 95 per cent interval from 50 to 59. The output is `outputs/forecast.json`.
+
+```json
+{
+  "race": "Ward 13 councillor (simulated)",
+  "date": "2026-10-19",
+  "share_chow": 0.546,
+  "interval_95": [0.502, 0.589],
+  "win_probability": 0.98,
+  "raw_sample_share": 0.61
+}
+```
+
+The interval comes from drawing coefficient vectors from the fitted model's sampling distribution, recomputing the poststratified share for each draw, and taking the 2.5 and 97.5 percentiles. The win probability is the share of draws above a half. That is model uncertainty only. It does not include the ways the sample could be wrong that the model cannot see. And there are about 1,000,000 ways that could happen.
+
+# Put it in a container
+
+Your computer has a particular Python, a particular set of packages, and a particular operating system. uv helps a lot but there is still all the non-Python stuff. A container is a small, fixed "computer" that you describe in a text file, so that the pipeline runs the same way on my machine, on GitHub Actions, and on yours in a year. Here is an example. It is a text file called `Dockerfile`, with no extension, at the top of `pipeline/` next to `pyproject.toml`.
+
+```dockerfile
+FROM ghcr.io/astral-sh/uv:0.11.7-python3.12-trixie-slim
+
+WORKDIR /project
+
+COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen --no-dev --no-install-project
+
+COPY scripts/ scripts/
+
+ENTRYPOINT ["/bin/sh", "-c", \
+  "for s in scripts/*.py; do uv run --frozen $s || exit 1; done"]
+```
+
+Line by line.
+
+1. `FROM` gives the base image, which is an official image from the people who make uv, with Python 3.12 and uv already installed. The tag pins the version of both.
+2. `WORKDIR` sets the folder inside the container, so the relative paths in the scripts work.
+3. `COPY` the two files that define the environment, and `RUN uv sync --frozen` to install what the lock file says.
+4. `COPY` the scripts.
+5. `ENTRYPOINT` runs the pipeline.
+
+The data and the outputs are not copied into the image. `.dockerignore` keeps them out, along with `.venv`. They are "mounted" at run time, so the container reads and writes your folders and the image stays small enough to share.
+
+Build it once, then run it. From `pipeline/`:
+
+```bash
+docker build -t ward-forecast .
+docker run --rm -v "$PWD/data:/project/data" -v "$PWD/outputs:/project/outputs" ward-forecast
+```
+
+`-v` mounts a folder on your machine at a path inside the container. `--rm` removes the container when it finishes. The image is about 1.6 GB, almost all of it the base image and the packages. The run produces the same `forecast.json` as the run without Docker.
+
+# Marginal effects
+
+The coefficients of a logistic regression are changes in log-odds. These can be difficult to follow. An average marginal effect is the average change in the probability of the outcome when one variable changes and everything else stays as it is, averaged over the respondents. The `marginaleffects` package [@ArelBundock2025] computes them from a fitted statsmodels model.
+
+```python
+from marginaleffects import avg_predictions, avg_slopes
+
+model = smf.logit("chow ~ age + education + housing", data=respondents.to_pandas()).fit(disp=0)
+avg_slopes(model)
+avg_predictions(model, by="age")
+```
+
+For the simulated respondents, `avg_slopes` gives four rows. The housing row says that an owner is 22 percentage points less likely to vote for Chow than a renter who is otherwise the same, with a 95 per cent interval from 13 to 30 points. The education row says a degree adds 14 points, with an interval from 6 to 22.
+
+The categorical variables have the same levels, in the same order, in the respondents and in the frame.
+
+# References

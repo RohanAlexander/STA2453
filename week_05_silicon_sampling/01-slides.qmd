@@ -15,12 +15,11 @@ format:
 
 ## Plan
 
-- ISLR/P group 2: Chapters 3.1 and 3.2, linear regression
-- Demonstration: OpenRouter, open-weight models, structured outputs, caching and cost, OpenCode
-- Lecture: what a silicon sample is, and the two ways it fails
-- Demonstration: twelve personas, one question, three models, with caching and a budget
-- Worksheet: silicon samples across three models and two prompts
-- Guest: Oscar Heath
+- ISLR/P group 2: Chapters 3.1 and 3.2, linear regression.
+- Lecture: What a silicon sample is, and the two ways it fails.
+- Demonstration: OpenRouter, open-weight models, structured outputs, caching and cost, OpenCode.
+- Worksheet: Silicon samples from three models and two prompts.
+- Guest: Oscar Heath.
 
 ::: {.notes}
 :::
@@ -72,11 +71,13 @@ Ask a hundred people who they will vote for.
 | 30 renters under forty | 30 | 0 | 0 |
 | 20 homeowners over sixty | 0 | 20 | 0 |
 
+(This is the main criticism of @Bisbee2024.)
+
 ::: {.notes}
 - Now a silicon sample of a hundred personas. The first row is the same, so if you only looked at the headline you would say it matched the poll.
 - But every renter under forty says Chow and every homeowner over sixty says Bradford. The model has turned each group into one person.
 - This sample is useless for two things. Anything about subgroups, because every subgroup is unanimous. And any statement of uncertainty, because the person-to-person spread you would build an interval from is gone.
-- That is the finding of @Bisbee2024 in one table. The means sit close to real means and the distributions are far too narrow. It is also why the worksheet asks one persona twenty times before it asks thirty personas once. If one persona gives the same answer twenty times, the model is not sampling people, it is looking up the group's modal answer.
+- That is the main take-away from @Bisbee2024 in one table. The means sit close to real means and the distributions are far too narrow. It is also why the worksheet asks one persona twenty times before it asks thirty personas once. If one persona gives the same answer twenty times, the model is not sampling people, it is looking up the group's modal answer.
 :::
 
 ## The idea
@@ -86,9 +87,9 @@ Ask a hundred people who they will vote for.
 > @Argyle2023 [p. 1]
 
 ::: {.notes}
-- @Argyle2023 is the paper that named the idea. The claim is that a language model's bias is not one uniform thing. It is fine-grained and correlated with demographics, so if you condition the model on a description of a person, you get back something that looks like what that kind of person would say. They call that property algorithmic fidelity.
+- @Argyle2023 say that a language model's bias is not one uniform thing. It is fine-grained and correlated with demographics, so if you condition the model on a description of a person, you get back something that looks like what that kind of person would say. They call this "algorithmic fidelity".
 - The word "backstory" is doing a lot of work. It means a description of a person, such as their age, race, state, and education. We will call it a persona.
-- Notice that their backstories come from real survey respondents. That is the design we follow.
+- Notice that their backstories come from real survey respondents.
 :::
 
 ## Why anyone would want this
@@ -96,14 +97,13 @@ Ask a hundred people who they will vote for.
 - It takes minutes.
 - It costs cents.
 - You can ask about an election nobody polled.
-- (But, but, but...)
 
 ::: {.notes}
 - Silicon samples are now used in economics, psychology, marketing, and to predict the results of experiments. For instance, there are companies that sell synthetic customers for market research.
 - It is cheap enough to do without thinking about it.
 :::
 
-## And people are selling it
+## People are making a lot of money!
 
 ![](img/stotz_synthetic_users_companies.jpg){fig-align="center" height="500"}
 
@@ -115,10 +115,11 @@ Nils Stotz, via LinkedIn, 2026.
 - Sixty-six companies, sorted by whether they sell synthetic survey respondents, synthetic interviewees, or synthetic behavior. Most of them are selling the thing this lecture is about to pull apart.
 :::
 
-## Some ways it can go wrong.
+## But, but, but...
 
 - A wrong marginal, where the model's share for an option is not the population's share.
-- A collapsed spread, "mode collapse", where the model gives nearly the same answer for everyone who looks alike, so the variation is too small. 
+- "mode collapse", where the model gives nearly the same answer for everyone who looks alike, so the variation is too small. 
+- You need to compare to something!
 
 ::: {.notes}
 
@@ -126,11 +127,11 @@ Nils Stotz, via LinkedIn, 2026.
 
 # Part II: The LLM solution
 
-## One call
+## One approach
 
-- The system message is a persona. "You are a 34-year-old woman who rents in Ward 13 and works in retail."
-- The user message is a question. "If the election were held today, who would you vote for?"
-- The answer is structured, one of a fixed set of options plus a confidence.
+- Use a system message as a persona. "You are a 34-year-old woman who rents in Ward 13 and works in retail."
+- Use the user message as a question. "If the election were held today, who would you vote for?"
+- Try to invoke a structured answer, one of a fixed set of options plus a confidence.
 
 ::: {.notes}
 - The structured answer matters because you need something that goes in a data frame. A paragraph is not a response that we can directly use (we could parse it but it's kind of a pain).
@@ -360,21 +361,21 @@ Nils Stotz, via LinkedIn, 2026.
 - A subgroup estimate from a silicon sample is only as good as individual-level agreement, which was 58 per cent at the median.
 
 ::: {.notes}
-- This is the collapsed-spread failure in a different guise. If every persona of a type gives the modal answer for that type, the sample has the right marginal for the group and no variation within it. Subgroup analysis then tells you what the model thinks the group is like, not what the group is like.
-- @Gordon2026 call it a fidelity paradox, because telling the model more about the person does not necessarily make it more accurate.
+- @Gordon2026 call this the "fidelity paradox", because telling the model more about the person does not necessarily make it more accurate.
 :::
 
-## Pew tried this at scale
+## Pew
+### Overview
 
 - @Pew2026 built a digital twin for each of 8,512 people on their American Trends Panel, using demographics, voting history, and 71 earlier survey answers.
 - They re-asked three 2026 survey waves, nearly 300 questions, of the twins. Claude Opus 4.6 did best of the models they tried.
 - The twins differed from the humans by 12 points on average. On 28 per cent of questions the gap was more than 15 points.
 
 ::: {.notes}
-- This is the biggest test of the idea so far, by a group whose business is surveys, and with far richer personas than anything in @MurrayAlexander2026. It is worth knowing what went wrong even with the best set-up.
 :::
 
-## It makes groups more alike than they are
+## Pew
+### It makes groups more alike than they are
 
 - 97 per cent of Hispanic twins said they would follow the World Cup. The real share was 43 per cent.
 - 95 per cent of Republican twins had a positive view of Israel. The real share was 58 per cent.
@@ -382,35 +383,37 @@ Nils Stotz, via LinkedIn, 2026.
 - Errors were largest for Republicans and for Black adults.
 
 ::: {.notes}
-- This is the collapsed variation from Part I. Something that is common in a group becomes nearly universal in the twins. The marginal for the group is wrong and the spread within it is gone.
+- This is the collapsed variation from Part I.
+- Something that is common in a group becomes nearly universal in the twins.
+- The marginal for the group is wrong and the spread within it is gone.
 :::
 
-## It is more certain than people are
+## Pew
+### It is more certain than people are
 
 - Humans chose "not sure" about four times as often as the twins.
 - Fewer than six in ten Americans could say what the First Amendment protects. The twins answered correctly about 80 per cent of the time, and on six questions the model put the public at 98 per cent or more.
 - 47 per cent of questions had an option that no twin picked at all. For the humans it was 1 per cent.
 
 ::: {.notes}
-- The model has to produce an answer, and it does not like to say it does not know. The empty options matter for us because the worksheet asks for a share, and a share of zero is a very strong claim.
+- The model has to produce an answer, and it does not like to say it does not know.
 :::
 
-## It cannot see past its training data
+## Pew
+### It cannot see past its training data
 
 - Trump approval was 37 per cent in January 2026 and 34 per cent in April. The twins said 46 per cent both times. The model's knowledge cutoff was May 2025.
 - GPT-5.1 made the public more extreme than it is and Opus 4.6 made it more middle-of-the-road. Humans picked a middle option 45 per cent of the time, GPT 31, Opus 56.
 - Pew's conclusion is that this does not replace asking people, and they have no plans to use it.
 
 ::: {.notes}
-- The same topline twice is the point. A real survey moves because the world moves. The twins only move if the prompt does.
-- The model comparison is the same finding as Part IV. Change the model and the answer changes, and here it changes in opposite directions, so there is no safe default.
 :::
 
 ## What to do about it
 
-- Vary the choices and report the spread, not one number.
+- Vary the choices and report the spread.
 - Disclose the exact model identifier, the date queried, the temperature, the full prompt, how the personas were built, how the answers were parsed, and how many configurations were tried.
-- Consider asking for a distribution to asking for one answer.
+- Consider asking for a distribution rather than asking for one answer.
 
 ::: {.notes}
 

@@ -1,0 +1,412 @@
+---
+title: "Data gathering and validation"
+author: "Rohan Alexander"
+date: "2026-10-14"
+date-format: "D MMMM, YYYY"
+bibliography: references.bib
+format:
+  revealjs:
+    slide-number: "c/t"
+    show-slide-number: all
+---
+
+## Introduction
+
+- Turning our complex world into usable data is challenging.
+- We must be deliberate and thoughtful in this process.
+- "Farmed data" are those that are provided for the purposes of analysis.
+
+:::{.notes}
+
+:::
+
+---
+
+## Part I: Farmed data
+
+---
+
+
+## Farmed data
+
+- Data specifically designed to be used as datasets.
+- Typically well-organized and thoroughly documented.
+- Collection, preparation, and cleaning are mostly done for us.
+
+:::{.notes}
+- Farmed datasets are typically well put together, thoroughly documented, and the work of collecting, preparing, and cleaning these datasets is mostly done for us. 
+- They are also, usually, conducted on a known release cycle. For instance, many countries release unemployment and inflation datasets monthly, GDP quarterly, and a census every five to ten years.
+:::
+
+---
+
+## Data are not neutral
+
+- Data reflect power structures—social, historical, financial, or legal.
+- "Understanding, capturing, classifying, and naming data is an exercise in building a world and reflects power."
+
+:::{.notes}
+- For instanace, consider sex and gender in surveys
+- Sex: Based on biological attributes and assigned at birth.
+- Gender: Socially constructed, with biological and cultural aspects.
+- Challenges arise when surveys insist on binary gender variables.
+- Ensuring respect for respondents should be the highest priority.
+:::
+
+---
+
+## The role of measurement
+
+- Measurement brings many challenges and concerns.
+- Deciding what to measure, and how to do it, is critical.
+- Before a dataset exists, there must be measurement.
+
+:::{.notes}
+- 
+:::
+
+
+## Measurement challenges
+
+- Measurement is trickier than it seems.
+- Deciding what to measure and how is challenging.
+- Measurement involves instrumentation and units.
+
+:::{.notes}
+- Why do we even need measurement if it causes such concerns? Scott in *Seeing like a State* positions much of this as an outcome of the state, for its own purposes, wanting to make society legible and considers this a defining feature of modern states.
+- For instance, Scott (1998) sees the use of surnames as arising because of the state's desire for legible lists to use for taxation, property ownership, conscription, and censuses. 
+- Prévost and Beaud (2015, 154) describe the essence of the change as one where knowledge went from being "singular, local, idiosyncratic and often couched in literary form" to generalized, standardized, and numeric. 
+:::
+
+---
+
+## Instrumentation in measurement
+
+- Tools and methods used to conduct measurements.
+- Determines what and how we can measure.
+- Examples: Surveys, sensors, microscopes, timekeeping devices.
+
+:::{.notes}
+- Instrumentation refers to what we use to conduct the measurement. Thorough consideration of instrumentation is important because it determines what we can measure.
+- For instance, Morange (2016, 63) describes how the invention of microscopes in the sixteenth century led to the observation of capillaries by Marcello Malpighi in 1661, cells by Robert Hooke in 1665, and bacteria by Antonie van Leeuwenhoek in 1677 (Lane 2015). 
+- And consider the measurement of time. Again we see the interaction between instrumentation and measurement. With a sundial it was difficult to be much more specific about elapsed time than an hour or so. But the gradual development of more accurate instruments of timekeeping would eventually enable some sports to differentiate competitors to the thousandth of the second, and through GPS, allow navigation that is accurate to within meters.
+:::
+
+---
+
+## Units in measurement
+
+- The reference scale for measurement.
+- Must be appropriate for the quantity being measured.
+- Examples: meters for length, seconds for time, kilograms for weight.
+
+:::{.notes}
+- The definition of measurement, provided by metrology, makes it clear that the second fundamental concern is a reference, which we refer to as units. 
+- The choice of units is related to both the research question of interest and available instrumentation. 
+- For instance, in the Tutorial in Chapter 1 we were concerned with measuring the growth of plants. This would not be well served by using kilometers or miles as a unit. 
+- If we were using a ruler, then we may be able to measure millimeters, but with calipers, we might be able to consider tens of micrometers.
+:::
+
+---
+
+## Properties of measurements: validity
+
+- Valid measurements relate directly to the research question.
+- Ensures we're measuring relevant aspects.
+- Example: Measuring the number of cigarettes smoked when studying smoking effects.
+
+:::{.notes}
+- Valid measurements are those where the quantity that we are measuring is related to the estimand and research question of interest.
+- It speaks to appropriateness. 
+:::
+
+---
+
+## Properties of measurements: reliability
+
+- Consistency in measurement results.
+- Multiple measurements of the same aspect should be similar.
+
+:::{.notes}
+- Reliability draws on the part of the definition of measurement that reads "process of experimentally obtaining". 
+- It implies some degree of consistency and means that multiple measurements of one particular aspect, at one particular time, should be essentially the same.
+- If two enumerators count the number of shops on a street, then we would hope that their counts are the same. And if they were different then we would hope we could understand the reason for the difference. For instance, perhaps one enumerator misunderstood the instructions and incorrectly counted only shops that were open. 
+- To consider another example, demographers are often concerned with the migration of people between countries, and economists are often concerned with international trade. It is concerning the number of times that the in-migration or imports data of Country A from Country B do not match the out-migration or exports data of Country B to Country A.
+:::
+
+---
+
+## Measurement error
+
+- The difference between observed and actual values.
+- Can arise from instrument defects or respondent inaccuracies.
+
+:::{.notes}
+- Measurement error is the difference between observed and actual values.
+- Sometimes it is possible to verify certain responses. If the difference is consistent between the responses that we can verify and those that we cannot, then we are able to estimate the extent of overall measurement error. 
+- For instance, Sakshaug, Yan, and Tourangeau (2010) considered a survey of university alumni and compared replies about a respondent's grades with their university record. They find that the mode of the survey—telephone interview conducted by a human, telephone interview conducted by a computer, or an internet survey—affected the extent of the measurement error.
+:::
+
+---
+
+## Types of measurement error
+
+- Censored Data: Partial knowledge of the actual value.
+  - *Right-Censored*: Actual value is above a known threshold.
+  - *Left-Censored*: Actual value is below a known threshold.
+- Truncated Data: Values outside a range are not recorded at all.
+
+:::{.notes}
+- Censored data is which is when we have some partial knowledge of the actual value. 
+- Right-censored data is when we know that the actual value is above some observed value, but we do not know by how much. 
+- For instance, immediately following the Chernobyl disaster in 1986, the only available instruments to measure radiation had a certain maximum limit. While the radiation was measured as being at that (maximum) level, the implication was that the actual value was much higher.
+:::
+
+---
+
+## Missing data
+
+- Data we know we do not have.
+- Can occur due to non-response or incomplete information.
+- Important to consider types:
+  - Missing Completely At Random (MCAR)
+  - Missing At Random (MAR)
+  - Missing Not At Random (MNAR)
+
+:::{.notes}
+- Regardless of how good our data acquisition process is, there will be missing data. That is, observations that we know we do not have. 
+- But a variable must be measured, or at least thought about and considered, in order to be missing. With insufficient consideration, there is the danger of missing data that we do not even know are missing because the variables were never considered.
+- Non-response could be considered a variant of measurement error whereby we observe a null, even though there should be an actual value. But it is usually considered in its own right. An example is infant deaths.
+- When data are MAR, the fact that the data are missing is systematically related to the observed but not the unobserved data.15 For example, a registry examining depression may encounter data that are MAR if male participants are less likely to complete a survey about depression severity than female participants.
+:::
+
+---
+
+## Handling missing data
+
+- Dropping incomplete cases may bias the sample.
+- Data imputation can introduce errors.
+- Ideally, improve the data collection process to minimize missing data.
+
+:::{.notes}
+- 
+:::
+
+---
+
+## Part II: Censuses
+
+---
+
+## Importance of censuses
+
+- Censuses aim to be complete datasets in certain respects.
+- Governments spend significant resources on censuses and official statistics.
+- They serve as foundational data sources but are not perfect.
+
+:::{.notes}
+- 
+:::
+
+
+## Censuses and government data
+
+- Censuses have a long history but are not flawless.
+- Official statistics include data on unemployment, inflation, GDP, etc.
+- Open data initiatives aim to increase data accessibility.
+
+:::{.notes}
+- Earliest censuses for which we have written record are from China's Yellow River Valley. 
+- One motivation for censuses was taxation, and Jones (1953) describes census records from the late third or early fourth century A.D. which enabled a new system of taxation. 
+- Detailed records, such as censuses, have also been abused. For instance, Luebke and Milton (1994, 25) set out how the Nazis used censuses and police registration datasets to "locate groups eventually slated for deportation and death". And Bowen (2022, 17) describes how the United States Census Bureau provided information that contributed to the internship of Japanese Americans.
+:::
+
+---
+
+## Canada's census
+
+- First conducted in 1666.
+- Excludes Aboriginal peoples in early censuses.
+- There were 3,215 inhabitants that were counted, and the census asked about age, sex, marital status, and occupation.
+- One way to access data from the Canadian census is to use `cancensus`, which requires an API key.
+
+:::{.notes}
+- 
+:::
+
+---
+
+## United States census data
+
+- Births and deaths were legally required to be registered in what became Massachusetts as early as 1639.
+- Census required by the U.S. Constitution.
+- `tidycensus` package provides easy access to data.
+- Requires an API key from the Census Bureau.
+
+:::{.notes}
+- 
+:::
+
+---
+
+## American Community Survey (ACS)
+
+- Provides annual data similar to the census.
+- Available through IPUMS.
+- Offers more timely data for analysis.
+
+:::{.notes}
+- https://www.ipums.org 
+:::
+
+---
+
+## Part III: Sampling essentials
+
+---
+
+## Sampling essentials
+
+- Statistics helps us make sensible claims based on samples.
+- We almost never have all the data that we would like.
+- Important to understand implications of sampling methods.
+
+:::{.notes}
+- Wu and Thompson (2020, 3) describe statistics as "the science of how to collect and analyze data and draw statements and conclusions about unknown populations." Here "population" is used in a statistical sense and refers to some infinite group that we can never know exactly, but that we can use the probability distributions of random variables to describe the characteristics of. 
+:::
+
+---
+
+
+## Key terminology and concepts
+
+- Target Population: The entire group we're interested in.
+- Sampling Frame: A list of items from the target population we can sample from.
+- Sample: The actual items we collect data on.
+- Two main types of sampling:
+  - Probability Sampling
+  - Non-Probability Sampling
+- Both types have important roles in data collection.
+
+
+:::{.notes}
+- Consider if we want to speak to the titles of all the books ever written. Our target population is all books ever written. But it is almost impossible for us to imagine that we could get information about the title of a book that was written in the nineteenth century, but that the author locked in their desk and never told anyone about. 
+- One sampling frame could be all books in the Library of Congress Online Catalog, another could be the 25 million books that were digitized by Google (Somers 2017). 
+- Our sample may be the tens of thousands of books that are available through Project Gutenberg, which we will use in later chapters.
+- Can be challenging due to complexities.
+- Examples:
+  - Determining who qualifies as a "university student."
+  - Classifying someone as a "smoker."
+- "Probability sampling": Every unit in the sampling frame has some known chance of being sampled and the specific sample is obtained randomly based on these chances. The chance of being sampled does not necessarily need to be same for each unit.
+- "Non-probability sampling": Units from the sampling frame are sampled based on convenience, quotas, judgement, or other non-random processes.
+- Often the difference between probability and non-probability sampling is one of degree. For instance, we usually cannot forcibly obtain data, and so there is almost always an aspect of volunteering on the part of a respondent.
+:::
+
+---
+
+## Probability sampling methods
+
+1. Simple Random Sampling: Equal chance for all units.
+2. Systematic Sampling: Select every kth unit.
+3. Stratified Sampling: Divide population into strata and sample within each.
+4. Cluster Sampling: Divide into clusters, then sample clusters.
+
+:::{.notes}
+- We use stratification to help with the efficiency of sampling or with the balance of the survey.
+- Like strata, clusters are collectively exhaustive and mutually exclusive. Our examples from earlier of states, departments, and age-groups remain valid as clusters. 
+- It is our intention toward these groups that is different. Specifically, with cluster sampling, we do not intend to collect data from every cluster, whereas with stratified sampling we do. 
+:::
+
+---
+
+## Simple random sampling
+
+- Every unit has an equal probability of selection.
+- Example: Randomly selecting numbers from 1 to 100.
+- Ensures unbiased representation.
+
+:::{.notes}
+- 
+:::
+
+---
+
+## Systematic sampling
+
+- Select units at regular intervals.
+- Example: Choosing every 5th unit from a list.
+- Simple to implement but can introduce periodicity bias.
+
+:::{.notes}
+- 
+:::
+
+---
+
+## Stratified sampling
+
+- Divide population into homogeneous subgroups (strata).
+- Sample randomly within each stratum.
+- Improves representativeness and accuracy.
+
+:::{.notes}
+- 
+:::
+
+---
+
+## Cluster sampling
+
+- Divide population into clusters (often geographically).
+- Randomly select clusters and sample all or some units within.
+- Cost-effective for large, dispersed populations.
+
+:::{.notes}
+- 
+:::
+
+---
+
+## Inference for probability samples
+
+- Use estimators to infer population parameters.
+- Scaling up sample estimates to represent the population.
+- Example: Estimating total population sum from sample sums.
+
+:::{.notes}
+- Ratio estimators were used in 1802 by Laplace to estimate the total population of France, based on the ratio of the number of registered births, which was known throughout the country, to the number of inhabitants, which was only know for certain communes. 
+- He calculated this ratio for the three communes, and then scaled it, based on knowing the number of births across the whole country to produce an estimate of the population of France.
+- A ratio estimator of some population parameter is the ratio of two means. For instance, imagine that we knew the total number of hours that a toddler slept for a 30-day period, and we want to know how many hours the parents slept over that same period. We may have some information on the number of hours that a toddler sleeps overnight, and the number of hours their parents sleep overnight, , over a 30-day period.
+:::
+
+---
+
+## Non-probability sampling
+
+- Units are sampled based on convenience or judgment.
+- Types include:
+  - Convenience sampling
+  - Quota sampling
+  - Snowball sampling
+  - Respondent-driven sampling
+
+:::{.notes}
+- The main concern with convenience sampling is whether it is able to speak to the broader population. There are also tricky ethical considerations, and typically a lack of anonymity which may further bias the results. On the other hand, it can be useful to cheaply get a quick sense of a situation.
+- Convenience sampling involves gathering data from a sample that is easy to access. For instance, one often asks one's friends and family to fill out a survey as a way of testing it before wide-scale distribution.
+- Quota sampling occurs when we have strata, but we do not use random sampling within those strata to select the unit. For instance, if we again stratified the United States based on state, but then instead of ensuring that everyone in Wyoming had the chance to be chosen for that stratum, just picked people at Jackson Hole. 
+- Snowball Sampling: Initial subjects recruit more participants.
+- Respondent-Driven Sampling: Adds incentives for recruitment.
+- Useful for hard-to-reach or hidden populations.
+:::
+
+---
+
+## Conclusion
+
+- Measurement and sampling are foundational to data analysis.
+- Understanding different sampling methods is crucial.
+- Always consider who is included and who is excluded in your data.
+- "Data are not neutral."
+
+
+## References
