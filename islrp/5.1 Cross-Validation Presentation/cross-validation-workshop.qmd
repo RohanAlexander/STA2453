@@ -1,0 +1,209 @@
+---
+title: "Cross-Validation Workshop"
+subtitle: "ISLR, Chapter 5.1"
+author: "Maggie Huang and Shrey Sati"
+date: today
+format:
+  html:
+    toc: true
+    embed-resources: true
+execute:
+  warning: false
+  message: false
+---
+
+Run every code chunk one by one. Play around with the code by changing any lines
+marked `EXPERIMENT` and running the chunk again.
+
+```{r}
+library(ISLR2)   # has the Auto data
+library(boot)    # has cv.glm(), which does the cross-validation
+
+Auto <- ISLR2::Auto   # 392 cars, we predict mpg from horsepower
+```
+
+## 1. Validation Set Approach
+
+**Main idea:** training MSE always looks better as the model gets more flexible, and the validation MSE changes depending on how we split the data.
+
+```{r}
+set.seed(1)   # EXPERIMENT: try 2, 3, 4
+train <- sample(392, 196)   # pick half the cars at random for training
+
+train_mse <- c()
+val_mse <- c()
+for (d in 1:10) {
+  # fit a degree d polynomial on the training half only
+  fit <- lm(mpg ~ poly(horsepower, d), data = Auto, subset = train)
+  pred <- predict(fit, Auto)
+
+  # error on the cars it trained on vs. the cars it didn't see
+  train_mse[d] <- mean((Auto$mpg - pred)[train]^2)
+  val_mse[d] <- mean((Auto$mpg - pred)[-train]^2)
+}
+
+# plot both errors against the degree
+plot(1:10, val_mse, type = "b", col = "orange", ylim = range(c(train_mse, val_mse)),
+     xlab = "Degree", ylab = "MSE")
+lines(1:10, train_mse, type = "b", col = "blue")
+legend("top", c("Validation", "Training"), col = c("orange", "blue"), lty = 1)
+```
+
+**Discuss:**
+
+1. What happens to training MSE as the degree goes up? Why can't we use it to pick a model?
+2. Change the seed a few times. Does the best degree change?
+
+::: {.callout-note collapse="true" title="Answers"}
+1. Training MSE mostly keeps going down. The model is graded on the same cars it was fit on, so a more flexible curve can always fit them more closely, including their noise. If we picked by training MSE, we'd always pick the most flexible model.
+2. Yes. The best degree jumps around depending on which cars land in which half. Almost every split agrees that degree 1 (a straight line) is clearly worse than degree 2, but that's about all they agree on. This is the "high variability" drawback in Figure 5.2.
+:::
+
+## 2. LOOCV and k-Fold CV
+
+**Main idea:** LOOCV gives the same answer every time. k-fold CV changes a little with the random folds, but much less than the validation set approach.
+
+```{r}
+# LOOCV: leave out one car at a time
+loocv <- c()
+for (d in 1:10) {
+  fit <- glm(mpg ~ poly(horsepower, d), data = Auto)   # glm with no family is the same as lm
+  loocv[d] <- cv.glm(Auto, fit)$delta[1]               # no K means LOOCV
+}
+
+# k-fold: split the cars into K random groups
+set.seed(1)   # EXPERIMENT: try a few seeds
+K <- 10       # EXPERIMENT: try 5
+kfold <- c()
+for (d in 1:10) {
+  fit <- glm(mpg ~ poly(horsepower, d), data = Auto)
+  kfold[d] <- cv.glm(Auto, fit, K = K)$delta[1]
+}
+
+# plot both CV estimates against the degree
+plot(1:10, loocv, type = "b", xlab = "Degree", ylab = "CV estimate of test MSE")
+lines(1:10, kfold, type = "b", col = "red")
+legend("topright", c("LOOCV", paste0(K, "-fold")), col = c("black", "red"), lty = 1)
+```
+
+**Discuss:**
+
+1. Change the seed and rerun. Which curve moves, and which stays the same? Why?
+2. Compare how much the k-fold curve moves with how much the validation curve moved in Part 1.
+
+::: {.callout-note collapse="true" title="Answers"}
+1. The k-fold curve moves a little and the LOOCV curve stays exactly the same. LOOCV has no randomness: it always leaves out car 1, then car 2, and so on. k-fold puts cars into folds at random, so a new seed means new folds.
+2. The k-fold curve moves much less. Each k-fold estimate averages over 10 folds, and each fit uses 90% of the data instead of 50%. Both curves also show the big drop from degree 1 to degree 2, then little improvement after that, which matches Figure 5.4.
+:::
+
+## 3. Bias and Variance of the CV Estimate
+
+**Main idea:** we simulate many datasets so we know the true test MSE. This allows us
+to see which method is too high on average (bias) and which one jumps around the most (variance).
+
+```{r}
+set.seed(1)
+n <- 25   # EXPERIMENT: try 50 or 100
+f <- function(x) sin(2 * x) + x / 2   # the true relationship, this is made up
+
+# make 200 different datasets and run each method on every one
+results <- replicate(200, {
+  # make a new dataset from the true relationship plus noise
+  x <- runif(n, -2, 2)
+  data <- data.frame(x, y = f(x) + rnorm(n))
+  fit <- glm(y ~ poly(x, 2), data = data)
+
+  # true test MSE: check the model on lots of brand new data
+  x_new <- runif(5000, -2, 2)
+  y_new <- f(x_new) + rnorm(5000)
+  test <- mean((y_new - predict(fit, data.frame(x = x_new)))^2)
+
+  # the CV estimates for this dataset
+  c(two_fold = cv.glm(data, fit, K = 2)$delta[1],   # trains on half, like the validation set
+    five_fold = cv.glm(data, fit, K = 5)$delta[1],
+    loocv = cv.glm(data, fit)$delta[1],
+    true_test = test)
+})
+
+cat("Average guess (compare to true_test):\n")
+round(rowMeans(results), 3) # average estimate (compare to true_test for bias)
+
+cat("How much the guesses vary between datasets:\n")
+round(apply(results, 1, sd), 3) # how much it changes across datasets (variance)
+```
+
+**Discuss:**
+
+1. Which method's average is furthest above the true test MSE? Why does training on less data cause that?
+2. The book says LOOCV *tends* to have higher variance than k-fold. Do you see that here?
+3. Try `n <- 100`. What happens to the differences between the methods?
+
+::: {.callout-note collapse="true" title="Answers"}
+1. 2-fold is furthest above (about 2.34 vs a true test MSE of about 1.64), then 5-fold (1.78), then LOOCV (1.67, the closest). 2-fold fits each model on only half the data, and models fit on less data predict worse, so the error estimate comes out too high. LOOCV fits on n − 1 observations, so it's almost unbiased.
+2. No. Here LOOCV actually has the smallest spread (about 0.52 vs 0.68 for 5-fold). The book only says LOOCV *tends* to have higher variance; it isn't guaranteed. For a stable method like least squares, the difference is small, and the book's own Figures 5.4 and 5.6 show LOOCV and 10-fold looking almost the same. The main reason to prefer k-fold here is computation.
+3. The differences mostly disappear (about 1.51, 1.47, 1.46 vs a true 1.45). With 100 observations, even half the data is enough to fit a good model, so losing some training data barely hurts and the bias shrinks.
+:::
+
+## 4. CV for Classification
+
+**Main idea:** CV works the same way for classification. We just count mistakes instead of squared errors.
+
+```{r}
+set.seed(1)   # EXPERIMENT: try 2 or 3
+
+# made-up data with two predictors and a curved boundary between the classes
+make_data <- function(n) {
+  x1 <- rnorm(n)
+  x2 <- rnorm(n)
+  y <- rbinom(n, 1, plogis(4 * (x2 - x1^3 / 2 + x1 / 2)))
+  data.frame(x1, x2, y)
+}
+train <- make_data(200)
+test <- make_data(10000)   # lots of new data so we know the true test error
+
+# fraction of points classified wrong (predict 1 if probability > 0.5)
+error_rate <- function(y, prob) mean(abs(y - prob) > 0.5)
+
+train_err <- c()
+cv_err <- c()
+test_err <- c()
+suppressWarnings({
+  for (d in 1:6) {
+    # logistic regression with polynomial terms of degree d
+    fit <- glm(y ~ poly(x1, d) + poly(x2, d), data = train, family = binomial)
+  
+    train_err[d] <- error_rate(train$y, fitted(fit))                          # on the training data
+    cv_err[d] <- cv.glm(train, fit, error_rate, K = 10)$delta[1]              # 10-fold CV
+    test_err[d] <- error_rate(test$y, predict(fit, test, type = "response"))  # on new data
+  }
+})
+
+# plot all three error rates against the degree
+plot(1:6, cv_err, type = "b", ylim = range(c(train_err, cv_err, test_err)),
+     xlab = "Degree", ylab = "Error rate")
+lines(1:6, train_err, type = "b", col = "blue")
+lines(1:6, test_err, type = "b", col = "orange")
+legend("topright", c("10-fold CV", "Training", "Test"),
+       col = c("black", "blue", "orange"), lty = 1)
+```
+
+**Discuss:**
+
+1. Does CV pick the same degree as the test error?
+2. With real data, which of these three curves could you not make?
+
+::: {.callout-note collapse="true" title="Answers"}
+1. Not exactly. With seed 1, CV is lowest at degree 5 and the test error is lowest at degree 3. But the test error at degree 5 (about 0.128) is close to the best (about 0.118), so CV's choice is still a good one. Like Figure 5.8, CV gets close to the right flexibility even when it doesn't hit it exactly. Other seeds give different results.
+2. The test error curve. It needs lots of new data from the same population, which we only have here because we made the data up. On real data you only have the training and CV curves, and training error keeps falling, so CV is the one to use.
+:::
+
+## Wrap-Up
+
+Someone wants to run LOOCV on 10 million rows with a slow model. What would you tell them to use instead, and what are the two reasons?
+
+::: {.callout-note collapse="true" title="Answer"}
+Use k-fold CV with k = 5 or 10.
+
+1. **Computation:** it fits the model 5 or 10 times instead of 10 million times.
+2. **Bias-variance:** the book says k-fold often gives a more accurate estimate of test error. It has a little more bias than LOOCV but tends to have lower variance.
+:::
