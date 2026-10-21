@@ -1,0 +1,209 @@
+---
+title: "Worksheet: Logistic Regression"
+subtitle: "ISLR, Chapter 4.3"
+author: "Josh Campbell · Graham Sayle · Kyle Dong · Gerry Peng"
+format:
+  html:
+    toc: true
+    embed-resources: true
+---
+
+Run each block, then change the lines marked `TO DO` or `CHANGE ME` and run it again.
+
+```{r}
+# Use data/Default.csv if it's there; otherwise fall back to the ISLR2 package
+if (file.exists("data/Default.csv")) {
+  Default <- read.csv("data/Default.csv", stringsAsFactors = TRUE)
+} else {
+  Default <- ISLR2::Default
+}
+str(Default)
+```
+
+## 1. Simple Logistic Regression
+
+Fit a logistic regression model predicting `default` using credit card `balance`.
+
+```{r}
+fit_balance <- glm(default ~ balance, data = Default, family = binomial)
+```
+
+The fitted model has the form:
+
+$$
+\Pr(\text{default} = \text{Yes} \mid \text{balance}) = \frac{e^{\beta_0 + \beta_1 \, \text{balance}}}{1 + e^{\beta_0 + \beta_1 \, \text{balance}}}
+$$
+
+**Solve:**
+
+1. The estimated intercept ($\beta_0$) and balance ($\beta_1$) coefficient.
+2. Is the balance coefficient ($\beta_1$) positive or negative? What does that signify?
+3. What are the logits if we are looking at someone with a \$1000 balance?
+4. What are the odds?
+
+```{r}
+coef(fit_balance)
+
+log_odds <- sum(coef(fit_balance) * c(1, 1000))
+log_odds
+
+odds <- exp(log_odds)
+odds
+```
+
+## 2. Likelihood by hand
+
+> **Point:** maximum likelihood picks the $\beta$'s that make the observed data most probable.
+
+```{r}
+x <- c(500, 1000, 1400, 1700, 2000, 2400)   # balances
+y <- c(0,   0,    0,    1,    0,    1)      # 1 = defaulted
+
+beta0 <- -6; beta1 <- 0.003                 # <- CHANGE ME: try to beat the MLE
+
+p <- exp(beta0 + beta1 * x) / (1 + exp(beta0 + beta1 * x))
+prod(ifelse(y == 1, p, 1 - p))              # your likelihood
+
+fit_toy <- glm(y ~ x, family = binomial)
+coef(fit_toy)                               # the MLE
+exp(logLik(fit_toy))                        # the largest possible likelihood
+```
+
+**Discuss:** Can you beat the MLE's likelihood? Why not?
+
+## 3. Fitting and predicting on `Default`
+
+> **Point:** prediction is just plugging into the fitted logistic curve.
+
+```{r}
+summary(fit_balance)$coefficients           # Table 4.1
+
+predict(fit_balance, newdata = data.frame(balance = c(1000, 2000)),   # <- CHANGE ME
+        type = "response")
+```
+
+```{r}
+fit_stu <- glm(default ~ student, data = Default, family = binomial)
+summary(fit_stu)$coefficients               # Table 4.2
+
+predict(fit_stu, newdata = data.frame(student = c("Yes", "No")),
+        type = "response")
+```
+
+**Discuss:**
+
+1. At what balance is the predicted probability of default 0.5? Find it by changing the balances above.
+2. What does the `student` coefficient tell you about students vs. non-students?
+
+## 4. Multiple Logistic Regression
+
+**Simulate data**
+
+```{r}
+set.seed(42)        # TO DO (optional): change the seed
+n <- 1000
+
+sim_data <- data.frame(
+  x1 = rnorm(n),
+  x2 = rnorm(n),
+  x3 = rnorm(n)
+)
+
+# x1 and x2 affect the outcome; x3 has no true effect
+true_probability <- with(sim_data, plogis(-0.5 + 1.5 * x1 - x2))
+
+sim_data$y <- rbinom(n, size = 1, prob = true_probability)
+
+train_rows <- sample(seq_len(n), size = 700)
+train <- sim_data[train_rows, ]
+test <- sim_data[-train_rows, ]
+
+head(train)
+```
+
+**Choose predictors: TO DO!**
+
+```{r}
+# TO DO: select any combination of "x1", "x2", and "x3"
+predictors <- c("x1", "x2", "x3")
+
+model_formula <- reformulate(predictors, response = "y")
+print(model_formula)
+
+model <- glm(model_formula, data = train, family = binomial())
+
+summary(model)
+```
+
+*Discussion:* What is the interpretation of the intercept? Can we make it meaningful? (Hint: think about standardizing variables.) Do your coefficients change based on what other predictors are added?
+
+**Predict and evaluate classifications: TO DO!**
+
+```{r}
+# TO DO: try thresholds such as 0.3, 0.5, and 0.7
+threshold <- 0.37
+probabilities <- predict(model, newdata = test, type = "response")
+predictions <- as.integer(probabilities >= threshold)
+
+table(
+  Actual = factor(test$y, levels = 0:1),
+  Predicted = factor(predictions, levels = 0:1)
+)
+
+c(accuracy = mean(predictions == test$y))
+```
+
+*Discussion:* Given the table, how would you calculate accuracy?
+
+**Plot fitted probability curve: TO DO!**
+
+```{r}
+#| fig-width: 7
+#| fig-height: 4
+# TO DO: choose a predictor included in your fitted model
+plot_predictor <- predictors[1]       # Or "x1", "x2", or "x3"
+
+stopifnot(plot_predictor %in% predictors)
+
+grid <- data.frame(
+  x1 = rep(0, 100),
+  x2 = rep(0, 100),
+  x3 = rep(0, 100)
+)
+grid[[plot_predictor]] <- seq(-3, 3, length.out = 100)
+
+plot(
+  grid[[plot_predictor]],
+  predict(model, newdata = grid, type = "response"),
+  type = "l", lwd = 2, col = "steelblue",
+  ylim = c(0, 1),
+  xlab = plot_predictor,
+  ylab = "Predicted probability",
+  main = "Other predictors held at zero"
+)
+
+abline(h = threshold, lty = 2, col = "red")
+```
+
+## 5. Multinomial Logistic Regression
+
+Softmax converts scores for different classes into probabilities that add up to 1.
+
+```{r}
+# Scores for three possible diagnoses: stroke, drug overdose, epileptic seizure
+scores <- c(2, 1, 0)                        # TO DO: change the scores
+
+# Calculate probabilities using softmax
+probabilities <- exp(scores) / sum(exp(scores))
+
+round(probabilities, 3)
+sum(probabilities)
+```
+
+**TO DO:** Change the scores and rerun the code. Try `c(1, 2, 0)`.
+
+**Discussion:**
+
+1. Which diagnosis now has the highest probability?
+2. Do the probabilities still add up to 1?
+3. What happens if all three scores are equal?
