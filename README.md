@@ -172,13 +172,11 @@ So the normal cadence of class is three weeks of learning and then in the fourth
 
 - Readings
     - Reuel, Anka, Amelia Hardy, Chandler Smith, Max Lamparth, Malcolm Hardy, and Mykel J. Kochenderfer, 2024, "BetterBench: Assessing AI Benchmarks, Uncovering Issues, and Establishing Best Practices", *arXiv*, [10.48550/arXiv.2411.12990](https://arxiv.org/abs/2411.12990).
-    - Alexander, Rohan, 2026, "Iterated creation, grading, and revision of data science projects by language models".
-    - Garcia Mejia, Mariana and Rohan Alexander, 2026, "If it bleeds, it leads? Evaluating whether LLMs can identify what is newsworthy", https://doi.org/10.31235/osf.io/y6nqj_v1.
-    - Cummins-Mburu, Benedict, Mariana Garcia Mejia, Oscar Heath, Sabrina Kreyzerman, Ellie Murray, Arusan Surendiran and Rohan Alexander, 2026, "`GardenBench`: A lightweight, daily evaluation of LLM capabilities"
-    - Anthropic, (2026) "System Card: Claude Mythos Preview".
+    - Chen, Felix, Stephan Rabanser, Peter Kirgis, Nitya Nadgir, Rishi Bommasani, Magda Dubois, Elham Tabassi, Cozmin Ududec, Anka Reuel, Sanmi Koyejo, Sayash Kapoor, Arvind Narayanan, 2026, "Emerging Trends in Al Agent Evaluation", https://sage.cs.princeton.edu/trends/emerging-trends-paper.pdf.
+    - Cummins-Mburu, Benedict, Mariana Garcia Mejia, Oscar Heath, Sabrina Kreyzerman, Ellie Murray, Arusan Surendiran and Rohan Alexander, 2026, "`GardenBench`: A lightweight, daily evaluation of LLM capabilities", , *arXiv*, https://arxiv.org/abs/2610.23866.
     - *ISLR/P*, Chapter 6.2 "Shrinkage Methods".
 - Class (Wednesday 11 November)
-    - (ISLR/P) Sean Murphy, Siddharth Singh Taragi, Allwin, Vijval.
+    - (ISLR/P) Sean Murphy, Siddharth Singh Taragi, Allwin, Vijval, Furkan Danisman.
     - (Lecture) What a benchmark is and what it can claim
     - (Demonstration) Build a small benchmark as a class: pick a task, write 20 items, agree a rubric, run three models through OpenRouter, grade by hand
     - (Worksheet) Score the class benchmark against the BetterBench checklist. Which criteria did we fail in the first hour?
@@ -189,10 +187,8 @@ So the normal cadence of class is three weeks of learning and then in the fourth
 *Evaluating benchmarks; the statistics of evals: standard errors, clustering by item, paired comparisons between models; validating a model as a grader against human labels; contamination and leakage.*
 
 - Readings
-    - Miller, Evan, 2024, "Adding Error Bars to Evals: A Statistical Approach to Language Model Evaluations", *arXiv*, [10.48550/arXiv.2411.00640](https://arxiv.org/abs/2411.00640).
     - Biderman, Stella, et al., 2024, "Lessons from the Trenches on Reproducible Evaluation of Language Models", *arXiv*, [10.48550/arXiv.2405.14782](https://arxiv.org/abs/2405.14782).
     - Singh, Shivalika, et al., 2025, "The Leaderboard Illusion", *arXiv*, [10.48550/arXiv.2504.20879](https://arxiv.org/abs/2504.20879).
-    - Kapoor, Sayash, and Arvind Narayanan, 2023, "Leakage and the Reproducibility Crisis in Machine-Learning-Based Science", *Patterns*, [10.1016/j.patter.2023.100804](https://www.sciencedirect.com/science/article/pii/S2666389923001599).
     - *ISLR/P*, Chapter 8.1.
 - Class (Wednesday 18 November)
     - (Quiz) Week 9 readings and class, and *ISLR/P* Chapters 6.2 and 8.1.
@@ -203,8 +199,11 @@ So the normal cadence of class is three weeks of learning and then in the fourth
 
 #### Week 11 (starts Monday 23 November)
 
+- Readings
+    - Anthropic, (2026) "System Card: Claude Mythos Preview".
 - Class (Wednesday 25 November)
-    - Please feel free to use this time to implement your AI benchmark.
+    - We will use the first hour of this class to read the model card. 
+    - Please feel free to use the remainder of the time to implement your AI benchmark.
 
 #### Week 12 (starts Monday 30 November): Assignment III and in-class exam III
 
