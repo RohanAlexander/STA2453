@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.20">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Allwin Steve Paul Justin Anantharaj · Furkan Danisman · Sean Murphy · Vijval Rallan">
+<meta name="dcterms.date" content="2026-11-09">
+
+<title>Shrinkage Methods: Hands-On Workshop</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="islr-6.2-workshop_files/libs/clipboard/clipboard.min.js"></script>
+<script src="islr-6.2-workshop_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="islr-6.2-workshop_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="islr-6.2-workshop_files/libs/quarto-html/popper.min.js"></script>
+<script src="islr-6.2-workshop_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="islr-6.2-workshop_files/libs/quarto-html/anchor.min.js"></script>
+<link href="islr-6.2-workshop_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="islr-6.2-workshop_files/libs/quarto-html/quarto-syntax-highlighting-17888a1159294d3eb470f19f6f52f5a5.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="islr-6.2-workshop_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="islr-6.2-workshop_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="islr-6.2-workshop_files/libs/bootstrap/bootstrap-917079515d91bccb85b543faf8aa8bb6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#before-we-start" id="toc-before-we-start" class="nav-link active" data-scroll-target="#before-we-start">Before We Start</a></li>
+  <li><a href="#wheat-yield-from-genetic-markers" id="toc-wheat-yield-from-genetic-markers" class="nav-link" data-scroll-target="#wheat-yield-from-genetic-markers">1. Wheat Yield from Genetic Markers</a></li>
+  <li><a href="#yield-of-a-chemical-manufacturing-process" id="toc-yield-of-a-chemical-manufacturing-process" class="nav-link" data-scroll-target="#yield-of-a-chemical-manufacturing-process">2. Yield of a Chemical Manufacturing Process</a></li>
+  <li><a href="#finding-the-best-λ" id="toc-finding-the-best-λ" class="nav-link" data-scroll-target="#finding-the-best-λ">3. Finding the Best λ</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Shrinkage Methods: Hands-On Workshop</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">ISLR §6.2 — Companion Code</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Allwin Steve Paul Justin Anantharaj · Furkan Danisman · Sean Murphy · Vijval Rallan </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 9, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="before-we-start" class="level2">
+<h2 class="anchored" data-anchor-id="before-we-start">Before We Start</h2>
+<p>This is a companion workshop to the slides, with two real data sets. In each section:</p>
+<ol type="1">
+<li>Read the <strong>PREDICT</strong> box and decide what you think will happen.</li>
+<li>Run the chunks (click ▶ on each one, in order).</li>
+<li>Do the <strong>YOUR TURN</strong> box: change one value, re-run, and compare.</li>
+</ol>
+<p>Ridge and the lasso both minimize the residual sum of squares plus a penalty on the coefficients:</p>
+<p><span class="math display">\[\text{Ridge: } \text{RSS} + \lambda \sum_{j} \beta_j^2
+\qquad\qquad
+\text{Lasso: } \text{RSS} + \lambda \sum_{j} |\beta_j|\]</span></p>
+<p>In R, <code>glmnet</code> fits both. <code>alpha = 0</code> gives ridge and <code>alpha = 1</code> gives the lasso. It <strong>standardizes the predictors</strong> before fitting.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (pkg <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"glmnet"</span>, <span class="st">"BGLR"</span>, <span class="st">"AppliedPredictiveModeling"</span>, <span class="st">"ggplot2"</span>)) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(pkg, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(pkg, <span class="at">repos =</span> <span class="st">"https://cloud.r-project.org"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+The downloaded binary packages are in
+    /var/folders/bb/89v_yv890m34zf3h7zvxwswc0000gn/T//RtmpBe6AD5/downloaded_packages</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+The downloaded binary packages are in
+    /var/folders/bb/89v_yv890m34zf3h7zvxwswc0000gn/T//RtmpBe6AD5/downloaded_packages</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)   <span class="co"># ridge (alpha = 0) and lasso (alpha = 1)</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_minimal</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="wheat-yield-from-genetic-markers" class="level2">
+<h2 class="anchored" data-anchor-id="wheat-yield-from-genetic-markers">1. Wheat Yield from Genetic Markers</h2>
+<p>These data come from the wheat breeding program at the International Maize and Wheat Improvement Center, which tests wheat lines in trials around the world.</p>
+<ul>
+<li><strong>Rows:</strong> 599 wheat lines (varieties).</li>
+<li><strong>Features:</strong> 1,279 genetic markers, scored 0 or 1 to record whether a particular stretch of DNA is absent or present.</li>
+<li><strong>Response:</strong> grain yield shown as an index: 100 is the average line, and 10 points is one standard deviation.</li>
+</ul>
+<p>We train on 80% of the lines (479) and test on the other 20% (120).</p>
+<blockquote class="blockquote">
+<p><strong>PREDICT:</strong> Yield is thought to be shaped by many genes, each with a small effect. Which method will predict yield best on the test lines: least squares, ridge, or the lasso? Why?</p>
+</blockquote>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(wheat, <span class="at">package =</span> <span class="st">"BGLR"</span>)   <span class="co"># loads wheat.X (markers) and wheat.Y (yield)</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> wheat.X</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="sc">+</span> <span class="dv">10</span> <span class="sc">*</span> wheat.Y[, <span class="dv">1</span>]    <span class="co"># yield index: 100 = average line, 10 = one SD</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">853</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(X), <span class="dv">479</span>)   <span class="co"># 80% to train; the other 120 lines are for testing</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>test  <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(X)), train)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>rmse <span class="ot">&lt;-</span> <span class="cf">function</span>(pred, actual) <span class="fu">sqrt</span>(<span class="fu">mean</span>((actual <span class="sc">-</span> pred)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Least squares on the chosen marker columns; returns one row of the results table</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>ls_row <span class="ot">&lt;-</span> <span class="cf">function</span>(columns) {</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  fit   <span class="ot">&lt;-</span> <span class="fu">lm</span>(y[train] <span class="sc">~</span> X[train, columns])</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  coefs <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  used  <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(coefs)) <span class="sc">-</span> <span class="dv">1</span>   <span class="co"># markers lm could estimate (not counting the intercept)</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  coefs[<span class="fu">is.na</span>(coefs)] <span class="ot">&lt;-</span> <span class="dv">0</span>          <span class="co"># lm returns NA for markers it can't estimate</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">method         =</span> <span class="st">"Least squares"</span>,</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>             <span class="at">markers_chosen =</span> <span class="fu">length</span>(columns),</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>             <span class="at">markers_used   =</span> used,</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>             <span class="at">train_rmse     =</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>(<span class="fu">resid</span>(fit)<span class="sc">^</span><span class="dv">2</span>)),</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>             <span class="at">test_rmse      =</span> <span class="fu">rmse</span>(<span class="fu">cbind</span>(<span class="dv">1</span>, X[test, columns]) <span class="sc">%*%</span> coefs, y[test]))</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Ridge or the lasso; returns one row of the results table</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>shrink_row <span class="ot">&lt;-</span> <span class="cf">function</span>(fit, name) {</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">method         =</span> name,</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>             <span class="at">markers_chosen =</span> <span class="fu">ncol</span>(X),</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>             <span class="at">markers_used   =</span> <span class="fu">sum</span>(<span class="fu">coef</span>(fit)[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">!=</span> <span class="dv">0</span>),</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>             <span class="at">train_rmse     =</span> <span class="fu">rmse</span>(<span class="fu">predict</span>(fit, X[train, ]), y[train]),</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>             <span class="at">test_rmse      =</span> <span class="fu">rmse</span>(<span class="fu">predict</span>(fit, X[test, ]), y[test]))</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Print ordinary numbers rounded, and huge ones in scientific notation</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>show_table <span class="ot">&lt;-</span> <span class="cf">function</span>(results) {</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>  show_rmse <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">ifelse</span>(x <span class="sc">&gt;</span> <span class="dv">1000</span>, <span class="fu">format</span>(x, <span class="at">scientific =</span> <span class="cn">TRUE</span>, <span class="at">digits =</span> <span class="dv">2</span>), <span class="fu">round</span>(x, <span class="dv">2</span>))</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>  results<span class="sc">$</span>train_rmse <span class="ot">&lt;-</span> <span class="fu">show_rmse</span>(results<span class="sc">$</span>train_rmse)</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>  results<span class="sc">$</span>test_rmse  <span class="ot">&lt;-</span> <span class="fu">show_rmse</span>(results<span class="sc">$</span>test_rmse)</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>  results</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a><span class="co"># Ridge and the lasso use all 1,279 markers, each with its own fixed lambda</span></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a><span class="co"># (the lambda values were chosen by cross-validation; Section 3 shows why the choice matters)</span></span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>ridge <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(X[train, ], y[train], <span class="at">alpha =</span> <span class="dv">0</span>, <span class="at">lambda =</span> <span class="dv">34</span>)</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>lasso <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(X[train, ], y[train], <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">lambda =</span> <span class="fl">0.48</span>)</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>shrink_rows <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">shrink_row</span>(ridge, <span class="st">"Ridge"</span>), <span class="fu">shrink_row</span>(lasso, <span class="st">"Lasso"</span>))</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Least squares gets all the markers, sorted by their individual R-squared with yield</span></span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>r2     <span class="ot">&lt;-</span> <span class="fu">cor</span>(X[train, ], y[train])<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>ranked <span class="ot">&lt;-</span> <span class="fu">order</span>(r2, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a><span class="fu">show_table</span>(<span class="fu">rbind</span>(<span class="fu">ls_row</span>(ranked), shrink_rows))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         method markers_chosen markers_used train_rmse test_rmse
+1 Least squares           1279          478       0.00    119.16
+2         Ridge           1279         1279       6.58      8.15
+3         Lasso           1279           94       7.15      8.58</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>YOUR TURN:</strong> Try different numbers of features for least squares, ranked by each marker’s individual R-squared with yield on the training lines. Edit <code>n_markers</code> and run the chunk to print the results. Ridge and the lasso stay the same, for comparison.</p>
+</blockquote>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>n_markers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1279</span>)   <span class="co"># &lt;- change me (add to the list)</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(wheat, <span class="at">package =</span> <span class="st">"BGLR"</span>)   <span class="co"># loads wheat.X (markers) and wheat.Y (yield)</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> wheat.X</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="sc">+</span> <span class="dv">10</span> <span class="sc">*</span> wheat.Y[, <span class="dv">1</span>]    <span class="co"># yield index: 100 = average line, 10 = one SD</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">853</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(X), <span class="dv">479</span>)   <span class="co"># 80% to train; the other 120 lines are for testing</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>test  <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(X)), train)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>rmse <span class="ot">&lt;-</span> <span class="cf">function</span>(pred, actual) <span class="fu">sqrt</span>(<span class="fu">mean</span>((actual <span class="sc">-</span> pred)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Rank markers by their individual R-squared with yield on the training lines</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>r2     <span class="ot">&lt;-</span> <span class="fu">cor</span>(X[train, ], y[train])<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>ranked <span class="ot">&lt;-</span> <span class="fu">order</span>(r2, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Least squares on the top k markers</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>ls_row <span class="ot">&lt;-</span> <span class="cf">function</span>(k) {</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  columns <span class="ot">&lt;-</span> ranked[<span class="dv">1</span><span class="sc">:</span>k]</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  fit     <span class="ot">&lt;-</span> <span class="fu">lm</span>(y[train] <span class="sc">~</span> X[train, columns])</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  coefs   <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  used    <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(coefs)) <span class="sc">-</span> <span class="dv">1</span>   <span class="co"># markers lm could estimate (not counting the intercept)</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  coefs[<span class="fu">is.na</span>(coefs)] <span class="ot">&lt;-</span> <span class="dv">0</span>            <span class="co"># lm returns NA for markers it can't estimate</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">method         =</span> <span class="st">"Least squares"</span>,</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>             <span class="at">markers_chosen =</span> k,</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>             <span class="at">markers_used   =</span> used,</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>             <span class="at">train_rmse     =</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>(<span class="fu">resid</span>(fit)<span class="sc">^</span><span class="dv">2</span>)),</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>             <span class="at">test_rmse      =</span> <span class="fu">rmse</span>(<span class="fu">cbind</span>(<span class="dv">1</span>, X[test, columns]) <span class="sc">%*%</span> coefs, y[test]))</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Ridge or the lasso on all 1,279 markers</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>shrink_row <span class="ot">&lt;-</span> <span class="cf">function</span>(alpha, lambda, name) {</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(X[train, ], y[train], <span class="at">alpha =</span> alpha, <span class="at">lambda =</span> lambda)</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">method         =</span> name,</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>             <span class="at">markers_chosen =</span> <span class="fu">ncol</span>(X),</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>             <span class="at">markers_used   =</span> <span class="fu">sum</span>(<span class="fu">coef</span>(fit)[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">!=</span> <span class="dv">0</span>),</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>             <span class="at">train_rmse     =</span> <span class="fu">rmse</span>(<span class="fu">predict</span>(fit, X[train, ]), y[train]),</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>             <span class="at">test_rmse      =</span> <span class="fu">rmse</span>(<span class="fu">predict</span>(fit, X[test, ]), y[test]))</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a><span class="co"># The lambda values were chosen by cross-validation; Section 3 shows why the choice matters</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(n_markers, ls_row)),</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">shrink_row</span>(<span class="at">alpha =</span> <span class="dv">0</span>, <span class="at">lambda =</span> <span class="dv">34</span>, <span class="st">"Ridge"</span>),</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">shrink_row</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">lambda =</span> <span class="fl">0.48</span>, <span class="st">"Lasso"</span>))</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>train_rmse <span class="ot">&lt;-</span> <span class="fu">round</span>(results<span class="sc">$</span>train_rmse, <span class="dv">2</span>)</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>test_rmse  <span class="ot">&lt;-</span> <span class="fu">round</span>(results<span class="sc">$</span>test_rmse, <span class="dv">2</span>)</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>results</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         method markers_chosen markers_used train_rmse test_rmse
+1 Least squares              1            1       9.69      9.39
+2 Least squares           1279          478       0.00    119.16
+3         Ridge           1279         1279       6.58      8.15
+4         Lasso           1279           94       7.15      8.58</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="The point">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>The point
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>When many features each have a small effect, ridge predicts best: it keeps every marker and shrinks them all. Least squares on all the markers fits the training lines perfectly and predicts new lines badly. Using only the top-ranked markers stops the blow-up, but it doesn’t catch ridge.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="yield-of-a-chemical-manufacturing-process" class="level2">
+<h2 class="anchored" data-anchor-id="yield-of-a-chemical-manufacturing-process">2. Yield of a Chemical Manufacturing Process</h2>
+<p>These data come from a 27-step process that makes a pharmaceutical product.</p>
+<ul>
+<li><strong>Rows:</strong> 176 samples of the process.</li>
+<li><strong>Features:</strong> 57 measurements: 12 of the biological starting material, and 45 of the manufacturing process, such as temperature, drying time, and washing time.</li>
+<li><strong>Response:</strong> percent yield of the final product.</li>
+</ul>
+<p>We train on 80% of the samples (141) and test on the other 20% (35).</p>
+<blockquote class="blockquote">
+<p><strong>PREDICT:</strong> Suppose only a few of these 57 measurements really drive yield. Which method will predict yield best on the test samples: least squares, ridge, or the lasso? Why?</p>
+</blockquote>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(ChemicalManufacturingProcess, <span class="at">package =</span> <span class="st">"AppliedPredictiveModeling"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(ChemicalManufacturingProcess[, <span class="sc">-</span><span class="dv">1</span>])   <span class="co"># the 57 measurements</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> ChemicalManufacturingProcess<span class="sc">$</span>Yield              <span class="co"># percent yield</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">8</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(X), <span class="dv">141</span>)   <span class="co"># 80% to train; the other 35 samples are for testing</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>test  <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(X)), train)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Some measurements are missing: fill each with its median on the training samples</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="fu">seq_len</span>(<span class="fu">ncol</span>(X))) {</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  X[<span class="fu">is.na</span>(X[, j]), j] <span class="ot">&lt;-</span> <span class="fu">median</span>(X[train, j], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>rmse <span class="ot">&lt;-</span> <span class="cf">function</span>(pred, actual) <span class="fu">sqrt</span>(<span class="fu">mean</span>((actual <span class="sc">-</span> pred)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Least squares on all the features</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>ls_fit  <span class="ot">&lt;-</span> <span class="fu">lm</span>(y[train] <span class="sc">~</span> X[train, ])</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>coefs   <span class="ot">&lt;-</span> <span class="fu">coef</span>(ls_fit)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>ls_used <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(coefs)) <span class="sc">-</span> <span class="dv">1</span>   <span class="co"># features lm could estimate (not counting the intercept)</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>coefs[<span class="fu">is.na</span>(coefs)] <span class="ot">&lt;-</span> <span class="dv">0</span>            <span class="co"># lm returns NA for features it can't estimate</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Ridge or the lasso on all the features; returns one row of the results table</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>shrink_row <span class="ot">&lt;-</span> <span class="cf">function</span>(alpha, lambda, name) {</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(X[train, ], y[train], <span class="at">alpha =</span> alpha, <span class="at">lambda =</span> lambda)</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">method        =</span> name,</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>             <span class="at">features_used =</span> <span class="fu">sum</span>(<span class="fu">coef</span>(fit)[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">!=</span> <span class="dv">0</span>),</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>             <span class="at">train_rmse    =</span> <span class="fu">rmse</span>(<span class="fu">predict</span>(fit, X[train, ]), y[train]),</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>             <span class="at">test_rmse     =</span> <span class="fu">rmse</span>(<span class="fu">predict</span>(fit, X[test, ]), y[test]))</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="co"># The lambda values were chosen by cross-validation; Section 3 shows why the choice matters</span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">method        =</span> <span class="st">"Least squares"</span>,</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>             <span class="at">features_used =</span> ls_used,</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>             <span class="at">train_rmse    =</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>(<span class="fu">resid</span>(ls_fit)<span class="sc">^</span><span class="dv">2</span>)),</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>             <span class="at">test_rmse     =</span> <span class="fu">rmse</span>(<span class="fu">cbind</span>(<span class="dv">1</span>, X[test, ]) <span class="sc">%*%</span> coefs, y[test])),</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shrink_row</span>(<span class="at">alpha =</span> <span class="dv">0</span>, <span class="at">lambda =</span> <span class="fl">3.1</span>, <span class="st">"Ridge"</span>),</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shrink_row</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">lambda =</span> <span class="fl">0.071</span>, <span class="st">"Lasso"</span>)</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>train_rmse <span class="ot">&lt;-</span> <span class="fu">round</span>(results<span class="sc">$</span>train_rmse, <span class="dv">2</span>)</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>test_rmse  <span class="ot">&lt;-</span> <span class="fu">round</span>(results<span class="sc">$</span>test_rmse, <span class="dv">2</span>)</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>base<span class="sc">::</span><span class="fu">print.data.frame</span>(results)   <span class="co"># plain text, so the table and the summary show together</span></span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a><span class="co"># How many features did the lasso zero out, and what kind did it keep?</span></span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>lasso       <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(X[train, ], y[train], <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">lambda =</span> <span class="fl">0.071</span>)</span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>lasso_coefs <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">coef</span>(lasso))[<span class="sc">-</span><span class="dv">1</span>, ]   <span class="co"># leave out the intercept</span></span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>is_bio      <span class="ot">&lt;-</span> <span class="fu">grepl</span>(<span class="st">"Biological"</span>, <span class="fu">names</span>(lasso_coefs))</span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"The lasso zeroed out "</span>, <span class="fu">sum</span>(lasso_coefs <span class="sc">==</span> <span class="dv">0</span>), <span class="st">" of "</span>, <span class="fu">length</span>(lasso_coefs), <span class="st">" features.</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>    <span class="st">"It kept "</span>, <span class="fu">sum</span>(lasso_coefs[is_bio] <span class="sc">!=</span> <span class="dv">0</span>), <span class="st">" of "</span>, <span class="fu">sum</span>(is_bio),</span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>    <span class="st">" biological measurements (quality and characteristics of the starting material)</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a>    <span class="st">"and "</span>, <span class="fu">sum</span>(lasso_coefs[<span class="sc">!</span>is_bio] <span class="sc">!=</span> <span class="dv">0</span>), <span class="st">" of "</span>, <span class="fu">sum</span>(<span class="sc">!</span>is_bio),</span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>    <span class="st">" process measurements (such as temperature, drying time, and washing time).</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         method features_used train_rmse test_rmse
+1 Least squares            56       0.76      1.77
+2         Ridge            57       1.15      1.23
+3         Lasso            23       0.99      1.06
+
+The lasso zeroed out 34 of 57 features.
+It kept 4 of 12 biological measurements (quality and characteristics of the starting material)
+and 19 of 45 process measurements (such as temperature, drying time, and washing time).</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>YOUR TURN:</strong> Try different numbers of features for least squares, ranked by each feature’s individual R-squared with yield on the training samples. Edit <code>n_features</code> and run the chunk to print the results. Ridge and the lasso stay the same, for comparison.</p>
+</blockquote>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>n_features <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">57</span>)   <span class="co"># &lt;- change me (add to the list)</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(ChemicalManufacturingProcess, <span class="at">package =</span> <span class="st">"AppliedPredictiveModeling"</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(ChemicalManufacturingProcess[, <span class="sc">-</span><span class="dv">1</span>])   <span class="co"># the 57 measurements</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> ChemicalManufacturingProcess<span class="sc">$</span>Yield              <span class="co"># percent yield</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">8</span>)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(X), <span class="dv">141</span>)   <span class="co"># 80% to train; the other 35 samples are for testing</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>test  <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(X)), train)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Some measurements are missing: fill each with its median on the training samples</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="fu">seq_len</span>(<span class="fu">ncol</span>(X))) {</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  X[<span class="fu">is.na</span>(X[, j]), j] <span class="ot">&lt;-</span> <span class="fu">median</span>(X[train, j], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>rmse <span class="ot">&lt;-</span> <span class="cf">function</span>(pred, actual) <span class="fu">sqrt</span>(<span class="fu">mean</span>((actual <span class="sc">-</span> pred)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Rank features by their individual R-squared with yield on the training samples</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>r2     <span class="ot">&lt;-</span> <span class="fu">cor</span>(X[train, ], y[train])<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>ranked <span class="ot">&lt;-</span> <span class="fu">order</span>(r2, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Least squares on the top k features</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>ls_row <span class="ot">&lt;-</span> <span class="cf">function</span>(k) {</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>  columns <span class="ot">&lt;-</span> ranked[<span class="dv">1</span><span class="sc">:</span>k]</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>  fit     <span class="ot">&lt;-</span> <span class="fu">lm</span>(y[train] <span class="sc">~</span> X[train, columns])</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>  coefs   <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit)</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>  used    <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(coefs)) <span class="sc">-</span> <span class="dv">1</span>   <span class="co"># features lm could estimate (not counting the intercept)</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>  coefs[<span class="fu">is.na</span>(coefs)] <span class="ot">&lt;-</span> <span class="dv">0</span>            <span class="co"># lm returns NA for features it can't estimate</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">method          =</span> <span class="st">"Least squares"</span>,</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>             <span class="at">features_chosen =</span> k,</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>             <span class="at">features_used   =</span> used,</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>             <span class="at">train_rmse      =</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>(<span class="fu">resid</span>(fit)<span class="sc">^</span><span class="dv">2</span>)),</span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>             <span class="at">test_rmse       =</span> <span class="fu">rmse</span>(<span class="fu">cbind</span>(<span class="dv">1</span>, X[test, columns]) <span class="sc">%*%</span> coefs, y[test]))</span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Ridge or the lasso on all 57 features</span></span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>shrink_row <span class="ot">&lt;-</span> <span class="cf">function</span>(alpha, lambda, name) {</span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(X[train, ], y[train], <span class="at">alpha =</span> alpha, <span class="at">lambda =</span> lambda)</span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">method          =</span> name,</span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>             <span class="at">features_chosen =</span> <span class="fu">ncol</span>(X),</span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>             <span class="at">features_used   =</span> <span class="fu">sum</span>(<span class="fu">coef</span>(fit)[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">!=</span> <span class="dv">0</span>),</span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>             <span class="at">train_rmse      =</span> <span class="fu">rmse</span>(<span class="fu">predict</span>(fit, X[train, ]), y[train]),</span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>             <span class="at">test_rmse       =</span> <span class="fu">rmse</span>(<span class="fu">predict</span>(fit, X[test, ]), y[test]))</span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a><span class="co"># The lambda values were chosen by cross-validation; Section 3 shows why the choice matters</span></span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(n_features, ls_row)),</span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">shrink_row</span>(<span class="at">alpha =</span> <span class="dv">0</span>, <span class="at">lambda =</span> <span class="fl">3.1</span>, <span class="st">"Ridge"</span>),</span>
+<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">shrink_row</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">lambda =</span> <span class="fl">0.071</span>, <span class="st">"Lasso"</span>))</span>
+<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>train_rmse <span class="ot">&lt;-</span> <span class="fu">round</span>(results<span class="sc">$</span>train_rmse, <span class="dv">2</span>)</span>
+<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>test_rmse  <span class="ot">&lt;-</span> <span class="fu">round</span>(results<span class="sc">$</span>test_rmse, <span class="dv">2</span>)</span>
+<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a>results</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         method features_chosen features_used train_rmse test_rmse
+1 Least squares               1             1       1.47      1.41
+2 Least squares              57            56       0.76      1.77
+3         Ridge              57            57       1.15      1.23
+4         Lasso              57            23       0.99      1.06</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="The point">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>The point
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>When a few features carry most of the signal, the lasso predicts best and drops many features along the way. Here, least squares on a short list of top-ranked features nearly matches the lasso, which it couldn’t do with ridge on the wheat data.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="finding-the-best-λ" class="level2">
+<h2 class="anchored" data-anchor-id="finding-the-best-λ">3. Finding the Best λ</h2>
+<p>Back to the wheat data from Section 1: the same 599 lines, 1,279 genetic markers, and yield index. This time we fit ridge at 200 values of <span class="math inline">\(\lambda\)</span> and average the test error at each one over 10 random 80/20 splits.</p>
+<blockquote class="blockquote">
+<p><strong>PREDICT:</strong> As <span class="math inline">\(\lambda\)</span> grows from almost zero to very large, what shape will the test error follow?</p>
+</blockquote>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(wheat, <span class="at">package =</span> <span class="st">"BGLR"</span>)   <span class="co"># loads wheat.X (markers) and wheat.Y (yield)</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> wheat.X</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="sc">+</span> <span class="dv">10</span> <span class="sc">*</span> wheat.Y[, <span class="dv">1</span>]    <span class="co"># yield index: 100 = average line, 10 = one SD</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot average test RMSE across lambda for one method: alpha = 0 is ridge, alpha = 1 is the lasso</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>plot_lambda_curve <span class="ot">&lt;-</span> <span class="cf">function</span>(alpha) {</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  lambdas <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^</span><span class="fu">seq</span>(<span class="dv">5</span>, <span class="sc">-</span><span class="dv">3</span>, <span class="at">length.out =</span> <span class="dv">200</span>)   <span class="co"># 200 values, from very large to very small</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Test RMSE at each lambda, for one random 80/20 split</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  split_rmse <span class="ot">&lt;-</span> <span class="cf">function</span>(seed) {</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set.seed</span>(seed)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    train <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(X), <span class="dv">479</span>)   <span class="co"># 80% to train; the other 120 lines are for testing</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    test  <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(X)), train)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    fit   <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(X[train, ], y[train], <span class="at">alpha =</span> alpha, <span class="at">lambda =</span> lambdas)</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    preds <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit, X[test, ], <span class="at">s =</span> lambdas)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sqrt</span>(<span class="fu">colMeans</span>((preds <span class="sc">-</span> y[test])<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Average over 10 random splits, and find the lambda where the average is lowest</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>  errors <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">lambda =</span> lambdas, <span class="at">test_rmse =</span> <span class="fu">rowMeans</span>(<span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, split_rmse)))</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  best   <span class="ot">&lt;-</span> errors[<span class="fu">which.min</span>(errors<span class="sc">$</span>test_rmse), ]</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(errors, <span class="fu">aes</span>(lambda, test_rmse)) <span class="sc">+</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>, <span class="at">color =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">data =</span> best, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text</span>(<span class="at">data =</span> best, <span class="at">vjust =</span> <span class="dv">2</span>,</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">sprintf</span>(<span class="st">"Minimum: lambda = %.3g, test RMSE = %.2f"</span>, lambda, test_rmse))) <span class="sc">+</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_log10</span>(<span class="at">breaks =</span> <span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>),</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>                  <span class="at">labels =</span> <span class="fu">format</span>(<span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>), <span class="at">scientific =</span> <span class="cn">FALSE</span>, <span class="at">drop0trailing =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">trim =</span> <span class="cn">TRUE</span>, <span class="at">big.mark =</span> <span class="st">","</span>)) <span class="sc">+</span></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">pretty</span>(<span class="fu">c</span>(best<span class="sc">$</span>test_rmse <span class="sc">-</span> <span class="fl">0.6</span>, errors<span class="sc">$</span>test_rmse), <span class="at">n =</span> <span class="dv">12</span>)) <span class="sc">+</span></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">expand_limits</span>(<span class="at">y =</span> best<span class="sc">$</span>test_rmse <span class="sc">-</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="cf">if</span> (alpha <span class="sc">==</span> <span class="dv">0</span>) <span class="st">"Ridge"</span> <span class="cf">else</span> <span class="cf">if</span> (alpha <span class="sc">==</span> <span class="dv">1</span>) <span class="st">"Lasso"</span> <span class="cf">else</span> <span class="fu">paste0</span>(<span class="st">"Elastic-Net (alpha = "</span>, alpha, <span class="st">")"</span>),</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> <span class="st">"lambda (log scale)"</span>, <span class="at">y =</span> <span class="st">"Average test RMSE (yield points)"</span>)</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_lambda_curve</span>(<span class="at">alpha =</span> <span class="dv">0</span>)   <span class="co"># ridge is alpha = 0, lasso is alpha = 1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="islr-6.2-workshop_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>YOUR TURN:</strong> Change <code>alpha</code> to the value for the lasso and run this chunk. How does the best <span class="math inline">\(\lambda\)</span> compare with ridge’s?</p>
+</blockquote>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ridge is alpha = 0, lasso is alpha = 1</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_lambda_curve</span>(<span class="at">alpha =</span> <span class="dv">0</span>)   <span class="co"># &lt;- change me to lasso regularization</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="islr-6.2-workshop_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="The point">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>The point
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Test error falls and then rises as <span class="math inline">\(\lambda\)</span> grows. Too little shrinkage leaves high variance, too much adds bias, and the best <span class="math inline">\(\lambda\)</span> is in between. The best value is very different for ridge and the lasso, so it has to be chosen separately for each method, which is what cross-validation does.</p>
+</div>
+</div>
+</div>
+<!-- -->
+
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const cellDetails = window.document.querySelectorAll(".cell details.code-fold");
+        for (let i=0; i<cellDetails.length; i++) {
+          const details = cellDetails[i];
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell div.sourceCode.cell-code");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Shrinkage Methods: Hands-On Workshop"</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "ISLR §6.2 — Companion Code"</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Allwin Steve Paul Justin Anantharaj · Furkan Danisman · Sean Murphy · Vijval Rallan"</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> today</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: false</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co">  warning: false</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co">  message: false</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="an">editor:</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="co">  markdown:</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="co">    wrap: 72</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="fu">## Before We Start</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>This is a companion workshop to the slides, with two real data sets. In</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>each section:</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Read the **PREDICT** box and decide what you think will happen.</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Run the chunks (click ▶ on each one, in order).</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Do the **YOUR TURN** box: change one value, re-run, and compare.</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>Ridge and the lasso both minimize the residual sum of squares plus a</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>penalty on the coefficients:</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>$$\text{Ridge: } \text{RSS} + \lambda \sum_{j} \beta_j^2</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>\qquad\qquad</span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>\text{Lasso: } \text{RSS} + \lambda \sum_{j} |\beta_j|$$</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>In R, <span class="in">`glmnet`</span> fits both. <span class="in">`alpha = 0`</span> gives ridge and <span class="in">`alpha = 1`</span> gives</span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>the lasso. It **standardizes the predictors** before fitting.</span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (pkg <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"glmnet"</span>, <span class="st">"BGLR"</span>, <span class="st">"AppliedPredictiveModeling"</span>, <span class="st">"ggplot2"</span>)) {</span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(pkg, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(pkg, <span class="at">repos =</span> <span class="st">"https://cloud.r-project.org"</span>)</span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)   <span class="co"># ridge (alpha = 0) and lasso (alpha = 1)</span></span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_minimal</span>())</span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a><span class="fu">## 1. Wheat Yield from Genetic Markers</span></span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a>These data come from the wheat breeding program at the International</span>
+<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a>Maize and Wheat Improvement Center, which tests wheat lines in trials</span>
+<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a>around the world.</span>
+<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Rows:** 599 wheat lines (varieties).</span>
+<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Features:** 1,279 genetic markers, scored 0 or 1 to record whether a</span>
+<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a>  particular stretch of DNA is absent or present.</span>
+<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Response:** grain yield shown as an index: 100 is the average line,</span>
+<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a>  and 10 points is one standard deviation.</span>
+<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a>We train on 80% of the lines (479) and test on the other 20% (120).</span>
+<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **PREDICT:** Yield is thought to be shaped by many genes, each with a</span></span>
+<span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; small effect. Which method will predict yield best on the test lines:</span></span>
+<span id="cb15-67"><a href="#cb15-67" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; least squares, ridge, or the lasso? Why?</span></span>
+<span id="cb15-68"><a href="#cb15-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-71"><a href="#cb15-71" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-72"><a href="#cb15-72" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
+<span id="cb15-73"><a href="#cb15-73" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(wheat, <span class="at">package =</span> <span class="st">"BGLR"</span>)   <span class="co"># loads wheat.X (markers) and wheat.Y (yield)</span></span>
+<span id="cb15-74"><a href="#cb15-74" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> wheat.X</span>
+<span id="cb15-75"><a href="#cb15-75" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="sc">+</span> <span class="dv">10</span> <span class="sc">*</span> wheat.Y[, <span class="dv">1</span>]    <span class="co"># yield index: 100 = average line, 10 = one SD</span></span>
+<span id="cb15-76"><a href="#cb15-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-77"><a href="#cb15-77" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">853</span>)</span>
+<span id="cb15-78"><a href="#cb15-78" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(X), <span class="dv">479</span>)   <span class="co"># 80% to train; the other 120 lines are for testing</span></span>
+<span id="cb15-79"><a href="#cb15-79" aria-hidden="true" tabindex="-1"></a>test  <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(X)), train)</span>
+<span id="cb15-80"><a href="#cb15-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-81"><a href="#cb15-81" aria-hidden="true" tabindex="-1"></a>rmse <span class="ot">&lt;-</span> <span class="cf">function</span>(pred, actual) <span class="fu">sqrt</span>(<span class="fu">mean</span>((actual <span class="sc">-</span> pred)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb15-82"><a href="#cb15-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-83"><a href="#cb15-83" aria-hidden="true" tabindex="-1"></a><span class="co"># Least squares on the chosen marker columns; returns one row of the results table</span></span>
+<span id="cb15-84"><a href="#cb15-84" aria-hidden="true" tabindex="-1"></a>ls_row <span class="ot">&lt;-</span> <span class="cf">function</span>(columns) {</span>
+<span id="cb15-85"><a href="#cb15-85" aria-hidden="true" tabindex="-1"></a>  fit   <span class="ot">&lt;-</span> <span class="fu">lm</span>(y[train] <span class="sc">~</span> X[train, columns])</span>
+<span id="cb15-86"><a href="#cb15-86" aria-hidden="true" tabindex="-1"></a>  coefs <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit)</span>
+<span id="cb15-87"><a href="#cb15-87" aria-hidden="true" tabindex="-1"></a>  used  <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(coefs)) <span class="sc">-</span> <span class="dv">1</span>   <span class="co"># markers lm could estimate (not counting the intercept)</span></span>
+<span id="cb15-88"><a href="#cb15-88" aria-hidden="true" tabindex="-1"></a>  coefs[<span class="fu">is.na</span>(coefs)] <span class="ot">&lt;-</span> <span class="dv">0</span>          <span class="co"># lm returns NA for markers it can't estimate</span></span>
+<span id="cb15-89"><a href="#cb15-89" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">method         =</span> <span class="st">"Least squares"</span>,</span>
+<span id="cb15-90"><a href="#cb15-90" aria-hidden="true" tabindex="-1"></a>             <span class="at">markers_chosen =</span> <span class="fu">length</span>(columns),</span>
+<span id="cb15-91"><a href="#cb15-91" aria-hidden="true" tabindex="-1"></a>             <span class="at">markers_used   =</span> used,</span>
+<span id="cb15-92"><a href="#cb15-92" aria-hidden="true" tabindex="-1"></a>             <span class="at">train_rmse     =</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>(<span class="fu">resid</span>(fit)<span class="sc">^</span><span class="dv">2</span>)),</span>
+<span id="cb15-93"><a href="#cb15-93" aria-hidden="true" tabindex="-1"></a>             <span class="at">test_rmse      =</span> <span class="fu">rmse</span>(<span class="fu">cbind</span>(<span class="dv">1</span>, X[test, columns]) <span class="sc">%*%</span> coefs, y[test]))</span>
+<span id="cb15-94"><a href="#cb15-94" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-95"><a href="#cb15-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-96"><a href="#cb15-96" aria-hidden="true" tabindex="-1"></a><span class="co"># Ridge or the lasso; returns one row of the results table</span></span>
+<span id="cb15-97"><a href="#cb15-97" aria-hidden="true" tabindex="-1"></a>shrink_row <span class="ot">&lt;-</span> <span class="cf">function</span>(fit, name) {</span>
+<span id="cb15-98"><a href="#cb15-98" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">method         =</span> name,</span>
+<span id="cb15-99"><a href="#cb15-99" aria-hidden="true" tabindex="-1"></a>             <span class="at">markers_chosen =</span> <span class="fu">ncol</span>(X),</span>
+<span id="cb15-100"><a href="#cb15-100" aria-hidden="true" tabindex="-1"></a>             <span class="at">markers_used   =</span> <span class="fu">sum</span>(<span class="fu">coef</span>(fit)[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">!=</span> <span class="dv">0</span>),</span>
+<span id="cb15-101"><a href="#cb15-101" aria-hidden="true" tabindex="-1"></a>             <span class="at">train_rmse     =</span> <span class="fu">rmse</span>(<span class="fu">predict</span>(fit, X[train, ]), y[train]),</span>
+<span id="cb15-102"><a href="#cb15-102" aria-hidden="true" tabindex="-1"></a>             <span class="at">test_rmse      =</span> <span class="fu">rmse</span>(<span class="fu">predict</span>(fit, X[test, ]), y[test]))</span>
+<span id="cb15-103"><a href="#cb15-103" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-104"><a href="#cb15-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-105"><a href="#cb15-105" aria-hidden="true" tabindex="-1"></a><span class="co"># Print ordinary numbers rounded, and huge ones in scientific notation</span></span>
+<span id="cb15-106"><a href="#cb15-106" aria-hidden="true" tabindex="-1"></a>show_table <span class="ot">&lt;-</span> <span class="cf">function</span>(results) {</span>
+<span id="cb15-107"><a href="#cb15-107" aria-hidden="true" tabindex="-1"></a>  show_rmse <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">ifelse</span>(x <span class="sc">&gt;</span> <span class="dv">1000</span>, <span class="fu">format</span>(x, <span class="at">scientific =</span> <span class="cn">TRUE</span>, <span class="at">digits =</span> <span class="dv">2</span>), <span class="fu">round</span>(x, <span class="dv">2</span>))</span>
+<span id="cb15-108"><a href="#cb15-108" aria-hidden="true" tabindex="-1"></a>  results<span class="sc">$</span>train_rmse <span class="ot">&lt;-</span> <span class="fu">show_rmse</span>(results<span class="sc">$</span>train_rmse)</span>
+<span id="cb15-109"><a href="#cb15-109" aria-hidden="true" tabindex="-1"></a>  results<span class="sc">$</span>test_rmse  <span class="ot">&lt;-</span> <span class="fu">show_rmse</span>(results<span class="sc">$</span>test_rmse)</span>
+<span id="cb15-110"><a href="#cb15-110" aria-hidden="true" tabindex="-1"></a>  results</span>
+<span id="cb15-111"><a href="#cb15-111" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-112"><a href="#cb15-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-113"><a href="#cb15-113" aria-hidden="true" tabindex="-1"></a><span class="co"># Ridge and the lasso use all 1,279 markers, each with its own fixed lambda</span></span>
+<span id="cb15-114"><a href="#cb15-114" aria-hidden="true" tabindex="-1"></a><span class="co"># (the lambda values were chosen by cross-validation; Section 3 shows why the choice matters)</span></span>
+<span id="cb15-115"><a href="#cb15-115" aria-hidden="true" tabindex="-1"></a>ridge <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(X[train, ], y[train], <span class="at">alpha =</span> <span class="dv">0</span>, <span class="at">lambda =</span> <span class="dv">34</span>)</span>
+<span id="cb15-116"><a href="#cb15-116" aria-hidden="true" tabindex="-1"></a>lasso <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(X[train, ], y[train], <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">lambda =</span> <span class="fl">0.48</span>)</span>
+<span id="cb15-117"><a href="#cb15-117" aria-hidden="true" tabindex="-1"></a>shrink_rows <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">shrink_row</span>(ridge, <span class="st">"Ridge"</span>), <span class="fu">shrink_row</span>(lasso, <span class="st">"Lasso"</span>))</span>
+<span id="cb15-118"><a href="#cb15-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-119"><a href="#cb15-119" aria-hidden="true" tabindex="-1"></a><span class="co"># Least squares gets all the markers, sorted by their individual R-squared with yield</span></span>
+<span id="cb15-120"><a href="#cb15-120" aria-hidden="true" tabindex="-1"></a>r2     <span class="ot">&lt;-</span> <span class="fu">cor</span>(X[train, ], y[train])<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb15-121"><a href="#cb15-121" aria-hidden="true" tabindex="-1"></a>ranked <span class="ot">&lt;-</span> <span class="fu">order</span>(r2, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-122"><a href="#cb15-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-123"><a href="#cb15-123" aria-hidden="true" tabindex="-1"></a><span class="fu">show_table</span>(<span class="fu">rbind</span>(<span class="fu">ls_row</span>(ranked), shrink_rows))</span>
+<span id="cb15-124"><a href="#cb15-124" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-125"><a href="#cb15-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-126"><a href="#cb15-126" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **YOUR TURN:** Try different numbers of features for least squares,</span></span>
+<span id="cb15-127"><a href="#cb15-127" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ranked by each marker's individual R-squared with yield on the</span></span>
+<span id="cb15-128"><a href="#cb15-128" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; training lines. Edit </span><span class="in">`n_markers`</span><span class="at"> and run the chunk to print the</span></span>
+<span id="cb15-129"><a href="#cb15-129" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; results. Ridge and the lasso stay the same, for comparison.</span></span>
+<span id="cb15-130"><a href="#cb15-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-133"><a href="#cb15-133" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-134"><a href="#cb15-134" aria-hidden="true" tabindex="-1"></a>n_markers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1279</span>)   <span class="co"># &lt;- change me (add to the list)</span></span>
+<span id="cb15-135"><a href="#cb15-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-136"><a href="#cb15-136" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
+<span id="cb15-137"><a href="#cb15-137" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(wheat, <span class="at">package =</span> <span class="st">"BGLR"</span>)   <span class="co"># loads wheat.X (markers) and wheat.Y (yield)</span></span>
+<span id="cb15-138"><a href="#cb15-138" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> wheat.X</span>
+<span id="cb15-139"><a href="#cb15-139" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="sc">+</span> <span class="dv">10</span> <span class="sc">*</span> wheat.Y[, <span class="dv">1</span>]    <span class="co"># yield index: 100 = average line, 10 = one SD</span></span>
+<span id="cb15-140"><a href="#cb15-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-141"><a href="#cb15-141" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">853</span>)</span>
+<span id="cb15-142"><a href="#cb15-142" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(X), <span class="dv">479</span>)   <span class="co"># 80% to train; the other 120 lines are for testing</span></span>
+<span id="cb15-143"><a href="#cb15-143" aria-hidden="true" tabindex="-1"></a>test  <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(X)), train)</span>
+<span id="cb15-144"><a href="#cb15-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-145"><a href="#cb15-145" aria-hidden="true" tabindex="-1"></a>rmse <span class="ot">&lt;-</span> <span class="cf">function</span>(pred, actual) <span class="fu">sqrt</span>(<span class="fu">mean</span>((actual <span class="sc">-</span> pred)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb15-146"><a href="#cb15-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-147"><a href="#cb15-147" aria-hidden="true" tabindex="-1"></a><span class="co"># Rank markers by their individual R-squared with yield on the training lines</span></span>
+<span id="cb15-148"><a href="#cb15-148" aria-hidden="true" tabindex="-1"></a>r2     <span class="ot">&lt;-</span> <span class="fu">cor</span>(X[train, ], y[train])<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb15-149"><a href="#cb15-149" aria-hidden="true" tabindex="-1"></a>ranked <span class="ot">&lt;-</span> <span class="fu">order</span>(r2, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-150"><a href="#cb15-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-151"><a href="#cb15-151" aria-hidden="true" tabindex="-1"></a><span class="co"># Least squares on the top k markers</span></span>
+<span id="cb15-152"><a href="#cb15-152" aria-hidden="true" tabindex="-1"></a>ls_row <span class="ot">&lt;-</span> <span class="cf">function</span>(k) {</span>
+<span id="cb15-153"><a href="#cb15-153" aria-hidden="true" tabindex="-1"></a>  columns <span class="ot">&lt;-</span> ranked[<span class="dv">1</span><span class="sc">:</span>k]</span>
+<span id="cb15-154"><a href="#cb15-154" aria-hidden="true" tabindex="-1"></a>  fit     <span class="ot">&lt;-</span> <span class="fu">lm</span>(y[train] <span class="sc">~</span> X[train, columns])</span>
+<span id="cb15-155"><a href="#cb15-155" aria-hidden="true" tabindex="-1"></a>  coefs   <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit)</span>
+<span id="cb15-156"><a href="#cb15-156" aria-hidden="true" tabindex="-1"></a>  used    <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(coefs)) <span class="sc">-</span> <span class="dv">1</span>   <span class="co"># markers lm could estimate (not counting the intercept)</span></span>
+<span id="cb15-157"><a href="#cb15-157" aria-hidden="true" tabindex="-1"></a>  coefs[<span class="fu">is.na</span>(coefs)] <span class="ot">&lt;-</span> <span class="dv">0</span>            <span class="co"># lm returns NA for markers it can't estimate</span></span>
+<span id="cb15-158"><a href="#cb15-158" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">method         =</span> <span class="st">"Least squares"</span>,</span>
+<span id="cb15-159"><a href="#cb15-159" aria-hidden="true" tabindex="-1"></a>             <span class="at">markers_chosen =</span> k,</span>
+<span id="cb15-160"><a href="#cb15-160" aria-hidden="true" tabindex="-1"></a>             <span class="at">markers_used   =</span> used,</span>
+<span id="cb15-161"><a href="#cb15-161" aria-hidden="true" tabindex="-1"></a>             <span class="at">train_rmse     =</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>(<span class="fu">resid</span>(fit)<span class="sc">^</span><span class="dv">2</span>)),</span>
+<span id="cb15-162"><a href="#cb15-162" aria-hidden="true" tabindex="-1"></a>             <span class="at">test_rmse      =</span> <span class="fu">rmse</span>(<span class="fu">cbind</span>(<span class="dv">1</span>, X[test, columns]) <span class="sc">%*%</span> coefs, y[test]))</span>
+<span id="cb15-163"><a href="#cb15-163" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-164"><a href="#cb15-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-165"><a href="#cb15-165" aria-hidden="true" tabindex="-1"></a><span class="co"># Ridge or the lasso on all 1,279 markers</span></span>
+<span id="cb15-166"><a href="#cb15-166" aria-hidden="true" tabindex="-1"></a>shrink_row <span class="ot">&lt;-</span> <span class="cf">function</span>(alpha, lambda, name) {</span>
+<span id="cb15-167"><a href="#cb15-167" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(X[train, ], y[train], <span class="at">alpha =</span> alpha, <span class="at">lambda =</span> lambda)</span>
+<span id="cb15-168"><a href="#cb15-168" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">method         =</span> name,</span>
+<span id="cb15-169"><a href="#cb15-169" aria-hidden="true" tabindex="-1"></a>             <span class="at">markers_chosen =</span> <span class="fu">ncol</span>(X),</span>
+<span id="cb15-170"><a href="#cb15-170" aria-hidden="true" tabindex="-1"></a>             <span class="at">markers_used   =</span> <span class="fu">sum</span>(<span class="fu">coef</span>(fit)[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">!=</span> <span class="dv">0</span>),</span>
+<span id="cb15-171"><a href="#cb15-171" aria-hidden="true" tabindex="-1"></a>             <span class="at">train_rmse     =</span> <span class="fu">rmse</span>(<span class="fu">predict</span>(fit, X[train, ]), y[train]),</span>
+<span id="cb15-172"><a href="#cb15-172" aria-hidden="true" tabindex="-1"></a>             <span class="at">test_rmse      =</span> <span class="fu">rmse</span>(<span class="fu">predict</span>(fit, X[test, ]), y[test]))</span>
+<span id="cb15-173"><a href="#cb15-173" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-174"><a href="#cb15-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-175"><a href="#cb15-175" aria-hidden="true" tabindex="-1"></a><span class="co"># The lambda values were chosen by cross-validation; Section 3 shows why the choice matters</span></span>
+<span id="cb15-176"><a href="#cb15-176" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(n_markers, ls_row)),</span>
+<span id="cb15-177"><a href="#cb15-177" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">shrink_row</span>(<span class="at">alpha =</span> <span class="dv">0</span>, <span class="at">lambda =</span> <span class="dv">34</span>, <span class="st">"Ridge"</span>),</span>
+<span id="cb15-178"><a href="#cb15-178" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">shrink_row</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">lambda =</span> <span class="fl">0.48</span>, <span class="st">"Lasso"</span>))</span>
+<span id="cb15-179"><a href="#cb15-179" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>train_rmse <span class="ot">&lt;-</span> <span class="fu">round</span>(results<span class="sc">$</span>train_rmse, <span class="dv">2</span>)</span>
+<span id="cb15-180"><a href="#cb15-180" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>test_rmse  <span class="ot">&lt;-</span> <span class="fu">round</span>(results<span class="sc">$</span>test_rmse, <span class="dv">2</span>)</span>
+<span id="cb15-181"><a href="#cb15-181" aria-hidden="true" tabindex="-1"></a>results</span>
+<span id="cb15-182"><a href="#cb15-182" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-183"><a href="#cb15-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-184"><a href="#cb15-184" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true" title="The point"}</span>
+<span id="cb15-185"><a href="#cb15-185" aria-hidden="true" tabindex="-1"></a>When many features each have a small effect, ridge predicts best: it</span>
+<span id="cb15-186"><a href="#cb15-186" aria-hidden="true" tabindex="-1"></a>keeps every marker and shrinks them all. Least squares on all the</span>
+<span id="cb15-187"><a href="#cb15-187" aria-hidden="true" tabindex="-1"></a>markers fits the training lines perfectly and predicts new lines badly.</span>
+<span id="cb15-188"><a href="#cb15-188" aria-hidden="true" tabindex="-1"></a>Using only the top-ranked markers stops the blow-up, but it doesn't</span>
+<span id="cb15-189"><a href="#cb15-189" aria-hidden="true" tabindex="-1"></a>catch ridge.</span>
+<span id="cb15-190"><a href="#cb15-190" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb15-191"><a href="#cb15-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-192"><a href="#cb15-192" aria-hidden="true" tabindex="-1"></a><span class="fu">## 2. Yield of a Chemical Manufacturing Process</span></span>
+<span id="cb15-193"><a href="#cb15-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-194"><a href="#cb15-194" aria-hidden="true" tabindex="-1"></a>These data come from a 27-step process that makes a pharmaceutical</span>
+<span id="cb15-195"><a href="#cb15-195" aria-hidden="true" tabindex="-1"></a>product.</span>
+<span id="cb15-196"><a href="#cb15-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-197"><a href="#cb15-197" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Rows:** 176 samples of the process.</span>
+<span id="cb15-198"><a href="#cb15-198" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Features:** 57 measurements: 12 of the biological starting material,</span>
+<span id="cb15-199"><a href="#cb15-199" aria-hidden="true" tabindex="-1"></a>  and 45 of the manufacturing process, such as temperature, drying time,</span>
+<span id="cb15-200"><a href="#cb15-200" aria-hidden="true" tabindex="-1"></a>  and washing time.</span>
+<span id="cb15-201"><a href="#cb15-201" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Response:** percent yield of the final product.</span>
+<span id="cb15-202"><a href="#cb15-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-203"><a href="#cb15-203" aria-hidden="true" tabindex="-1"></a>We train on 80% of the samples (141) and test on the other 20% (35).</span>
+<span id="cb15-204"><a href="#cb15-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-205"><a href="#cb15-205" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **PREDICT:** Suppose only a few of these 57 measurements really drive</span></span>
+<span id="cb15-206"><a href="#cb15-206" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; yield. Which method will predict yield best on the test samples: least</span></span>
+<span id="cb15-207"><a href="#cb15-207" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; squares, ridge, or the lasso? Why?</span></span>
+<span id="cb15-208"><a href="#cb15-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-211"><a href="#cb15-211" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-212"><a href="#cb15-212" aria-hidden="true" tabindex="-1"></a><span class="co">#| results: hold</span></span>
+<span id="cb15-213"><a href="#cb15-213" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
+<span id="cb15-214"><a href="#cb15-214" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(ChemicalManufacturingProcess, <span class="at">package =</span> <span class="st">"AppliedPredictiveModeling"</span>)</span>
+<span id="cb15-215"><a href="#cb15-215" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(ChemicalManufacturingProcess[, <span class="sc">-</span><span class="dv">1</span>])   <span class="co"># the 57 measurements</span></span>
+<span id="cb15-216"><a href="#cb15-216" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> ChemicalManufacturingProcess<span class="sc">$</span>Yield              <span class="co"># percent yield</span></span>
+<span id="cb15-217"><a href="#cb15-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-218"><a href="#cb15-218" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">8</span>)</span>
+<span id="cb15-219"><a href="#cb15-219" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(X), <span class="dv">141</span>)   <span class="co"># 80% to train; the other 35 samples are for testing</span></span>
+<span id="cb15-220"><a href="#cb15-220" aria-hidden="true" tabindex="-1"></a>test  <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(X)), train)</span>
+<span id="cb15-221"><a href="#cb15-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-222"><a href="#cb15-222" aria-hidden="true" tabindex="-1"></a><span class="co"># Some measurements are missing: fill each with its median on the training samples</span></span>
+<span id="cb15-223"><a href="#cb15-223" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="fu">seq_len</span>(<span class="fu">ncol</span>(X))) {</span>
+<span id="cb15-224"><a href="#cb15-224" aria-hidden="true" tabindex="-1"></a>  X[<span class="fu">is.na</span>(X[, j]), j] <span class="ot">&lt;-</span> <span class="fu">median</span>(X[train, j], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-225"><a href="#cb15-225" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-226"><a href="#cb15-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-227"><a href="#cb15-227" aria-hidden="true" tabindex="-1"></a>rmse <span class="ot">&lt;-</span> <span class="cf">function</span>(pred, actual) <span class="fu">sqrt</span>(<span class="fu">mean</span>((actual <span class="sc">-</span> pred)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb15-228"><a href="#cb15-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-229"><a href="#cb15-229" aria-hidden="true" tabindex="-1"></a><span class="co"># Least squares on all the features</span></span>
+<span id="cb15-230"><a href="#cb15-230" aria-hidden="true" tabindex="-1"></a>ls_fit  <span class="ot">&lt;-</span> <span class="fu">lm</span>(y[train] <span class="sc">~</span> X[train, ])</span>
+<span id="cb15-231"><a href="#cb15-231" aria-hidden="true" tabindex="-1"></a>coefs   <span class="ot">&lt;-</span> <span class="fu">coef</span>(ls_fit)</span>
+<span id="cb15-232"><a href="#cb15-232" aria-hidden="true" tabindex="-1"></a>ls_used <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(coefs)) <span class="sc">-</span> <span class="dv">1</span>   <span class="co"># features lm could estimate (not counting the intercept)</span></span>
+<span id="cb15-233"><a href="#cb15-233" aria-hidden="true" tabindex="-1"></a>coefs[<span class="fu">is.na</span>(coefs)] <span class="ot">&lt;-</span> <span class="dv">0</span>            <span class="co"># lm returns NA for features it can't estimate</span></span>
+<span id="cb15-234"><a href="#cb15-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-235"><a href="#cb15-235" aria-hidden="true" tabindex="-1"></a><span class="co"># Ridge or the lasso on all the features; returns one row of the results table</span></span>
+<span id="cb15-236"><a href="#cb15-236" aria-hidden="true" tabindex="-1"></a>shrink_row <span class="ot">&lt;-</span> <span class="cf">function</span>(alpha, lambda, name) {</span>
+<span id="cb15-237"><a href="#cb15-237" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(X[train, ], y[train], <span class="at">alpha =</span> alpha, <span class="at">lambda =</span> lambda)</span>
+<span id="cb15-238"><a href="#cb15-238" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">method        =</span> name,</span>
+<span id="cb15-239"><a href="#cb15-239" aria-hidden="true" tabindex="-1"></a>             <span class="at">features_used =</span> <span class="fu">sum</span>(<span class="fu">coef</span>(fit)[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">!=</span> <span class="dv">0</span>),</span>
+<span id="cb15-240"><a href="#cb15-240" aria-hidden="true" tabindex="-1"></a>             <span class="at">train_rmse    =</span> <span class="fu">rmse</span>(<span class="fu">predict</span>(fit, X[train, ]), y[train]),</span>
+<span id="cb15-241"><a href="#cb15-241" aria-hidden="true" tabindex="-1"></a>             <span class="at">test_rmse     =</span> <span class="fu">rmse</span>(<span class="fu">predict</span>(fit, X[test, ]), y[test]))</span>
+<span id="cb15-242"><a href="#cb15-242" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-243"><a href="#cb15-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-244"><a href="#cb15-244" aria-hidden="true" tabindex="-1"></a><span class="co"># The lambda values were chosen by cross-validation; Section 3 shows why the choice matters</span></span>
+<span id="cb15-245"><a href="#cb15-245" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb15-246"><a href="#cb15-246" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">method        =</span> <span class="st">"Least squares"</span>,</span>
+<span id="cb15-247"><a href="#cb15-247" aria-hidden="true" tabindex="-1"></a>             <span class="at">features_used =</span> ls_used,</span>
+<span id="cb15-248"><a href="#cb15-248" aria-hidden="true" tabindex="-1"></a>             <span class="at">train_rmse    =</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>(<span class="fu">resid</span>(ls_fit)<span class="sc">^</span><span class="dv">2</span>)),</span>
+<span id="cb15-249"><a href="#cb15-249" aria-hidden="true" tabindex="-1"></a>             <span class="at">test_rmse     =</span> <span class="fu">rmse</span>(<span class="fu">cbind</span>(<span class="dv">1</span>, X[test, ]) <span class="sc">%*%</span> coefs, y[test])),</span>
+<span id="cb15-250"><a href="#cb15-250" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shrink_row</span>(<span class="at">alpha =</span> <span class="dv">0</span>, <span class="at">lambda =</span> <span class="fl">3.1</span>, <span class="st">"Ridge"</span>),</span>
+<span id="cb15-251"><a href="#cb15-251" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shrink_row</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">lambda =</span> <span class="fl">0.071</span>, <span class="st">"Lasso"</span>)</span>
+<span id="cb15-252"><a href="#cb15-252" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-253"><a href="#cb15-253" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>train_rmse <span class="ot">&lt;-</span> <span class="fu">round</span>(results<span class="sc">$</span>train_rmse, <span class="dv">2</span>)</span>
+<span id="cb15-254"><a href="#cb15-254" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>test_rmse  <span class="ot">&lt;-</span> <span class="fu">round</span>(results<span class="sc">$</span>test_rmse, <span class="dv">2</span>)</span>
+<span id="cb15-255"><a href="#cb15-255" aria-hidden="true" tabindex="-1"></a>base<span class="sc">::</span><span class="fu">print.data.frame</span>(results)   <span class="co"># plain text, so the table and the summary show together</span></span>
+<span id="cb15-256"><a href="#cb15-256" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb15-257"><a href="#cb15-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-258"><a href="#cb15-258" aria-hidden="true" tabindex="-1"></a><span class="co"># How many features did the lasso zero out, and what kind did it keep?</span></span>
+<span id="cb15-259"><a href="#cb15-259" aria-hidden="true" tabindex="-1"></a>lasso       <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(X[train, ], y[train], <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">lambda =</span> <span class="fl">0.071</span>)</span>
+<span id="cb15-260"><a href="#cb15-260" aria-hidden="true" tabindex="-1"></a>lasso_coefs <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">coef</span>(lasso))[<span class="sc">-</span><span class="dv">1</span>, ]   <span class="co"># leave out the intercept</span></span>
+<span id="cb15-261"><a href="#cb15-261" aria-hidden="true" tabindex="-1"></a>is_bio      <span class="ot">&lt;-</span> <span class="fu">grepl</span>(<span class="st">"Biological"</span>, <span class="fu">names</span>(lasso_coefs))</span>
+<span id="cb15-262"><a href="#cb15-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-263"><a href="#cb15-263" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"The lasso zeroed out "</span>, <span class="fu">sum</span>(lasso_coefs <span class="sc">==</span> <span class="dv">0</span>), <span class="st">" of "</span>, <span class="fu">length</span>(lasso_coefs), <span class="st">" features.</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb15-264"><a href="#cb15-264" aria-hidden="true" tabindex="-1"></a>    <span class="st">"It kept "</span>, <span class="fu">sum</span>(lasso_coefs[is_bio] <span class="sc">!=</span> <span class="dv">0</span>), <span class="st">" of "</span>, <span class="fu">sum</span>(is_bio),</span>
+<span id="cb15-265"><a href="#cb15-265" aria-hidden="true" tabindex="-1"></a>    <span class="st">" biological measurements (quality and characteristics of the starting material)</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb15-266"><a href="#cb15-266" aria-hidden="true" tabindex="-1"></a>    <span class="st">"and "</span>, <span class="fu">sum</span>(lasso_coefs[<span class="sc">!</span>is_bio] <span class="sc">!=</span> <span class="dv">0</span>), <span class="st">" of "</span>, <span class="fu">sum</span>(<span class="sc">!</span>is_bio),</span>
+<span id="cb15-267"><a href="#cb15-267" aria-hidden="true" tabindex="-1"></a>    <span class="st">" process measurements (such as temperature, drying time, and washing time).</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb15-268"><a href="#cb15-268" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-269"><a href="#cb15-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-270"><a href="#cb15-270" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **YOUR TURN:** Try different numbers of features for least squares,</span></span>
+<span id="cb15-271"><a href="#cb15-271" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ranked by each feature's individual R-squared with yield on the</span></span>
+<span id="cb15-272"><a href="#cb15-272" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; training samples. Edit </span><span class="in">`n_features`</span><span class="at"> and run the chunk to print the</span></span>
+<span id="cb15-273"><a href="#cb15-273" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; results. Ridge and the lasso stay the same, for comparison.</span></span>
+<span id="cb15-274"><a href="#cb15-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-277"><a href="#cb15-277" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-278"><a href="#cb15-278" aria-hidden="true" tabindex="-1"></a>n_features <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">57</span>)   <span class="co"># &lt;- change me (add to the list)</span></span>
+<span id="cb15-279"><a href="#cb15-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-280"><a href="#cb15-280" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
+<span id="cb15-281"><a href="#cb15-281" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(ChemicalManufacturingProcess, <span class="at">package =</span> <span class="st">"AppliedPredictiveModeling"</span>)</span>
+<span id="cb15-282"><a href="#cb15-282" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(ChemicalManufacturingProcess[, <span class="sc">-</span><span class="dv">1</span>])   <span class="co"># the 57 measurements</span></span>
+<span id="cb15-283"><a href="#cb15-283" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> ChemicalManufacturingProcess<span class="sc">$</span>Yield              <span class="co"># percent yield</span></span>
+<span id="cb15-284"><a href="#cb15-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-285"><a href="#cb15-285" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">8</span>)</span>
+<span id="cb15-286"><a href="#cb15-286" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(X), <span class="dv">141</span>)   <span class="co"># 80% to train; the other 35 samples are for testing</span></span>
+<span id="cb15-287"><a href="#cb15-287" aria-hidden="true" tabindex="-1"></a>test  <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(X)), train)</span>
+<span id="cb15-288"><a href="#cb15-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-289"><a href="#cb15-289" aria-hidden="true" tabindex="-1"></a><span class="co"># Some measurements are missing: fill each with its median on the training samples</span></span>
+<span id="cb15-290"><a href="#cb15-290" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="fu">seq_len</span>(<span class="fu">ncol</span>(X))) {</span>
+<span id="cb15-291"><a href="#cb15-291" aria-hidden="true" tabindex="-1"></a>  X[<span class="fu">is.na</span>(X[, j]), j] <span class="ot">&lt;-</span> <span class="fu">median</span>(X[train, j], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-292"><a href="#cb15-292" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-293"><a href="#cb15-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-294"><a href="#cb15-294" aria-hidden="true" tabindex="-1"></a>rmse <span class="ot">&lt;-</span> <span class="cf">function</span>(pred, actual) <span class="fu">sqrt</span>(<span class="fu">mean</span>((actual <span class="sc">-</span> pred)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb15-295"><a href="#cb15-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-296"><a href="#cb15-296" aria-hidden="true" tabindex="-1"></a><span class="co"># Rank features by their individual R-squared with yield on the training samples</span></span>
+<span id="cb15-297"><a href="#cb15-297" aria-hidden="true" tabindex="-1"></a>r2     <span class="ot">&lt;-</span> <span class="fu">cor</span>(X[train, ], y[train])<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb15-298"><a href="#cb15-298" aria-hidden="true" tabindex="-1"></a>ranked <span class="ot">&lt;-</span> <span class="fu">order</span>(r2, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-299"><a href="#cb15-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-300"><a href="#cb15-300" aria-hidden="true" tabindex="-1"></a><span class="co"># Least squares on the top k features</span></span>
+<span id="cb15-301"><a href="#cb15-301" aria-hidden="true" tabindex="-1"></a>ls_row <span class="ot">&lt;-</span> <span class="cf">function</span>(k) {</span>
+<span id="cb15-302"><a href="#cb15-302" aria-hidden="true" tabindex="-1"></a>  columns <span class="ot">&lt;-</span> ranked[<span class="dv">1</span><span class="sc">:</span>k]</span>
+<span id="cb15-303"><a href="#cb15-303" aria-hidden="true" tabindex="-1"></a>  fit     <span class="ot">&lt;-</span> <span class="fu">lm</span>(y[train] <span class="sc">~</span> X[train, columns])</span>
+<span id="cb15-304"><a href="#cb15-304" aria-hidden="true" tabindex="-1"></a>  coefs   <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit)</span>
+<span id="cb15-305"><a href="#cb15-305" aria-hidden="true" tabindex="-1"></a>  used    <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(coefs)) <span class="sc">-</span> <span class="dv">1</span>   <span class="co"># features lm could estimate (not counting the intercept)</span></span>
+<span id="cb15-306"><a href="#cb15-306" aria-hidden="true" tabindex="-1"></a>  coefs[<span class="fu">is.na</span>(coefs)] <span class="ot">&lt;-</span> <span class="dv">0</span>            <span class="co"># lm returns NA for features it can't estimate</span></span>
+<span id="cb15-307"><a href="#cb15-307" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">method          =</span> <span class="st">"Least squares"</span>,</span>
+<span id="cb15-308"><a href="#cb15-308" aria-hidden="true" tabindex="-1"></a>             <span class="at">features_chosen =</span> k,</span>
+<span id="cb15-309"><a href="#cb15-309" aria-hidden="true" tabindex="-1"></a>             <span class="at">features_used   =</span> used,</span>
+<span id="cb15-310"><a href="#cb15-310" aria-hidden="true" tabindex="-1"></a>             <span class="at">train_rmse      =</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>(<span class="fu">resid</span>(fit)<span class="sc">^</span><span class="dv">2</span>)),</span>
+<span id="cb15-311"><a href="#cb15-311" aria-hidden="true" tabindex="-1"></a>             <span class="at">test_rmse       =</span> <span class="fu">rmse</span>(<span class="fu">cbind</span>(<span class="dv">1</span>, X[test, columns]) <span class="sc">%*%</span> coefs, y[test]))</span>
+<span id="cb15-312"><a href="#cb15-312" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-313"><a href="#cb15-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-314"><a href="#cb15-314" aria-hidden="true" tabindex="-1"></a><span class="co"># Ridge or the lasso on all 57 features</span></span>
+<span id="cb15-315"><a href="#cb15-315" aria-hidden="true" tabindex="-1"></a>shrink_row <span class="ot">&lt;-</span> <span class="cf">function</span>(alpha, lambda, name) {</span>
+<span id="cb15-316"><a href="#cb15-316" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(X[train, ], y[train], <span class="at">alpha =</span> alpha, <span class="at">lambda =</span> lambda)</span>
+<span id="cb15-317"><a href="#cb15-317" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">method          =</span> name,</span>
+<span id="cb15-318"><a href="#cb15-318" aria-hidden="true" tabindex="-1"></a>             <span class="at">features_chosen =</span> <span class="fu">ncol</span>(X),</span>
+<span id="cb15-319"><a href="#cb15-319" aria-hidden="true" tabindex="-1"></a>             <span class="at">features_used   =</span> <span class="fu">sum</span>(<span class="fu">coef</span>(fit)[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">!=</span> <span class="dv">0</span>),</span>
+<span id="cb15-320"><a href="#cb15-320" aria-hidden="true" tabindex="-1"></a>             <span class="at">train_rmse      =</span> <span class="fu">rmse</span>(<span class="fu">predict</span>(fit, X[train, ]), y[train]),</span>
+<span id="cb15-321"><a href="#cb15-321" aria-hidden="true" tabindex="-1"></a>             <span class="at">test_rmse       =</span> <span class="fu">rmse</span>(<span class="fu">predict</span>(fit, X[test, ]), y[test]))</span>
+<span id="cb15-322"><a href="#cb15-322" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-323"><a href="#cb15-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-324"><a href="#cb15-324" aria-hidden="true" tabindex="-1"></a><span class="co"># The lambda values were chosen by cross-validation; Section 3 shows why the choice matters</span></span>
+<span id="cb15-325"><a href="#cb15-325" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(n_features, ls_row)),</span>
+<span id="cb15-326"><a href="#cb15-326" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">shrink_row</span>(<span class="at">alpha =</span> <span class="dv">0</span>, <span class="at">lambda =</span> <span class="fl">3.1</span>, <span class="st">"Ridge"</span>),</span>
+<span id="cb15-327"><a href="#cb15-327" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">shrink_row</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">lambda =</span> <span class="fl">0.071</span>, <span class="st">"Lasso"</span>))</span>
+<span id="cb15-328"><a href="#cb15-328" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>train_rmse <span class="ot">&lt;-</span> <span class="fu">round</span>(results<span class="sc">$</span>train_rmse, <span class="dv">2</span>)</span>
+<span id="cb15-329"><a href="#cb15-329" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>test_rmse  <span class="ot">&lt;-</span> <span class="fu">round</span>(results<span class="sc">$</span>test_rmse, <span class="dv">2</span>)</span>
+<span id="cb15-330"><a href="#cb15-330" aria-hidden="true" tabindex="-1"></a>results</span>
+<span id="cb15-331"><a href="#cb15-331" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-332"><a href="#cb15-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-333"><a href="#cb15-333" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true" title="The point"}</span>
+<span id="cb15-334"><a href="#cb15-334" aria-hidden="true" tabindex="-1"></a>When a few features carry most of the signal, the lasso predicts best</span>
+<span id="cb15-335"><a href="#cb15-335" aria-hidden="true" tabindex="-1"></a>and drops many features along the way. Here, least squares on a short</span>
+<span id="cb15-336"><a href="#cb15-336" aria-hidden="true" tabindex="-1"></a>list of top-ranked features nearly matches the lasso, which it couldn't</span>
+<span id="cb15-337"><a href="#cb15-337" aria-hidden="true" tabindex="-1"></a>do with ridge on the wheat data.</span>
+<span id="cb15-338"><a href="#cb15-338" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb15-339"><a href="#cb15-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-340"><a href="#cb15-340" aria-hidden="true" tabindex="-1"></a><span class="fu">## 3. Finding the Best λ</span></span>
+<span id="cb15-341"><a href="#cb15-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-342"><a href="#cb15-342" aria-hidden="true" tabindex="-1"></a>Back to the wheat data from Section 1: the same 599 lines, 1,279 genetic</span>
+<span id="cb15-343"><a href="#cb15-343" aria-hidden="true" tabindex="-1"></a>markers, and yield index. This time we fit ridge at 200 values of</span>
+<span id="cb15-344"><a href="#cb15-344" aria-hidden="true" tabindex="-1"></a>$\lambda$ and average the test error at each one over 10 random 80/20</span>
+<span id="cb15-345"><a href="#cb15-345" aria-hidden="true" tabindex="-1"></a>splits.</span>
+<span id="cb15-346"><a href="#cb15-346" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-347"><a href="#cb15-347" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **PREDICT:** As $\lambda$ grows from almost zero to very large, what</span></span>
+<span id="cb15-348"><a href="#cb15-348" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; shape will the test error follow?</span></span>
+<span id="cb15-349"><a href="#cb15-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-352"><a href="#cb15-352" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-353"><a href="#cb15-353" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
+<span id="cb15-354"><a href="#cb15-354" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb15-355"><a href="#cb15-355" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(wheat, <span class="at">package =</span> <span class="st">"BGLR"</span>)   <span class="co"># loads wheat.X (markers) and wheat.Y (yield)</span></span>
+<span id="cb15-356"><a href="#cb15-356" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> wheat.X</span>
+<span id="cb15-357"><a href="#cb15-357" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="sc">+</span> <span class="dv">10</span> <span class="sc">*</span> wheat.Y[, <span class="dv">1</span>]    <span class="co"># yield index: 100 = average line, 10 = one SD</span></span>
+<span id="cb15-358"><a href="#cb15-358" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-359"><a href="#cb15-359" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot average test RMSE across lambda for one method: alpha = 0 is ridge, alpha = 1 is the lasso</span></span>
+<span id="cb15-360"><a href="#cb15-360" aria-hidden="true" tabindex="-1"></a>plot_lambda_curve <span class="ot">&lt;-</span> <span class="cf">function</span>(alpha) {</span>
+<span id="cb15-361"><a href="#cb15-361" aria-hidden="true" tabindex="-1"></a>  lambdas <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^</span><span class="fu">seq</span>(<span class="dv">5</span>, <span class="sc">-</span><span class="dv">3</span>, <span class="at">length.out =</span> <span class="dv">200</span>)   <span class="co"># 200 values, from very large to very small</span></span>
+<span id="cb15-362"><a href="#cb15-362" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-363"><a href="#cb15-363" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Test RMSE at each lambda, for one random 80/20 split</span></span>
+<span id="cb15-364"><a href="#cb15-364" aria-hidden="true" tabindex="-1"></a>  split_rmse <span class="ot">&lt;-</span> <span class="cf">function</span>(seed) {</span>
+<span id="cb15-365"><a href="#cb15-365" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set.seed</span>(seed)</span>
+<span id="cb15-366"><a href="#cb15-366" aria-hidden="true" tabindex="-1"></a>    train <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(X), <span class="dv">479</span>)   <span class="co"># 80% to train; the other 120 lines are for testing</span></span>
+<span id="cb15-367"><a href="#cb15-367" aria-hidden="true" tabindex="-1"></a>    test  <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(X)), train)</span>
+<span id="cb15-368"><a href="#cb15-368" aria-hidden="true" tabindex="-1"></a>    fit   <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(X[train, ], y[train], <span class="at">alpha =</span> alpha, <span class="at">lambda =</span> lambdas)</span>
+<span id="cb15-369"><a href="#cb15-369" aria-hidden="true" tabindex="-1"></a>    preds <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit, X[test, ], <span class="at">s =</span> lambdas)</span>
+<span id="cb15-370"><a href="#cb15-370" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sqrt</span>(<span class="fu">colMeans</span>((preds <span class="sc">-</span> y[test])<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb15-371"><a href="#cb15-371" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-372"><a href="#cb15-372" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-373"><a href="#cb15-373" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Average over 10 random splits, and find the lambda where the average is lowest</span></span>
+<span id="cb15-374"><a href="#cb15-374" aria-hidden="true" tabindex="-1"></a>  errors <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">lambda =</span> lambdas, <span class="at">test_rmse =</span> <span class="fu">rowMeans</span>(<span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, split_rmse)))</span>
+<span id="cb15-375"><a href="#cb15-375" aria-hidden="true" tabindex="-1"></a>  best   <span class="ot">&lt;-</span> errors[<span class="fu">which.min</span>(errors<span class="sc">$</span>test_rmse), ]</span>
+<span id="cb15-376"><a href="#cb15-376" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-377"><a href="#cb15-377" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(errors, <span class="fu">aes</span>(lambda, test_rmse)) <span class="sc">+</span></span>
+<span id="cb15-378"><a href="#cb15-378" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>, <span class="at">color =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb15-379"><a href="#cb15-379" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">data =</span> best, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb15-380"><a href="#cb15-380" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text</span>(<span class="at">data =</span> best, <span class="at">vjust =</span> <span class="dv">2</span>,</span>
+<span id="cb15-381"><a href="#cb15-381" aria-hidden="true" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">sprintf</span>(<span class="st">"Minimum: lambda = %.3g, test RMSE = %.2f"</span>, lambda, test_rmse))) <span class="sc">+</span></span>
+<span id="cb15-382"><a href="#cb15-382" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_log10</span>(<span class="at">breaks =</span> <span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>),</span>
+<span id="cb15-383"><a href="#cb15-383" aria-hidden="true" tabindex="-1"></a>                  <span class="at">labels =</span> <span class="fu">format</span>(<span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>), <span class="at">scientific =</span> <span class="cn">FALSE</span>, <span class="at">drop0trailing =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb15-384"><a href="#cb15-384" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">trim =</span> <span class="cn">TRUE</span>, <span class="at">big.mark =</span> <span class="st">","</span>)) <span class="sc">+</span></span>
+<span id="cb15-385"><a href="#cb15-385" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">pretty</span>(<span class="fu">c</span>(best<span class="sc">$</span>test_rmse <span class="sc">-</span> <span class="fl">0.6</span>, errors<span class="sc">$</span>test_rmse), <span class="at">n =</span> <span class="dv">12</span>)) <span class="sc">+</span></span>
+<span id="cb15-386"><a href="#cb15-386" aria-hidden="true" tabindex="-1"></a>    <span class="fu">expand_limits</span>(<span class="at">y =</span> best<span class="sc">$</span>test_rmse <span class="sc">-</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb15-387"><a href="#cb15-387" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb15-388"><a href="#cb15-388" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="cf">if</span> (alpha <span class="sc">==</span> <span class="dv">0</span>) <span class="st">"Ridge"</span> <span class="cf">else</span> <span class="cf">if</span> (alpha <span class="sc">==</span> <span class="dv">1</span>) <span class="st">"Lasso"</span> <span class="cf">else</span> <span class="fu">paste0</span>(<span class="st">"Elastic-Net (alpha = "</span>, alpha, <span class="st">")"</span>),</span>
+<span id="cb15-389"><a href="#cb15-389" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> <span class="st">"lambda (log scale)"</span>, <span class="at">y =</span> <span class="st">"Average test RMSE (yield points)"</span>)</span>
+<span id="cb15-390"><a href="#cb15-390" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-391"><a href="#cb15-391" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-392"><a href="#cb15-392" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_lambda_curve</span>(<span class="at">alpha =</span> <span class="dv">0</span>)   <span class="co"># ridge is alpha = 0, lasso is alpha = 1</span></span>
+<span id="cb15-393"><a href="#cb15-393" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-394"><a href="#cb15-394" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-395"><a href="#cb15-395" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **YOUR TURN:** Change </span><span class="in">`alpha`</span><span class="at"> to the value for the lasso and run this</span></span>
+<span id="cb15-396"><a href="#cb15-396" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; chunk. How does the best $\lambda$ compare with ridge's?</span></span>
+<span id="cb15-397"><a href="#cb15-397" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-400"><a href="#cb15-400" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-401"><a href="#cb15-401" aria-hidden="true" tabindex="-1"></a><span class="co"># ridge is alpha = 0, lasso is alpha = 1</span></span>
+<span id="cb15-402"><a href="#cb15-402" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_lambda_curve</span>(<span class="at">alpha =</span> <span class="dv">0</span>)   <span class="co"># &lt;- change me to lasso regularization</span></span>
+<span id="cb15-403"><a href="#cb15-403" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-404"><a href="#cb15-404" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-405"><a href="#cb15-405" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true" title="The point"}</span>
+<span id="cb15-406"><a href="#cb15-406" aria-hidden="true" tabindex="-1"></a>Test error falls and then rises as $\lambda$ grows. Too little shrinkage</span>
+<span id="cb15-407"><a href="#cb15-407" aria-hidden="true" tabindex="-1"></a>leaves high variance, too much adds bias, and the best $\lambda$ is in</span>
+<span id="cb15-408"><a href="#cb15-408" aria-hidden="true" tabindex="-1"></a>between. The best value is very different for ridge and the lasso, so it</span>
+<span id="cb15-409"><a href="#cb15-409" aria-hidden="true" tabindex="-1"></a>has to be chosen separately for each method, which is what</span>
+<span id="cb15-410"><a href="#cb15-410" aria-hidden="true" tabindex="-1"></a>cross-validation does.</span>
+<span id="cb15-411"><a href="#cb15-411" aria-hidden="true" tabindex="-1"></a>:::</span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

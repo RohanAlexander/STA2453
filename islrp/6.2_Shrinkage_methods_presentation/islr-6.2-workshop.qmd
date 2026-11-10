@@ -1,0 +1,397 @@
+---
+title: "Shrinkage Methods: Hands-On Workshop"
+subtitle: "ISLR §6.2 — Companion Code"
+author: "Allwin Steve Paul Justin Anantharaj · Furkan Danisman · Sean Murphy · Vijval Rallan"
+date: today
+format:
+  html:
+    toc: true
+    code-fold: false
+    code-tools: true
+execute:
+  warning: false
+  message: false
+editor:
+  markdown:
+    wrap: 72
+---
+
+## Before We Start
+
+This is a companion workshop to the slides, with two real data sets. In
+each section:
+
+1.  Read the **PREDICT** box and decide what you think will happen.
+2.  Run the chunks (click ▶ on each one, in order).
+3.  Do the **YOUR TURN** box: change one value, re-run, and compare.
+
+Ridge and the lasso both minimize the residual sum of squares plus a
+penalty on the coefficients:
+
+$$\text{Ridge: } \text{RSS} + \lambda \sum_{j} \beta_j^2
+\qquad\qquad
+\text{Lasso: } \text{RSS} + \lambda \sum_{j} |\beta_j|$$
+
+In R, `glmnet` fits both. `alpha = 0` gives ridge and `alpha = 1` gives
+the lasso. It **standardizes the predictors** before fitting.
+
+```{r}
+for (pkg in c("glmnet", "BGLR", "AppliedPredictiveModeling", "ggplot2")) {
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    install.packages(pkg, repos = "https://cloud.r-project.org")
+  }
+}
+library(glmnet)   # ridge (alpha = 0) and lasso (alpha = 1)
+library(ggplot2)
+theme_set(theme_minimal())
+```
+
+## 1. Wheat Yield from Genetic Markers
+
+These data come from the wheat breeding program at the International
+Maize and Wheat Improvement Center, which tests wheat lines in trials
+around the world.
+
+- **Rows:** 599 wheat lines (varieties).
+- **Features:** 1,279 genetic markers, scored 0 or 1 to record whether a
+  particular stretch of DNA is absent or present.
+- **Response:** grain yield shown as an index: 100 is the average line,
+  and 10 points is one standard deviation.
+
+We train on 80% of the lines (479) and test on the other 20% (120).
+
+> **PREDICT:** Yield is thought to be shaped by many genes, each with a
+> small effect. Which method will predict yield best on the test lines:
+> least squares, ridge, or the lasso? Why?
+
+```{r}
+library(glmnet)
+data(wheat, package = "BGLR")   # loads wheat.X (markers) and wheat.Y (yield)
+X <- wheat.X
+y <- 100 + 10 * wheat.Y[, 1]    # yield index: 100 = average line, 10 = one SD
+
+set.seed(853)
+train <- sample(nrow(X), 479)   # 80% to train; the other 120 lines are for testing
+test  <- setdiff(seq_len(nrow(X)), train)
+
+rmse <- function(pred, actual) sqrt(mean((actual - pred)^2))
+
+# Least squares on the chosen marker columns; returns one row of the results table
+ls_row <- function(columns) {
+  fit   <- lm(y[train] ~ X[train, columns])
+  coefs <- coef(fit)
+  used  <- sum(!is.na(coefs)) - 1   # markers lm could estimate (not counting the intercept)
+  coefs[is.na(coefs)] <- 0          # lm returns NA for markers it can't estimate
+  data.frame(method         = "Least squares",
+             markers_chosen = length(columns),
+             markers_used   = used,
+             train_rmse     = sqrt(mean(resid(fit)^2)),
+             test_rmse      = rmse(cbind(1, X[test, columns]) %*% coefs, y[test]))
+}
+
+# Ridge or the lasso; returns one row of the results table
+shrink_row <- function(fit, name) {
+  data.frame(method         = name,
+             markers_chosen = ncol(X),
+             markers_used   = sum(coef(fit)[-1] != 0),
+             train_rmse     = rmse(predict(fit, X[train, ]), y[train]),
+             test_rmse      = rmse(predict(fit, X[test, ]), y[test]))
+}
+
+# Print ordinary numbers rounded, and huge ones in scientific notation
+show_table <- function(results) {
+  show_rmse <- function(x) ifelse(x > 1000, format(x, scientific = TRUE, digits = 2), round(x, 2))
+  results$train_rmse <- show_rmse(results$train_rmse)
+  results$test_rmse  <- show_rmse(results$test_rmse)
+  results
+}
+
+# Ridge and the lasso use all 1,279 markers, each with its own fixed lambda
+# (the lambda values were chosen by cross-validation; Section 3 shows why the choice matters)
+ridge <- glmnet(X[train, ], y[train], alpha = 0, lambda = 34)
+lasso <- glmnet(X[train, ], y[train], alpha = 1, lambda = 0.48)
+shrink_rows <- rbind(shrink_row(ridge, "Ridge"), shrink_row(lasso, "Lasso"))
+
+# Least squares gets all the markers, sorted by their individual R-squared with yield
+r2     <- cor(X[train, ], y[train])^2
+ranked <- order(r2, decreasing = TRUE)
+
+show_table(rbind(ls_row(ranked), shrink_rows))
+```
+
+> **YOUR TURN:** Try different numbers of features for least squares,
+> ranked by each marker's individual R-squared with yield on the
+> training lines. Edit `n_markers` and run the chunk to print the
+> results. Ridge and the lasso stay the same, for comparison.
+
+```{r}
+n_markers <- c(1, 1279)   # <- change me (add to the list)
+
+library(glmnet)
+data(wheat, package = "BGLR")   # loads wheat.X (markers) and wheat.Y (yield)
+X <- wheat.X
+y <- 100 + 10 * wheat.Y[, 1]    # yield index: 100 = average line, 10 = one SD
+
+set.seed(853)
+train <- sample(nrow(X), 479)   # 80% to train; the other 120 lines are for testing
+test  <- setdiff(seq_len(nrow(X)), train)
+
+rmse <- function(pred, actual) sqrt(mean((actual - pred)^2))
+
+# Rank markers by their individual R-squared with yield on the training lines
+r2     <- cor(X[train, ], y[train])^2
+ranked <- order(r2, decreasing = TRUE)
+
+# Least squares on the top k markers
+ls_row <- function(k) {
+  columns <- ranked[1:k]
+  fit     <- lm(y[train] ~ X[train, columns])
+  coefs   <- coef(fit)
+  used    <- sum(!is.na(coefs)) - 1   # markers lm could estimate (not counting the intercept)
+  coefs[is.na(coefs)] <- 0            # lm returns NA for markers it can't estimate
+  data.frame(method         = "Least squares",
+             markers_chosen = k,
+             markers_used   = used,
+             train_rmse     = sqrt(mean(resid(fit)^2)),
+             test_rmse      = rmse(cbind(1, X[test, columns]) %*% coefs, y[test]))
+}
+
+# Ridge or the lasso on all 1,279 markers
+shrink_row <- function(alpha, lambda, name) {
+  fit <- glmnet(X[train, ], y[train], alpha = alpha, lambda = lambda)
+  data.frame(method         = name,
+             markers_chosen = ncol(X),
+             markers_used   = sum(coef(fit)[-1] != 0),
+             train_rmse     = rmse(predict(fit, X[train, ]), y[train]),
+             test_rmse      = rmse(predict(fit, X[test, ]), y[test]))
+}
+
+# The lambda values were chosen by cross-validation; Section 3 shows why the choice matters
+results <- rbind(do.call(rbind, lapply(n_markers, ls_row)),
+                 shrink_row(alpha = 0, lambda = 34, "Ridge"),
+                 shrink_row(alpha = 1, lambda = 0.48, "Lasso"))
+results$train_rmse <- round(results$train_rmse, 2)
+results$test_rmse  <- round(results$test_rmse, 2)
+results
+```
+
+::: {.callout-note collapse="true" title="The point"}
+When many features each have a small effect, ridge predicts best: it
+keeps every marker and shrinks them all. Least squares on all the
+markers fits the training lines perfectly and predicts new lines badly.
+Using only the top-ranked markers stops the blow-up, but it doesn't
+catch ridge.
+:::
+
+## 2. Yield of a Chemical Manufacturing Process
+
+These data come from a 27-step process that makes a pharmaceutical
+product.
+
+- **Rows:** 176 samples of the process.
+- **Features:** 57 measurements: 12 of the biological starting material,
+  and 45 of the manufacturing process, such as temperature, drying time,
+  and washing time.
+- **Response:** percent yield of the final product.
+
+We train on 80% of the samples (141) and test on the other 20% (35).
+
+> **PREDICT:** Suppose only a few of these 57 measurements really drive
+> yield. Which method will predict yield best on the test samples: least
+> squares, ridge, or the lasso? Why?
+
+```{r}
+#| results: hold
+library(glmnet)
+data(ChemicalManufacturingProcess, package = "AppliedPredictiveModeling")
+X <- as.matrix(ChemicalManufacturingProcess[, -1])   # the 57 measurements
+y <- ChemicalManufacturingProcess$Yield              # percent yield
+
+set.seed(8)
+train <- sample(nrow(X), 141)   # 80% to train; the other 35 samples are for testing
+test  <- setdiff(seq_len(nrow(X)), train)
+
+# Some measurements are missing: fill each with its median on the training samples
+for (j in seq_len(ncol(X))) {
+  X[is.na(X[, j]), j] <- median(X[train, j], na.rm = TRUE)
+}
+
+rmse <- function(pred, actual) sqrt(mean((actual - pred)^2))
+
+# Least squares on all the features
+ls_fit  <- lm(y[train] ~ X[train, ])
+coefs   <- coef(ls_fit)
+ls_used <- sum(!is.na(coefs)) - 1   # features lm could estimate (not counting the intercept)
+coefs[is.na(coefs)] <- 0            # lm returns NA for features it can't estimate
+
+# Ridge or the lasso on all the features; returns one row of the results table
+shrink_row <- function(alpha, lambda, name) {
+  fit <- glmnet(X[train, ], y[train], alpha = alpha, lambda = lambda)
+  data.frame(method        = name,
+             features_used = sum(coef(fit)[-1] != 0),
+             train_rmse    = rmse(predict(fit, X[train, ]), y[train]),
+             test_rmse     = rmse(predict(fit, X[test, ]), y[test]))
+}
+
+# The lambda values were chosen by cross-validation; Section 3 shows why the choice matters
+results <- rbind(
+  data.frame(method        = "Least squares",
+             features_used = ls_used,
+             train_rmse    = sqrt(mean(resid(ls_fit)^2)),
+             test_rmse     = rmse(cbind(1, X[test, ]) %*% coefs, y[test])),
+  shrink_row(alpha = 0, lambda = 3.1, "Ridge"),
+  shrink_row(alpha = 1, lambda = 0.071, "Lasso")
+)
+results$train_rmse <- round(results$train_rmse, 2)
+results$test_rmse  <- round(results$test_rmse, 2)
+base::print.data.frame(results)   # plain text, so the table and the summary show together
+cat("\n")
+
+# How many features did the lasso zero out, and what kind did it keep?
+lasso       <- glmnet(X[train, ], y[train], alpha = 1, lambda = 0.071)
+lasso_coefs <- as.matrix(coef(lasso))[-1, ]   # leave out the intercept
+is_bio      <- grepl("Biological", names(lasso_coefs))
+
+cat("The lasso zeroed out ", sum(lasso_coefs == 0), " of ", length(lasso_coefs), " features.\n",
+    "It kept ", sum(lasso_coefs[is_bio] != 0), " of ", sum(is_bio),
+    " biological measurements (quality and characteristics of the starting material)\n",
+    "and ", sum(lasso_coefs[!is_bio] != 0), " of ", sum(!is_bio),
+    " process measurements (such as temperature, drying time, and washing time).\n", sep = "")
+```
+
+> **YOUR TURN:** Try different numbers of features for least squares,
+> ranked by each feature's individual R-squared with yield on the
+> training samples. Edit `n_features` and run the chunk to print the
+> results. Ridge and the lasso stay the same, for comparison.
+
+```{r}
+n_features <- c(1, 57)   # <- change me (add to the list)
+
+library(glmnet)
+data(ChemicalManufacturingProcess, package = "AppliedPredictiveModeling")
+X <- as.matrix(ChemicalManufacturingProcess[, -1])   # the 57 measurements
+y <- ChemicalManufacturingProcess$Yield              # percent yield
+
+set.seed(8)
+train <- sample(nrow(X), 141)   # 80% to train; the other 35 samples are for testing
+test  <- setdiff(seq_len(nrow(X)), train)
+
+# Some measurements are missing: fill each with its median on the training samples
+for (j in seq_len(ncol(X))) {
+  X[is.na(X[, j]), j] <- median(X[train, j], na.rm = TRUE)
+}
+
+rmse <- function(pred, actual) sqrt(mean((actual - pred)^2))
+
+# Rank features by their individual R-squared with yield on the training samples
+r2     <- cor(X[train, ], y[train])^2
+ranked <- order(r2, decreasing = TRUE)
+
+# Least squares on the top k features
+ls_row <- function(k) {
+  columns <- ranked[1:k]
+  fit     <- lm(y[train] ~ X[train, columns])
+  coefs   <- coef(fit)
+  used    <- sum(!is.na(coefs)) - 1   # features lm could estimate (not counting the intercept)
+  coefs[is.na(coefs)] <- 0            # lm returns NA for features it can't estimate
+  data.frame(method          = "Least squares",
+             features_chosen = k,
+             features_used   = used,
+             train_rmse      = sqrt(mean(resid(fit)^2)),
+             test_rmse       = rmse(cbind(1, X[test, columns]) %*% coefs, y[test]))
+}
+
+# Ridge or the lasso on all 57 features
+shrink_row <- function(alpha, lambda, name) {
+  fit <- glmnet(X[train, ], y[train], alpha = alpha, lambda = lambda)
+  data.frame(method          = name,
+             features_chosen = ncol(X),
+             features_used   = sum(coef(fit)[-1] != 0),
+             train_rmse      = rmse(predict(fit, X[train, ]), y[train]),
+             test_rmse       = rmse(predict(fit, X[test, ]), y[test]))
+}
+
+# The lambda values were chosen by cross-validation; Section 3 shows why the choice matters
+results <- rbind(do.call(rbind, lapply(n_features, ls_row)),
+                 shrink_row(alpha = 0, lambda = 3.1, "Ridge"),
+                 shrink_row(alpha = 1, lambda = 0.071, "Lasso"))
+results$train_rmse <- round(results$train_rmse, 2)
+results$test_rmse  <- round(results$test_rmse, 2)
+results
+```
+
+::: {.callout-note collapse="true" title="The point"}
+When a few features carry most of the signal, the lasso predicts best
+and drops many features along the way. Here, least squares on a short
+list of top-ranked features nearly matches the lasso, which it couldn't
+do with ridge on the wheat data.
+:::
+
+## 3. Finding the Best λ
+
+Back to the wheat data from Section 1: the same 599 lines, 1,279 genetic
+markers, and yield index. This time we fit ridge at 200 values of
+$\lambda$ and average the test error at each one over 10 random 80/20
+splits.
+
+> **PREDICT:** As $\lambda$ grows from almost zero to very large, what
+> shape will the test error follow?
+
+```{r}
+library(glmnet)
+library(ggplot2)
+data(wheat, package = "BGLR")   # loads wheat.X (markers) and wheat.Y (yield)
+X <- wheat.X
+y <- 100 + 10 * wheat.Y[, 1]    # yield index: 100 = average line, 10 = one SD
+
+# Plot average test RMSE across lambda for one method: alpha = 0 is ridge, alpha = 1 is the lasso
+plot_lambda_curve <- function(alpha) {
+  lambdas <- 10^seq(5, -3, length.out = 200)   # 200 values, from very large to very small
+
+  # Test RMSE at each lambda, for one random 80/20 split
+  split_rmse <- function(seed) {
+    set.seed(seed)
+    train <- sample(nrow(X), 479)   # 80% to train; the other 120 lines are for testing
+    test  <- setdiff(seq_len(nrow(X)), train)
+    fit   <- glmnet(X[train, ], y[train], alpha = alpha, lambda = lambdas)
+    preds <- predict(fit, X[test, ], s = lambdas)
+    sqrt(colMeans((preds - y[test])^2))
+  }
+
+  # Average over 10 random splits, and find the lambda where the average is lowest
+  errors <- data.frame(lambda = lambdas, test_rmse = rowMeans(sapply(1:10, split_rmse)))
+  best   <- errors[which.min(errors$test_rmse), ]
+
+  ggplot(errors, aes(lambda, test_rmse)) +
+    geom_line(linewidth = 0.8, color = "steelblue") +
+    geom_point(data = best, size = 3, color = "steelblue") +
+    geom_text(data = best, vjust = 2,
+              aes(label = sprintf("Minimum: lambda = %.3g, test RMSE = %.2f", lambda, test_rmse))) +
+    scale_x_log10(breaks = 10^(-3:5),
+                  labels = format(10^(-3:5), scientific = FALSE, drop0trailing = TRUE,
+                                  trim = TRUE, big.mark = ",")) +
+    scale_y_continuous(breaks = pretty(c(best$test_rmse - 0.6, errors$test_rmse), n = 12)) +
+    expand_limits(y = best$test_rmse - 0.6) +
+    theme_minimal() +
+    labs(title = if (alpha == 0) "Ridge" else if (alpha == 1) "Lasso" else paste0("Elastic-Net (alpha = ", alpha, ")"),
+         x = "lambda (log scale)", y = "Average test RMSE (yield points)")
+}
+
+plot_lambda_curve(alpha = 0)   # ridge is alpha = 0, lasso is alpha = 1
+```
+
+> **YOUR TURN:** Change `alpha` to the value for the lasso and run this
+> chunk. How does the best $\lambda$ compare with ridge's?
+
+```{r}
+# ridge is alpha = 0, lasso is alpha = 1
+plot_lambda_curve(alpha = 0)   # <- change me to lasso regularization
+```
+
+::: {.callout-note collapse="true" title="The point"}
+Test error falls and then rises as $\lambda$ grows. Too little shrinkage
+leaves high variance, too much adds bias, and the best $\lambda$ is in
+between. The best value is very different for ridge and the lasso, so it
+has to be chosen separately for each method, which is what
+cross-validation does.
+:::
