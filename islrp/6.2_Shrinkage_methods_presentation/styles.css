@@ -1,0 +1,83 @@
+.center { text-align: center; }
+
+/* Formulas above figures: fixed height so figures line up */
+.formula {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  font-size: 0.75em;
+}
+
+/* Figure captions, in the style of a paper */
+.caption {
+  display: block;
+  font-size: 0.45em;
+  line-height: 1.35;
+  color: #555;
+  margin-top: 4px;
+}
+
+/* One-line result statement under a figure */
+.result {
+  font-size: 0.8em;
+  border-top: 1px solid #ccc;
+  padding-top: 8px;
+  margin-top: 6px;
+}
+
+/* Keep captions/results readable on .smaller slides */
+.smaller .caption { font-size: 0.65em; }
+.smaller .result  { font-size: 1em; }
+
+/* The number that differs between Case 1 and Case 2 */
+.num { font-size: 1.15em; }
+
+/* Panel labels under each half of a figure */
+.panel-label {
+  display: block;
+  text-align: center;
+  font-size: 0.6em;
+  color: #333;
+  margin-top: 2px;
+}
+
+/* Direction-of-shrinkage hint under an x-axis */
+.axis-hint {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.55em;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.2;
+  margin: -14px 4% 0 8%;
+}
+.axis-hint span:last-child { text-align: right; }
+.axis-hint small { font-weight: 400; color: #666; font-size: 0.9em; }
+.reveal .slides section .axis-hint + p, .reveal .columns .column p { margin: 4px 0; }
+
+/* Two figure panels side by side */
+.panels { display: flex; gap: 12px; }
+.panel  { flex: 1; min-width: 0; }
+.panel img { width: 100%; margin: 0 !important; }
+
+/* Compact set-up column (slide 4) */
+.setup { font-size: 0.95em; }
+.setup li { margin-bottom: 6px; }
+.panel img { max-height: 280px; object-fit: contain; }
+
+/* Prior names above the slide 5 panels */
+.prior-name {
+  display: block;
+  font-size: 0.8em;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+/* Slide 4: full-width panels, kept narrower so they fit under the set-up */
+.panels.narrow { width: 82%; margin: 0 auto; gap: 40px; }
+.panels.narrow .formula { height: 95px; }
+.panels.narrow img { max-height: 240px; }
+.panels.narrow img { max-height: 215px; }
+.panels.narrow + .caption, .panels.narrow ~ p .caption { margin-top: 0; }
+.panels.narrow .panel p { margin: 2px 0; }
