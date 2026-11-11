@@ -1,6 +1,6 @@
 ---
 title: "What a benchmark is and what it can claim"
-subtitle: "(Content from @GardenBench2026, @Alexander2026Iterated, @Huyen2025, and @DSI2026, with quotes from @Reuel2024 and @Chen2026)"
+subtitle: "Content from @GardenBench2026, @Alexander2026Iterated, @Huyen2025, @DSI2026, @Reuel2024 and @Chen2026"
 author: "Rohan Alexander"
 date: "2026-11-11"
 date-format: "D MMMM, YYYY"
@@ -12,28 +12,11 @@ format:
     embed-resources: true
 ---
 
-<!--
-Every bullet, caption, and note in this deck is copied from one of three sources. The comment at the top of each slide says where the text is.
-- GB: ~/local/gardenbench/paper/paper.qmd
-- SH: ~/local/superhuman/paper/paper.qmd, with the numbers from the rendered paper.pdf
-- Rotman: ~/Documents/professor_stuff/Rotman-slides.pdf, by page
-Slide titles are the source's own headings where it has one.
-
-Slides from the assigned readings are different: the text is a direct quote, in quotation marks, and the line at the bottom of the slide cites the paper and the page.
-- BB: Reuel et al. (2024), BetterBench, lit/reuel_2024_betterbench.pdf
-- Chen: Chen et al. (2026), Emerging Trends in AI Agent Evaluation
-In those quotes the papers' numbered reference markers and cross-references to their own sections and figures are left out, and quotation marks inside a quote are single. Figures and tables are cropped from the PDFs.
--->
-
 ## Evals rule everything around me
-
-<!-- Rotman p. 52 -->
 
 ---
 
 ## Overview {.smaller}
-
-<!-- Rotman p. 53 -->
 
 - AI use brings risk of catastrophic failures:
   - Lawyers using AI, submit documents containing hallucinations.
@@ -46,8 +29,6 @@ In those quotes the papers' numbered reference markers and cross-references to t
 ---
 
 ## Challenges {.smaller}
-
-<!-- Rotman p. 54 -->
 
 - As AI systems become more capable, it is more difficult to evaluate them.
 - Open-ended nature of Foundation Models (FM) undermines the Machine Learning (ML) approach of comparing against a ground truth.
@@ -64,271 +45,65 @@ In those quotes the papers' numbered reference markers and cross-references to t
 
 ## Progress depends on the instruments we use to measure it {.smaller}
 
-<!-- GB, Introduction, paragraph 1 -->
-
 - Traditionally, machine learning (ML) models were trained for and tested on task-specific functions.
 - For example, models were deliberately trained to perform visual recognition and object classification in the ImageNet challenge [@russakovsky2015] and movie recommendation in the Netflix Prize contest [@bell2010].
 - @brown2020 found that sufficiently large transformer models that were trained only on next-token prediction could perform competitively with fine-tuned state-of-the-art (SOTA) models on tasks that were not in their training data.
 - Today, LLMs are used as search engines, office assistants, and personal tutors.
 
-::: {.aside}
-@GardenBench2026
-:::
-
-:::{.notes}
-- However, in 2020, the release of GPT-3 [@brown2020], one of the first publicly accessible and general-use large transformer models, shifted the trajectory of LLM training and testing.
-- This property of LLMs drove their rapid spread as general-purpose tools.
-- LLMs are referred to as foundation models [@bommasani2022; @liang2023], used to perform a broad range of tasks, including text summarization, translation, coding, image generation, and answering practical questions.
-:::
-
 ---
 
 ## What is a benchmark? {.smaller}
-
-<!-- GB, Background, paragraph 1 -->
 
 - In machine learning (ML), standard benchmarks are measurement instruments consisting of queries with corresponding ground truth answers and an evaluation metric for model performance across different tasks [@Raji2021].
 - Traditionally, LLM benchmarks are designed to test specific capabilities, such as summarizing documents (`SummEval` [@fabbri2021]; `UserSumBench` [@wang2024]) and coding (`SWE-bench` [@jimenez2024]; `Terminal-Bench` [@merrill2026]).
 - LLM benchmarks also intend to compare models through objective metrics [@Raji2021], allowing for the quantitative tracking of LLM progress, the ranking of models by performance, and the identification of the most promising technologies to guide research efforts and general usage [@zhu2025].
 
-::: {.aside}
-@GardenBench2026
-:::
-
-:::{.notes}
-- Other LLM benchmarks are tailored to specific domains of knowledge, such as math (`MathBench` [@liu2024]) and biology (`LABBench2` [@laurent2026]), or to general use cases (`MMLU` [@hendrycks2021]; `GPQA` [@rein2023]).
-:::
-
 ---
 
 ## What is a benchmark? {.smaller}
 
-<!-- BB, Introduction, pp. 1-2. Reference [67] in the paper is Raji et al. (2021). -->
-
-- "Following the work of @Raji2021, we define a benchmark 'as a particular combination of a dataset or sets of datasets [...], and a metric, conceptualized as representing one or more specific tasks or sets of abilities, picked up by a community of researchers as a shared framework for the comparison of methods'."
-- "Using benchmarks to facilitate comparison, measure performance, track progress, and identify weaknesses has become a standard practice."
-- "However, the fidelity of this approach depends entirely on the benchmarks' quality, where we define a high-quality benchmark as one that is interpretable, clear about its intended purpose and scope, and that is usable."
+- Following @Raji2021, we define a benchmark 'as a particular combination of a dataset or sets of datasets [...], and a metric, conceptualized as representing one or more specific tasks or sets of abilities, picked up by a community of researchers as a shared framework for the comparison of methods'.
+- Using benchmarks to facilitate comparison, measure performance, track progress, and identify weaknesses has become a standard practice.
+- However, the fidelity of this approach depends entirely on the benchmarks' quality, where we define a high-quality benchmark as one that is interpretable, clear about its intended purpose and scope, and that is usable.
 
 ::: {.aside}
-@Reuel2024, pp. 1-2.
+[@Reuel2024, pp. 1-2.]
 :::
 
 ---
 
 ## The benchmark lifecycle
 
-<!-- BB, Figure 1, p. 2; notes from Appendix B, p. 21 -->
-
 !["Five stages of the benchmark lifecycle."](img/reuel_fig1_lifecycle.png){fig-align="center" height="380"}
 
 ::: {.aside}
-@Reuel2024, Figure 1, p. 2.
-:::
-
-:::{.notes}
-- "During the design stage, a benchmark's purpose, scope, and structure are defined."
-- "At this stage, the benchmark is constructed and all necessary components are aggregated."
-- "To facilitate the benchmark's use and interpretation, benchmark developers need to create comprehensive documentation."
-- "Once the benchmark and its documentation are released, developers must conduct regular maintenance to ensure ongoing usability."
-- "Benchmarks are phased out or replaced when they become saturated (i.e. model performance reaches the benchmark metric's ceiling), the task studied loses relevance, or better alternatives emerge."
+[@Reuel2024, Figure 1, p. 2.]
 :::
 
 ---
 
 ## From model evaluation to agent evaluation {.smaller}
 
-<!-- Chen, Introduction, p. 3, and Scope and methods, p. 6 -->
-
-- "For much of the history of artificial intelligence (AI) and machine learning (ML) models, evaluation followed a simple template: query a model, collect its response, and compare that response against a given reference answer."
-- "However, with the advent of AI agents, evaluation has grown into a significantly more complex enterprise."
-- "Questions of interest for evaluation of AI agents today no longer implicate models alone, but rather expand to the larger systems around them, consisting of scaffolds (also referred to as 'agent harnesses'), tools, testing environments, and user interfaces."
-- "We use evaluation to describe works that 'measure, characterize, or analyze properties of AI models or systems.'"
+- For much of the history of artificial intelligence (AI) and machine learning (ML) models, evaluation followed a simple template: query a model, collect its response, and compare that response against a given reference answer.
+- However, with the advent of AI agents, evaluation has grown into a significantly more complex enterprise.
+- Questions of interest for evaluation of AI agents today no longer implicate models alone, but rather expand to the larger systems around them, consisting of scaffolds (also referred to as 'agent harnesses'), tools, testing environments, and user interfaces.
+- We use evaluation to describe works that 'measure, characterize, or analyze properties of AI models or systems.'
 
 ::: {.aside}
-@Chen2026, pp. 3 and 6.
+[@Chen2026, pp. 3 and 6.]
 :::
 
 ---
 
 ## From model evaluation to agent evaluation
 
-<!-- Chen, Figure 2, p. 7 -->
-
 !["Model evaluation grades a single response against a reference answer. Agent evaluation covers a system of LLM, scaffold, and tools that acts in an environment over many steps, sometimes with human intervention; instead of a reference answer, the grader uses tests, a rubric, or an LLM judge to assess the trajectory (the process), the final state (the result), or both."](img/chen_fig2_model_vs_agent_evaluation.png){fig-align="center" height="225"}
 
 ::: {.aside}
-@Chen2026, Figure 2, p. 7.
+[@Chen2026, Figure 2, p. 7.]
 :::
-
----
-
-## How models are evaluated {.smaller}
-
-<!-- GB, Introduction, paragraphs 2 and 3 -->
-
-- Though LLM use has broadened, the evaluation and documentation of LLM performance remains scientifically oriented and domain-specific.
-- In addition, many model benchmarks are computationally expensive and take long to run [@polo2024].
-- As a result, model providers assess overall performance by evaluating newly released models once upon their release.
-- We identify two shortcomings in this practice.
-  - First, model cards are published by model developers, allowing them to selectively showcase model abilities and exclude failures.
-  - Second, early one-time evaluation of models does not capture changes in performance and reliability over time.
-
-::: {.aside}
-@GardenBench2026
-:::
-
-:::{.notes}
-- Model capabilities across specialized tasks are reported in model cards, such as GPT-5.5 [@openai2026_systemcard], Gemini 3.5 Flash [@gemini2026], and Claude Opus 5 [@anthropic2026_systemcard].
-- The same applies for many benchmarks, with model developers either choosing which benchmark performances to publish or constructing their own (for example, @anthropic2026's `BioMysteryBench` to evaluate Claude Fable 5).
-- Model drift refers to the performance degradation of LLMs as data and language patterns routinely change [@nicholson2026].
-- Without running benchmarks repeatedly over time, we are unable to quantify or record these changes properly.
-:::
-
----
-
-## Part II: What it can claim
-
----
-
-## Selective reporting {.smaller}
-
-<!-- GB, Background, "Selective reporting", paragraph 1 -->
-
-- Concerns about transparency in LLM benchmarks are well documented and characterize several important considerations.
-- LLM evaluation occurs largely as a closed-door practice, where model providers often selectively publish their own evaluations [@cheng2025; @baack2026], benchmark results target niche professional communities [@koch2021], and evaluation metrics are often not useful and difficult to interpret for the broad scope of LLM users [@Raji2021; @eriksson2025].
-- They argue that most LLM benchmarks either publish all the code and data used, which risks data contamination and may make results misleading or difficult to interpret, or selectively report findings and discuss them in an overly broad manner.
-- Both approaches undermine transparency.
-
-::: {.aside}
-@GardenBench2026
-:::
-
-:::{.notes}
-- For example, @guha2026 calls for more publicly accessible and transparent LLM benchmarks in law.
-:::
-
----
-
-## Selective reporting {.smaller}
-
-<!-- GB, Background, "Selective reporting", paragraph 2 -->
-
-- Conventionally, newly released ML models are evaluated on a set of highly specialized benchmarks, with the results used to demonstrate the model's strengths.
-- This enables providers to publish benchmarks on which their models perform well, while less successful performances remain undisclosed [@cheng2025; @baack2026].
-- For instance, third-party researchers have reported lower scores for models on certain benchmarks compared to scores reported by model creators.
-- @akter2023 reported a 5-shot MMLU score of 65.22 percent, whereas the Gemini paper reported a 5-shot MMLU score of 71.8 percent [@geminiteam2023gemini].
-
-::: {.aside}
-@GardenBench2026
-:::
-
-:::{.notes}
-- Efforts to address this problem include @bommasani2023, who introduced the Foundation Model Transparency Index (FMTI) in 2023 to expose and improve the disclosure practices of frontier model developers (for the most recent version, see @wan2025).
-- The FMTI intends to advance the transparency of model developers across their computational methods, labor practices, the real-world implications of LLMs, and other metrics.
-:::
-
----
-
-## Specialization and professional communities {.smaller}
-
-<!-- GB, Background, "Specialization and professional communities", paragraphs 1 and 2 -->
-
-- AI companies test their new models in a set of widely used and domain-specific benchmarks.
-- For example, when Anthropic released Claude Fable 5 in July 2026, the company highlighted results from `SWE-bench` [@jimenez2024], `Terminal-Bench` [@merrill2026], `ExploitBench` [@lee2026], and `BioMysteryBench` [@anthropic2026].
-- `BioMysteryBench` in particular was developed by Anthropic to test its own model.
-- While these insights are important for model development and medical applications, these metrics may not be useful to LLM users beyond these professional communities, who use LLMs for ordinary daily tasks.
-
-::: {.aside}
-@GardenBench2026
-:::
-
-:::{.notes}
-- It has become increasingly difficult for the general public to interpret benchmark results as they are often highly technical and domain-specific.
-- Respectively, these benchmarks test agentic coding, command-line coding, cybersecurity, and biology.
-- @guha2026 argues that the capacity to understand and apply benchmark information largely depends on the technical sophistication of individuals in a specific community, making professionals who are more experienced in using AI more likely to benefit from benchmark reports.
-:::
-
----
-
-## Specialization and professional communities {.smaller}
-
-<!-- GB, Background, "Specialization and professional communities", paragraph 3 -->
-
-- There is also an important discrepancy between LLM potential and real LLM applications, likely due to a misalignment between capabilities demonstrated by model developers and real-world applications [@narayanan2026; @eriksson2025; @hutchinson2022; @cheng2025].
-- Many benchmarks may fall short in capturing real-world use cases [@eriksson2025].
-- For instance, @openai_gpt4's Technical Report evaluated the model's performance on the bar exam, but this does not reflect the everyday tasks of legal professionals [@narayanan2023].
-- They have also been criticized for being too narrow and primarily text-based, ignoring capabilities of models in other modalities such as imagery and sound.
-
-::: {.aside}
-@GardenBench2026
-:::
-
-:::{.notes}
-- Moreover, this may also be because current approaches to LLM evaluation may not measure what is relevant or useful to the broader community of LLM users.
-- @narayanan2023's example highlights the gap between LLM benchmark tests and real-world utility.
-- @eriksson2025's comprehensive literature review of benchmarking practices addresses other important vulnerabilities of current approaches, including that many benchmarks are ill-suited for practical use in the real world and display a serious lack of documentation.
-:::
-
----
-
-## Data contamination
-
-<!-- GB, Background, "Data contamination" -->
-
-- Lastly, data contamination, which happens when test data leaks into models' training data and leads models to perform exceptionally well [@dong2024], may also undermine the trustworthiness of LLM benchmarks.
-- @cheng2025 highlights that data contamination can lead to biased model evaluations.
-- This makes it difficult to distinguish between exaggerated claims about model performance and genuine progress.
-
-::: {.aside}
-@GardenBench2026
-:::
-
----
-
-## Expensive model testing {.smaller}
-
-<!-- GB, Background, "Expensive model testing" -->
-
-- @gundlach2026 found that the cost of benchmarking frontier models is increasing by 3 to 18 times yearly, as models continue to grow in size and require more internal thinking before outputting responses.
-- One example is @kapoor2025's "Holistic Agentic Leaderboard" which cost \$40,000 USD to run once across nine models and nine benchmarks.
-- GPT-6 Astra tests on ARC-AGI-3 cost \$26,000 USD at its most efficient reasoning [@kamradt2026].
-- Lastly, the General AI Assistants (GAIA) benchmark [@mialon2023] cost over \$2,829 USD on frontier models for a single run [@ndzomga2026].
-
-::: {.aside}
-@GardenBench2026
-:::
-
-:::{.notes}
-- The expensive cost of many LLM benchmarks is another vulnerability.
-- As a result, running the same benchmarks is becoming more costly each time as newly released models and benchmarks themselves become more expensive to run.
-:::
-
----
-
-## Static benchmarking {.smaller}
-
-<!-- GB, Background, "Static benchmarking", paragraphs 1 and 2 -->
-
-- The increasing cost of running benchmarks and the need for frequent evaluation are at odds with one another.
-- Many traditional LLM benchmarks are static, or evaluated once, meaning that they may not capture possible model changes over time and risk data leakage [@dai2025].
-- Performance degradation over time has been observed in multiple studies [@roberts2023; @zhu2024; @guan2026].
-- The result is a call for movement toward more dynamic benchmarks that continuously evaluate LLMs and thus avoid becoming outdated [@chen2025].
-
-::: {.aside}
-@GardenBench2026
-:::
-
-:::{.notes}
-- The cost of evaluating LLMs creates a new barrier that limits how frequently LLMs can be tested.
-- Some examples of this approach include `Dynabench` [@kiela2021], an open-source platform for dynamic benchmarking using human-and-model in the loop dataset creation through a web browser and human annotators.
-- @kiela2021 argue that this solves the main issue of most LLMs in which performance continuously improves on complex tasks, yet models keep failing on simple challenge examples and falter in real-world scenarios.
-:::
-
----
 
 ## Model cards {.smaller}
-
-<!-- GB, Background, "Static benchmarking", paragraph 3 -->
 
 - Model cards—reports of newly released models published by model providers [@Mitchell2019]—are one way of understanding LLM performance at a point in time.
 - While model cards summarize model performance across various capabilities, they do not account for model drift—the performance degradation of LLMs as data and language patterns, as well as domain-specific knowledge, change over time [@khairnar2025].
@@ -339,130 +114,85 @@ In those quotes the papers' numbered reference markers and cross-references to t
 @GardenBench2026
 :::
 
-:::{.notes}
-- Example model cards from the models included in our study are GPT-5.5 [@openai2026_systemcard], Gemini 3.5 Flash [@gemini2026], and Claude Opus 5 [@anthropic2026_systemcard].
-- Similarly, @chen2024 documented how the performance of GPT-3.5 and GPT 4 in math problems, degraded in a matter of months.
-- They found that GPT-4's accuracy in identifying prime numbers dropped from 84 percent in March 2023 to 51 percent in June 2023, suggesting that model performance is non-static.
-- Therefore, this literature suggests that one-time evaluation of LLMs upon their release is insufficient, and performance should instead be monitored over time for potential divergence.
-:::
-
-<!-- The README also lists benchmark cards. See "A checklist for benchmark developers" in Part III. -->
-
 ---
 
-## What this supports
-
-<!-- GB, Background, end of "Specialization and professional communities" -->
-
-- These features of existing LLM testing support the need for general-purpose benchmarks that are publicly accessible, trustworthy, and interpretable.
-- They must also indiscriminately test and publish a wide range of capabilities across text- and image-based tasks that are important to broad LLM users.
-
-::: {.aside}
-@GardenBench2026
-:::
-
----
 
 ## Validity {.smaller}
 
-<!-- Chen, Section 1a, pp. 8-9 -->
-
-- "Consider the example of a 'replay agent' for computer use—one that merely copies a single successful agent trajectory on a task and reproduces those exact actions."
-- "It scores highly on certain benchmarks, even achieving higher success rates than agents powered by frontier models."
-- "Does this higher success rate imply that the replay agent is better at computer-use reasoning than those of frontier models?"
-- "This example highlights the importance of *construct validity*, which asks to what extent a metric—in this case, success on various computer-use tasks—accurately represents the abstract concept (the 'construct') it claims to measure: computer-use capability."
+> - Consider the example of a 'replay agent' for computer use—one that merely copies a single successful agent trajectory on a task and reproduces those exact actions.
+> - It scores highly on certain benchmarks, even achieving higher success rates than agents powered by frontier models.
+> - Does this higher success rate imply that the replay agent is better at computer-use reasoning than those of frontier models?
+> - This example highlights the importance of *construct validity*, which asks to what extent a metric—in this case, success on various computer-use tasks—accurately represents the abstract concept (the 'construct') it claims to measure: computer-use capability.
 
 ::: {.aside}
-@Chen2026, pp. 8-9.
+[@Chen2026, pp. 8-9.]
 :::
 
 ---
 
 ## Kinds of validity
 
-<!-- Chen, Figure 4, p. 10; notes from Section 1a, pp. 9-10 -->
-
 !["Kinds of validity and the link each one concerns, illustrated with the computer-use example."](img/chen_fig4_kinds_of_validity.png){fig-align="center" height="300"}
 
 ::: {.aside}
-@Chen2026, Figure 4, p. 10.
-:::
-
-:::{.notes}
-- "*External validity* examines whether evaluation results are generalizable to other contexts."
-- "Define explicitly the underlying construct before choosing a metric. Walk through different ways that metric might be gamed by an agent strategy which lacks the capability of interest."
+[@Chen2026, Figure 4, p. 10.]
 :::
 
 ---
 
 ## Poor construct validity {.smaller}
 
-<!-- BB, Section 8, "Poor construct validity" and "Standardization of benchmark reporting", p. 10 -->
-
-- "Construct validity refers to the degree to which a test or measurement tool accurately measures the construct it intends to measure."
-- "Due to the difficulties with construct validity, most benchmarks cannot provide an absolute signal and instead give a relative one by comparison of models on the same benchmark."
-- "Model developers report whichever benchmarks they see fit without being obligated to provide a rationale, resulting in inconsistent reporting, especially apparent in the case of benchmarks relating to responsible AI concepts."
+> - Construct validity refers to the degree to which a test or measurement tool accurately measures the construct it intends to measure.
+> - Due to the difficulties with construct validity, most benchmarks cannot provide an absolute signal and instead give a relative one by comparison of models on the same benchmark.
+> - Model developers report whichever benchmarks they see fit without being obligated to provide a rationale, resulting in inconsistent reporting, especially apparent in the case of benchmarks relating to responsible AI concepts.
 
 ::: {.aside}
-@Reuel2024, p. 10.
+[@Reuel2024, p. 10.]
 :::
 
 ---
 
 ## Not all benchmarks are of the same quality {.smaller}
 
-<!-- BB, Section 7, pp. 8-9 -->
-
-- "Model developers frequently report performance on benchmarks that vary significantly in quality."
-- "For instance, the widely-used MMLU benchmark scored the lowest in our assessment (weighted average: 5.5), while GPQA scored significantly higher (weighted average: 11.0)."
-- "However, recent communications introducing models like GPT-4, Claude-3, and Gemini report results on both benchmarks without explicitly acknowledging their limitations or quality differences."
-- "The lack of clear guidance on AI benchmark quality and limitations may lead to incorrect conclusions about a model's performance, even if developers do not intend to mislead users."
+> - Model developers frequently report performance on benchmarks that vary significantly in quality.
+> - For instance, the widely-used MMLU benchmark scored the lowest in our assessment (weighted average: 5.5), while GPQA scored significantly higher (weighted average: 11.0).
+> - However, recent communications introducing models like GPT-4, Claude-3, and Gemini report results on both benchmarks without explicitly acknowledging their limitations or quality differences.
+- The lack of clear guidance on AI benchmark quality and limitations may lead to incorrect conclusions about a model's performance, even if developers do not intend to mislead users.
 
 ::: {.aside}
-@Reuel2024, pp. 8-9.
+[@Reuel2024, pp. 8-9.]
 :::
 
 ---
 
 ## Not all benchmarks are of the same quality
 
-<!-- BB, Figure 7, p. 8 -->
-
 !["Design and usability score for all 24 assessed benchmarks. The usability score is the weighted average of the implementation, documentation, and maintenance scores. Benchmarks were split into foundation model and non-foundation model benchmarks, depending on the model group they're targeting."](img/reuel_fig7_design_usability.png){fig-align="center" height="260"}
 
 ::: {.aside}
-@Reuel2024, Figure 7, p. 8.
+[@Reuel2024, Figure 7, p. 8.]
 :::
 
 ---
 
 ## Most benchmarks fail to distinguish signal and noise {.smaller}
 
-<!-- BB, Section 7, p. 9 -->
-
-- "Benchmark developers should not only report a single result for a model but also re-run their evaluation with, e.g., different random seeds or sampling temperatures, and report the mean and variance for these intra-model evaluations."
-- "As benchmarks are primarily used to compare models, users must know the intra-model variance of a benchmark to determine whether observed inter-model variances are genuine performance differences or arise from noisy results."
-- "Yet, 14 out of 24 benchmarks did not perform multiple evaluations of the same model or report statistical significance or uncertainty of results."
+> - Benchmark developers should not only report a single result for a model but also re-run their evaluation with, e.g., different random seeds or sampling temperatures, and report the mean and variance for these intra-model evaluations.
+> - As benchmarks are primarily used to compare models, users must know the intra-model variance of a benchmark to determine whether observed inter-model variances are genuine performance differences or arise from noisy results.
+> - Yet, 14 out of 24 benchmarks did not perform multiple evaluations of the same model or report statistical significance or uncertainty of results.
 
 ::: {.aside}
-@Reuel2024, p. 9.
-:::
-
-:::{.notes}
-- "If intra-model variance bounds are tight and inter-model variance bounds are wide, benchmark users can conclude that there are genuine performance differences between models."
-- "However, if both intra- and inter-variance bounds are wide, statistical analysis is required to discern noise and actual signal."
+[@Reuel2024, p. 9.]
 :::
 
 ---
 
 ## Saturation
 
-<!-- Chen, Figure 5, p. 11; notes from Section 1b, p. 10 -->
-
 !["Schematic of benchmark saturation. Once the leading agents are statistically indistinguishable near the ceiling, the benchmark no longer discriminates them, which prompts the responses on the right."](img/chen_fig5_saturation.png){fig-align="center" height="330"}
 
 ::: {.aside}
-@Chen2026, Figure 5, p. 11.
+[@Chen2026, Figure 5, p. 11.]
 :::
 
 :::{.notes}
@@ -480,22 +210,18 @@ In those quotes the papers' numbered reference markers and cross-references to t
 
 ## Evaluation pipelines
 
-<!-- Rotman p. 46 -->
-
 - Why pipelines matter
   - Evaluation should not be one-off project but a continuous process.
   - Pipelines ensure reliable tracking of progress over time by combining automatic evaluation with human or AI-judge oversight.
   - Pipelines help identify risks, failures, and opportunities for improvement.
 
 ::: {.aside}
-@Huyen2025; @DSI2026
+[@Huyen2025; @DSI2026]
 :::
 
 ---
 
 ## Designing an evaluation pipeline
-
-<!-- Rotman p. 49 -->
 
 1. Evaluate all components: per task, per turn, per step.
 2. Create clear guidelines and rubrics tied to business metrics.
@@ -503,14 +229,12 @@ In those quotes the papers' numbered reference markers and cross-references to t
 4. Validate the pipeline: reliability, bootstrap resampling, significance tests.
 
 ::: {.aside}
-@Huyen2025; @DSI2026
+[@Huyen2025; @DSI2026]
 :::
 
 ---
 
 ## Evaluation doesn't have to be fancy
-
-<!-- Rotman p. 47. The Rotman slide has the bookshelf photo beside the prompt; the photo is not copied here. -->
 
 ```
 Look at this bookshelf photo. Give me a bulleted list of these books, in order, \
@@ -528,10 +252,8 @@ Format each line as:
 
 ## 46 best practices {.smaller}
 
-<!-- BB, Abstract, p. 1 -->
-
-- "In this paper, we develop an assessment framework considering 46 best practices across an AI benchmark's lifecycle and evaluate 24 AI benchmarks against it."
-- "We find that there exist large quality differences and that commonly used benchmarks suffer from significant issues."
+> - In this paper, we develop an assessment framework considering 46 best practices across an AI benchmark's lifecycle and evaluate 24 AI benchmarks against it.
+>- We find that there exist large quality differences and that commonly used benchmarks suffer from significant issues.
 - "We further find that most benchmarks do not report statistical significance of their results nor allow for their results to be easily replicated."
 - "To support benchmark developers in aligning with best practices, we provide a checklist for minimum quality assurance based on our assessment."
 

@@ -168,7 +168,7 @@ So the normal cadence of class is three weeks of learning and then in the fourth
 
 #### Week 9 (starts Monday 9 November)
 
-*What is a benchmark? Building evals: items, ground truth, rubrics, running the models; benchmark cards and model cards.*
+*What is a benchmark? Building evals: items, ground truth, rubrics, running the models; benchmark and model cards.*
 
 - Readings
     - Reuel, Anka, Amelia Hardy, Chandler Smith, Max Lamparth, Malcolm Hardy, and Mykel J. Kochenderfer, 2024, "BetterBench: Assessing AI Benchmarks, Uncovering Issues, and Establishing Best Practices", *arXiv*, [10.48550/arXiv.2411.12990](https://arxiv.org/abs/2411.12990).
@@ -176,11 +176,9 @@ So the normal cadence of class is three weeks of learning and then in the fourth
     - Cummins-Mburu, Benedict, Mariana Garcia Mejia, Oscar Heath, Sabrina Kreyzerman, Ellie Murray, Arusan Surendiran and Rohan Alexander, 2026, "`GardenBench`: A lightweight, daily evaluation of LLM capabilities", , *arXiv*, https://arxiv.org/abs/2610.23866.
     - *ISLR/P*, Chapter 6.2 "Shrinkage Methods".
 - Class (Wednesday 11 November)
-    - (ISLR/P) Sean Murphy, Siddharth Singh Taragi, Allwin, Vijval, Furkan Danisman.
-    - (Lecture) What a benchmark is and what it can claim
-    - (Demonstration) Build a small benchmark as a class: pick a task, write 20 items, agree a rubric, run three models through OpenRouter, grade by hand
-    - (Worksheet) Score the class benchmark against the BetterBench checklist. Which criteria did we fail in the first hour?
     - (Guest) Sabrina, Mariana, Benedict, and Oscar on `GardenBench`.
+    - (ISLR/P) Sean Murphy, Siddharth Singh Taragi, Allwin, Vijval, Furkan Danisman.
+    - (Lecture) What is a benchmark?
 
 #### Week 10 (starts Monday 16 November)
 
@@ -189,13 +187,9 @@ So the normal cadence of class is three weeks of learning and then in the fourth
 - Readings
     - Biderman, Stella, et al., 2024, "Lessons from the Trenches on Reproducible Evaluation of Language Models", *arXiv*, [10.48550/arXiv.2405.14782](https://arxiv.org/abs/2405.14782).
     - Singh, Shivalika, et al., 2025, "The Leaderboard Illusion", *arXiv*, [10.48550/arXiv.2504.20879](https://arxiv.org/abs/2504.20879).
-    - *ISLR/P*, Chapter 8.1.
 - Class (Wednesday 18 November)
-    - (Practice questions) Week 9 readings and class, and *ISLR/P* Chapters 6.2 and 8.1.
-    - (ISLR/P) Group 6.
+    - (Practice questions) Week 9 readings and class, and *ISLR/P* Chapter 6.2
     - (Lecture) Variance in evals: items, sampling, prompts, judges; contamination; what a two-point difference on a leaderboard means with 200 items
-    - (Demonstration) Calibrate a model-as-judge using the Week 3 referee reports as the human labels; watch the ranking move when the judge changes
-    - (Worksheet) Add error bars to the class benchmark following Miller. Which differences survive?
 
 #### Week 11 (starts Monday 23 November)
 
@@ -203,8 +197,9 @@ So the normal cadence of class is three weeks of learning and then in the fourth
     - Anthropic, 2026, "System Card: Claude Fable 5.2 & Claude Mythos 5.2", https://www.anthropic.com/claude-fable-5-2-mythos-5-2-system-card.
     - Anthropic, 2026, "Prompting Claude Fable 5.2", https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-2.
 - Class (Wednesday 25 November)
-    - We will use the first hour of this class to read the model card. 
-    - Please feel free to use the remainder of the time to implement your AI benchmark.
+    - We will use 1.5 hours of the class to read the model card.
+    - We will then use 15 minutes to work out the three most interesting points in groups.
+    - We will then use the final hour to present and discuss these points.
 
 #### Week 12 (starts Monday 30 November): Assignment III and in-class exam III
 
@@ -213,5 +208,5 @@ So the normal cadence of class is three weeks of learning and then in the fourth
 
 #### Exam period
 
-(Optional) Final exam, all three parts.
+(Optional) Final exam.
 
