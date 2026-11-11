@@ -1,5 +1,5 @@
 ---
-title: "Quiz 1"
+title: "Practice questions"
 subtitle: "Week 1 readings and work: De Angelis, Bryan, Wilson et al., and the shelter data"
 author: "Rohan Alexander"
 date: "2026-09-16"

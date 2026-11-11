@@ -75,7 +75,7 @@ So the normal cadence of class is three weeks of learning and then in the fourth
     - Healy, Kieran, 2026, *Data Visualization: A Practical Introduction*, [Chapter 1](https://socviz.co).
     - Alexander, Rohan, 2023, *Telling Stories with Data*, [Chapter 5](https://tellingstorieswithdata.com/05-graphs_tables_maps.html).
 - Class (Wednesday 16 September)
-    - (Quiz) Week 1 readings and class.
+    - (Practice questions) Week 1 readings and class.
     - (Housekeeping) Form six *ISLR/P* groups and pick dates.
     - (Demonstration) Quarto; polars and Parquet on the shelter data.
     - (Worksheet) Build a website with Quarto and deploy it with GitHub Pages.
@@ -93,7 +93,7 @@ So the normal cadence of class is three weeks of learning and then in the fourth
     - Mensh, Brett, and Konrad Kording, 2017, "Ten simple rules for structuring papers", *PLOS Computational Biology*, [10.1371/journal.pcbi.1005619](https://doi.org/10.1371/journal.pcbi.1005619).
     - *ISLR/P*, Chapter 2.1 "What is Statistical Learning?"
 - Class (Wednesday 23 September)
-    - (Quiz) Weeks 1 and 2 readings and class, what the Donaldson paper expects, and *ISLR/P* Chapter 2.1.
+    - (Practice questions) Weeks 1 and 2 readings and class, what the Donaldson paper expects, and *ISLR/P* Chapter 2.1.
     - (ISLR/P) Bolong Tang, Peize Zhang, Yi zhi Zhang.
     - (Lecture) Features of good writing by section: title, abstract, introduction, data, model, results, discussion.
     - (Worksheet) Draft a paper from three sets of results and then edit three drafts.
@@ -135,7 +135,7 @@ So the normal cadence of class is three weeks of learning and then in the fourth
     - Kay, Matthew, et al, 2016, "When (ish) is My Bus? User-centered Visualizations of Uncertainty in Everyday, Mobile Predictive Systems", *CHI 2016*, [10.1145/2858036.2858558](https://doi.org/10.1145/2858036.2858558).
     - *ISLR/P*, Chapter 4.3 "Logistic Regression"
 - Class (Wednesday 14 October)
-    - (Quiz) Week 5 readings and class, and *ISLR/P* Chapters 3.1 and 3.2.
+    - (Practice questions) Week 5 readings and class, and *ISLR/P* Chapters 3.1 and 3.2.
     - (ISLR/P) Josh Campbell, Graham Sayle, Kyle Dong, and Gerry Peng.
     - (Lecture) Data gathering and validation: measurement, missing data, censuses, probability and non-probability sampling.
     - (Worksheet) Team time: polls into a Parquet file, a poststratification frame from the census, a first-cut forecast with a win probability, three design grammars, and a sketch of the website.
@@ -150,7 +150,7 @@ So the normal cadence of class is three weeks of learning and then in the fourth
     - Lewis, Crystal, 2024, Data Management in Large-Scale Education Research, Chapters 3, 4, 5, and 9, https://datamgmtinedresearch.com.
     - *ISLR/P*, Chapter 5.1 "Cross-Validation"
 - Class (Wednesday 21 October)
-    - (Quiz) Week 6 readings and class, and *ISLR/P* Chapters 4.3 and 5.1.
+    - (Practice questions) Week 6 readings and class, and *ISLR/P* Chapters 4.3 and 5.1.
     - (ISLR/P) Maggie Huang, Shrey Sati, Daniel Gutkin.
     - (Demonstration) A small forecast pipeline in a Docker container, run with and without Docker; average marginal effects from the vote-choice model with `marginaleffects`; a data dictionary and folder layout.
     - (Worksheet) Team time: containerize, document, and interpret your pipeline.
@@ -168,7 +168,7 @@ So the normal cadence of class is three weeks of learning and then in the fourth
 
 #### Week 9 (starts Monday 9 November)
 
-*What is a benchmark? Building evals: items, ground truth, rubrics, runners; benchmark cards and model cards.*
+*What is a benchmark? Building evals: items, ground truth, rubrics, running the models; benchmark cards and model cards.*
 
 - Readings
     - Reuel, Anka, Amelia Hardy, Chandler Smith, Max Lamparth, Malcolm Hardy, and Mykel J. Kochenderfer, 2024, "BetterBench: Assessing AI Benchmarks, Uncovering Issues, and Establishing Best Practices", *arXiv*, [10.48550/arXiv.2411.12990](https://arxiv.org/abs/2411.12990).
@@ -191,7 +191,7 @@ So the normal cadence of class is three weeks of learning and then in the fourth
     - Singh, Shivalika, et al., 2025, "The Leaderboard Illusion", *arXiv*, [10.48550/arXiv.2504.20879](https://arxiv.org/abs/2504.20879).
     - *ISLR/P*, Chapter 8.1.
 - Class (Wednesday 18 November)
-    - (Quiz) Week 9 readings and class, and *ISLR/P* Chapters 6.2 and 8.1.
+    - (Practice questions) Week 9 readings and class, and *ISLR/P* Chapters 6.2 and 8.1.
     - (ISLR/P) Group 6.
     - (Lecture) Variance in evals: items, sampling, prompts, judges; contamination; what a two-point difference on a leaderboard means with 200 items
     - (Demonstration) Calibrate a model-as-judge using the Week 3 referee reports as the human labels; watch the ranking move when the judge changes
@@ -200,7 +200,8 @@ So the normal cadence of class is three weeks of learning and then in the fourth
 #### Week 11 (starts Monday 23 November)
 
 - Readings
-    - Anthropic, (2026) "System Card: Claude Mythos Preview".
+    - Anthropic, 2026, "System Card: Claude Fable 5.2 & Claude Mythos 5.2", https://www.anthropic.com/claude-fable-5-2-mythos-5-2-system-card.
+    - Anthropic, 2026, "Prompting Claude Fable 5.2", https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-2.
 - Class (Wednesday 25 November)
     - We will use the first hour of this class to read the model card. 
     - Please feel free to use the remainder of the time to implement your AI benchmark.

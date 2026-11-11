@@ -1,5 +1,5 @@
 ---
-title: "Quiz 2"
+title: "Practice questions"
 subtitle: "Weeks 1 and 2: Git and GitHub, GitHub Actions, Quarto, ggplot2, tinytable, data, and the Donaldson paper"
 author: "Rohan Alexander"
 date: "2026-09-23"

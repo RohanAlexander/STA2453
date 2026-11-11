@@ -14,7 +14,7 @@ format:
 
 ## Plan
 
-- Quiz 2: Weeks 1 and 2, what the Donaldson paper expects, and ISLR/P Chapter 2.1 (ten minutes in class, the rest to take home)
+- Practice questions: Weeks 1 and 2, what the Donaldson paper expects, and ISLR/P Chapter 2.1 (ten minutes in class, the rest to take home)
 - ISLR/P group 1: Chapter 2.1, "What is Statistical Learning?"
 - Lecture: what each section of a paper is for, and what good writing in each looks like
 - Worksheet: draft a paper from three sets of results; edit three bad drafts

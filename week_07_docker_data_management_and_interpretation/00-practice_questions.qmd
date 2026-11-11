@@ -1,5 +1,5 @@
 ---
-title: "Quiz 4"
+title: "Practice questions"
 subtitle: "Week 6: forecasts, non-representative polls, uncertainty, measurement and sampling, and ISLR/P Chapters 4.3 and 5.1"
 author: "Rohan Alexander"
 date: "2026-10-21"

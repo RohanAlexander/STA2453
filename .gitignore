@@ -29,5 +29,5 @@ outputs/
 .venv/
 __pycache__/
 
-# Teaching notes and quiz answer keys
+# Teaching notes and practice question answer keys
 instructors/

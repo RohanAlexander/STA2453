@@ -1,5 +1,5 @@
 ---
-title: "Quiz 3"
+title: "Practice questions"
 subtitle: "Week 5: silicon sampling, the OpenRouter demonstration and worksheet, and ISLR/P Chapters 3.1 and 3.2"
 author: "Rohan Alexander"
 date: "2026-10-14"
