@@ -1,0 +1,22 @@
+---
+title: "Worksheet"
+author: "Rohan Alexander"
+date: "2026-11-18"
+date-format: "D MMMM, YYYY"
+bibliography: references.bib
+format:
+  revealjs:
+    slide-number: "c/t"
+    show-slide-number: all
+    embed-resources: true
+---
+
+- As part of a small team look at the Fable 5.2 model card and find a benchmark. Look up that benchmark - what goes into it, what is reported, how is it evaluated, has it been updated?
+- Learn a little bit about it and then brief the rest of the class.
+- Which claims in the model card are you most suspicious of and what type of evidence would be needed?
+- What is the difference between Fable and Mythos?
+- How are the models recognizing they are being evaluated and what effect do you think this might have?
+- To what extent does the bitter lesson suggest that worrying about benchmarking is pointless?
+
+
+- What are the major differences between agentic evaluation and "traditional" evaluation?

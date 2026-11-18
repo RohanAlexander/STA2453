@@ -185,8 +185,8 @@ So the normal cadence of class is three weeks of learning and then in the fourth
 *Evaluating benchmarks; the statistics of evals: standard errors, clustering by item, paired comparisons between models; validating a model as a grader against human labels; contamination and leakage.*
 
 - Readings
-    - Biderman, Stella, et al., 2024, "Lessons from the Trenches on Reproducible Evaluation of Language Models", *arXiv*, [10.48550/arXiv.2405.14782](https://arxiv.org/abs/2405.14782).
-    - Singh, Shivalika, et al., 2025, "The Leaderboard Illusion", *arXiv*, [10.48550/arXiv.2504.20879](https://arxiv.org/abs/2504.20879).
+    - Biderman, Stella, et al., 2026, "Lessons from the Trenches on Reproducible Evaluation of Language Models", *arXiv*, [10.48550/arXiv.2405.14782](https://arxiv.org/abs/2405.14782).
+    - Anthropic, 2026, "System Card: Claude Fable 5.2 & Claude Mythos 5.2", pages 1-60.
 - Class (Wednesday 18 November)
     - (Practice questions) Week 9 readings and class, and *ISLR/P* Chapter 6.2
     - (Lecture) Variance in evals: items, sampling, prompts, judges; contamination; what a two-point difference on a leaderboard means with 200 items
@@ -194,7 +194,7 @@ So the normal cadence of class is three weeks of learning and then in the fourth
 #### Week 11 (starts Monday 23 November)
 
 - Readings
-    - Anthropic, 2026, "System Card: Claude Fable 5.2 & Claude Mythos 5.2", https://www.anthropic.com/claude-fable-5-2-mythos-5-2-system-card.
+    - Anthropic, 2026, "System Card: Claude Fable 5.2 & Claude Mythos 5.2", https://www.anthropic.com/claude-fable-5-2-mythos-5-2-system-card, , pages 61-260.
     - Anthropic, 2026, "Prompting Claude Fable 5.2", https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-2.
 - Class (Wednesday 25 November)
     - We will use 1.5 hours of the class to read the model card.
@@ -208,5 +208,5 @@ So the normal cadence of class is three weeks of learning and then in the fourth
 
 #### Exam period
 
-(Optional) Final exam.
+- (Optional) Wednesday 9 December: Final exam.
 
